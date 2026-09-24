@@ -199,94 +199,97 @@
             letter-spacing: 0.08em;
         }
 
-        .cards-grid {
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: clamp(28px, 5vw, 40px);
+        }
+
+        @media (min-width: 900px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: clamp(24px, 3vw, 32px);
+                align-items: start;
+            }
+        }
+
+        .project-item {
             display: flex;
             flex-direction: column;
-            gap: clamp(16px, 3vw, 20px);
-        }
-
-        .card {
-            background-color: var(--card-bg);
+            gap: clamp(18px, 3vw, 24px);
+            background: var(--card-bg);
             border: 1px solid var(--card-border);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
             border-radius: var(--radius-card);
             padding: clamp(20px, 4vw, 28px);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s ease,
-                box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(78, 205, 196, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         @media (hover: hover) {
-            .card:hover {
-                transform: translateY(-4px);
-                border-color: rgba(78, 205, 196, 0.35);
-                box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.55);
+            .project-item {
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
             }
 
-            .card:hover::before {
-                opacity: 1;
+            .project-item:hover {
+                border-color: rgba(78, 205, 196, 0.3);
+                box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
             }
         }
 
-        .card-tag {
+        .project-tag {
             font-size: 12px;
             color: var(--cyan-bright);
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: block;
         }
 
-        .card h3 {
-            font-size: clamp(1.1rem, 3.5vw, 1.25rem);
+        .project-item h3 {
+            font-size: clamp(1.1rem, 3.5vw, 1.3rem);
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 10px;
+            line-height: 1.4;
         }
 
-        .card p {
-            font-size: clamp(0.875rem, 2.6vw, 0.9rem);
+        .project-desc {
+            font-size: clamp(0.875rem, 2.6vw, 0.92rem);
             color: var(--text-secondary);
             font-weight: 300;
             line-height: 1.75;
         }
 
-        .card-link {
+        .project-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 20px;
+            margin-top: 14px;
             min-height: 44px;
-            color: var(--text-primary);
+            color: var(--cyan-bright);
             text-decoration: none;
             font-weight: 500;
             font-size: 14px;
-            transition: color 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.2s ease;
         }
 
-        .card-link:hover,
-        .card-link:focus-visible {
-            color: var(--cyan-bright);
+        .project-link:hover,
+        .project-link:focus-visible {
+            opacity: 0.85;
+            text-decoration: underline;
+        }
+
+        .project-hint {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6b8a94;
+            line-height: 1.6;
         }
 
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 16px;
+            margin-top: 14px;
         }
 
         .tech-pill {
@@ -296,6 +299,158 @@
             border-radius: 8px;
             font-size: 12px;
             color: #c5dce2;
+        }
+
+        .device-stage {
+            display: flex;
+            justify-content: center;
+            padding: clamp(4px, 2vw, 8px) 0 clamp(12px, 3vw, 16px);
+        }
+
+        .iphone-mockup {
+            position: relative;
+            width: min(100%, 300px);
+            filter: drop-shadow(0 32px 48px rgba(0, 0, 0, 0.55));
+        }
+
+        .iphone-hardware {
+            pointer-events: none;
+        }
+
+        .iphone-btn {
+            position: absolute;
+            z-index: 5;
+            border-radius: 3px;
+            background: linear-gradient(180deg, #a8b4bd 0%, #5c6872 45%, #3a444d 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .iphone-btn--silent {
+            left: -5px;
+            top: 17%;
+            width: 4px;
+            height: 26px;
+        }
+
+        .iphone-btn--vol-up {
+            left: -5px;
+            top: 24%;
+            width: 4px;
+            height: 48px;
+        }
+
+        .iphone-btn--vol-down {
+            left: -5px;
+            top: 34%;
+            width: 4px;
+            height: 48px;
+        }
+
+        .iphone-btn--power {
+            right: -5px;
+            top: 28%;
+            width: 4px;
+            height: 72px;
+        }
+
+        .device-bezel {
+            position: relative;
+            padding: 13px;
+            border-radius: 48px;
+            background:
+                linear-gradient(160deg, #5a6670 0%, #2a343d 22%, #141b22 55%, #0a0f14 100%);
+            border: 2px solid rgba(200, 210, 220, 0.22);
+            box-shadow:
+                inset 0 2px 4px rgba(255, 255, 255, 0.12),
+                inset 0 -3px 8px rgba(0, 0, 0, 0.55),
+                0 0 0 1px rgba(0, 0, 0, 0.85),
+                0 0 0 4px rgba(78, 205, 196, 0.12);
+        }
+
+        .device-island {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 102px;
+            height: 30px;
+            background: #030508;
+            border-radius: 22px;
+            z-index: 4;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.08),
+                inset 0 -1px 2px rgba(255, 255, 255, 0.06);
+        }
+
+        .device-island::after {
+            content: '';
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #1a2830, #05080a);
+        }
+
+        .device-screen {
+            position: relative;
+            aspect-ratio: 9 / 19.5;
+            width: 100%;
+            min-height: 420px;
+            border-radius: 36px;
+            overflow: hidden;
+            background: #000;
+            isolation: isolate;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        .device-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .device-screen iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+            border: 0;
+            display: block;
+            background: #fff;
+        }
+
+        .device-screen--live {
+            touch-action: pan-y pinch-zoom;
+        }
+
+        .device-indicator {
+            width: 112px;
+            height: 5px;
+            margin: 12px auto 0;
+            border-radius: 999px;
+            background: rgba(220, 228, 235, 0.45);
+        }
+
+        .iphone-mockup--live .device-bezel {
+            box-shadow:
+                inset 0 2px 4px rgba(255, 255, 255, 0.12),
+                inset 0 -3px 8px rgba(0, 0, 0, 0.55),
+                0 0 0 1px rgba(0, 0, 0, 0.85),
+                0 0 0 4px rgba(78, 205, 196, 0.28),
+                0 0 40px -6px var(--glow-cyan);
+        }
+
+        .device-caption {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #6b8a94;
         }
 
         .contact-box {
@@ -369,21 +524,15 @@
                 scroll-behavior: auto;
             }
 
-            .card,
+            .project-item,
             .btn-primary {
                 transition: none;
             }
         }
 
-        @media (min-width: 768px) {
-            .cards-grid {
-                gap: 22px;
-            }
-        }
-
         @media (min-width: 1024px) {
             :root {
-                --max-content: 760px;
+                --max-content: min(1080px, 100%);
             }
         }
     </style>
@@ -424,36 +573,93 @@
             </p>
         </header>
 
-        <section aria-labelledby="projects-heading">
+        <section class="projects-section" aria-labelledby="projects-heading">
             <div class="section-header">
                 <h2 class="section-title" id="projects-heading">أبرز الأعمال والمشاريع</h2>
             </div>
 
-            <div class="cards-grid">
-                <article class="card">
-                    <span class="card-tag">تطبيق جوال متكامل</span>
-                    <h3>تطبيق مناسبات بني غانم</h3>
-                    <p>
-                        منصة رقمية لإدارة ومتابعة الفعاليات والمناسبات الاجتماعية، تم تطويرها بتركيز عالٍ على الأداء وتجربة المستخدم المريحة ومتاحة على كافة متاجر التطبيقات.
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-pill">SwiftUI</span>
-                        <span class="tech-pill">iOS & Android</span>
-                        <span class="tech-pill">Firebase</span>
+            <div class="projects-grid">
+                <article class="project-item">
+                    <div class="device-stage">
+                        <div class="iphone-mockup" aria-label="معاينة تطبيق مناسبات بني غانم على iPhone">
+                            <div class="iphone-hardware" aria-hidden="true">
+                                <span class="iphone-btn iphone-btn--silent"></span>
+                                <span class="iphone-btn iphone-btn--vol-up"></span>
+                                <span class="iphone-btn iphone-btn--vol-down"></span>
+                                <span class="iphone-btn iphone-btn--power"></span>
+                            </div>
+                            <div class="device-bezel">
+                                <div class="device-island" aria-hidden="true"></div>
+                                <div class="device-screen">
+                                    <img
+                                        src="/assets/projects/beni-ghanem.png"
+                                        alt="لقطة شاشة من تطبيق مناسبات بني غانم"
+                                        width="392"
+                                        height="696"
+                                        loading="lazy"
+                                        decoding="async"
+                                    >
+                                </div>
+                            </div>
+                            <div class="device-indicator" aria-hidden="true"></div>
+                            <p class="device-caption">iPhone · معاينة التطبيق</p>
+                        </div>
+                    </div>
+
+                    <div class="project-copy">
+                        <span class="project-tag">تطبيق جوال متكامل</span>
+                        <h3>تطبيق مناسبات بني غانم</h3>
+                        <p class="project-desc">
+                            منصة رقمية لإدارة ومتابعة الفعاليات والمناسبات الاجتماعية، تم تطويرها بتركيز عالٍ على الأداء وتجربة المستخدم المريحة ومتاحة على كافة متاجر التطبيقات.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">SwiftUI</span>
+                            <span class="tech-pill">iOS & Android</span>
+                            <span class="tech-pill">Firebase</span>
+                        </div>
+                        <a href="https://apps.apple.com/kw/app/id548200841" class="project-link" target="_blank" rel="noopener noreferrer">عرض على App Store &larr;</a>
                     </div>
                 </article>
 
-                <article class="card">
-                    <span class="card-tag">منصة رقمية ذكية</span>
-                    <h3>منصة إيصالك</h3>
-                    <p>
-                        حل نظامي مبتكر لأرشفة واسترجاع الفواتير الورقية برقم الجوال موجه للمحلات والمتاجر الصغيرة لتقديم تجربة سلسة بدون ضياع للفواتير.
-                    </p>
-                    <div class="tech-stack">
-                        <span class="tech-pill">Web Solutions</span>
-                        <span class="tech-pill">Cloud Systems</span>
+                <article class="project-item">
+                    <div class="device-stage">
+                        <div class="iphone-mockup iphone-mockup--live" aria-label="معاينة حية لمنصة إيصالك على iPhone">
+                            <div class="iphone-hardware" aria-hidden="true">
+                                <span class="iphone-btn iphone-btn--silent"></span>
+                                <span class="iphone-btn iphone-btn--vol-up"></span>
+                                <span class="iphone-btn iphone-btn--vol-down"></span>
+                                <span class="iphone-btn iphone-btn--power"></span>
+                            </div>
+                            <div class="device-bezel">
+                                <div class="device-island" aria-hidden="true"></div>
+                                <div class="device-screen device-screen--live">
+                                    <iframe
+                                        src="https://www.eysalk.com"
+                                        title="منصة إيصالك — eysalk.com"
+                                        loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        allow="fullscreen"
+                                    ></iframe>
+                                </div>
+                            </div>
+                            <div class="device-indicator" aria-hidden="true"></div>
+                            <p class="device-caption">iPhone · تجربة حية للمنصة</p>
+                        </div>
                     </div>
-                    <a href="https://www.eysalk.com" class="card-link" target="_blank" rel="noopener noreferrer">زيارة المنصة &larr;</a>
+
+                    <div class="project-copy">
+                        <span class="project-tag">منصة رقمية ذكية · تجربة حية</span>
+                        <h3>منصة إيصالك</h3>
+                        <p class="project-desc">
+                            حل نظامي مبتكر لأرشفة واسترجاع الفواتير الورقية برقم الجوال موجه للمحلات والمتاجر الصغيرة لتقديم تجربة سلسة بدون ضياع للفواتير.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Web Solutions</span>
+                            <span class="tech-pill">Cloud Systems</span>
+                        </div>
+                        <p class="project-hint">تصفّح المنصة داخل الإطار، أو افتحها في نافذة كاملة من الرابط أدناه.</p>
+                        <a href="https://www.eysalk.com" class="project-link" target="_blank" rel="noopener noreferrer">فتح eysalk.com &larr;</a>
+                    </div>
                 </article>
             </div>
         </section>

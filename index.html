@@ -8,9 +8,9 @@
     <meta name="theme-color" content="#0c161f">
     <meta name="color-scheme" content="dark">
 
-    <link rel="icon" href="/assets/logo.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="/assets/logo.jpg">
-    <meta property="og:image" content="https://raddad.sa/assets/logo.jpg">
+    <link rel="icon" href="/assets/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/logo.png">
+    <meta property="og:image" content="https://raddad.sa/assets/logo.png">
     <meta property="og:image:alt" content="شعار رّداد الماجدي">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -121,32 +121,36 @@
             .brand-row {
                 flex-direction: row;
                 align-items: center;
+                justify-content: space-between;
                 text-align: right;
-                gap: clamp(24px, 4vw, 32px);
+                gap: clamp(20px, 4vw, 40px);
+            }
+
+            .title-section {
+                flex: 1;
+                min-width: 0;
             }
         }
 
         .logo-wrap {
             flex-shrink: 0;
-            padding: 6px;
-            border-radius: clamp(18px, 4vw, 24px);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(78, 205, 196, 0.06));
-            border: 1px solid var(--gold-accent);
-            box-shadow:
-                0 0 0 1px rgba(12, 26, 38, 0.8),
-                0 16px 40px -12px rgba(0, 0, 0, 0.55),
-                0 0 48px -8px var(--glow-cyan);
+            padding: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            line-height: 0;
         }
 
         .brand-logo {
             display: block;
-            width: clamp(120px, 32vw, 180px);
+            width: clamp(168px, 44vw, 260px);
             height: auto;
-            aspect-ratio: 919 / 1024;
             object-fit: contain;
-            border-radius: clamp(14px, 3vw, 18px);
-            background: #e8ecef;
-            image-rendering: auto;
+            background: transparent;
+            border-radius: 0;
+            filter:
+                drop-shadow(0 0 28px rgba(78, 205, 196, 0.22))
+                drop-shadow(0 18px 36px rgba(0, 0, 0, 0.5));
         }
 
         .title-section h1 {
@@ -550,12 +554,10 @@
                 <div class="logo-wrap">
                     <img
                         class="brand-logo"
-                        src="/assets/logo.jpg"
-                        srcset="/assets/logo.jpg 919w"
-                        sizes="(max-width: 540px) 32vw, 180px"
+                        src="/assets/logo.png"
                         alt="شعار رّداد الماجدي — حرف R بتصميم تطبيق جوال"
-                        width="919"
-                        height="1024"
+                        width="612"
+                        height="660"
                         loading="eager"
                         decoding="async"
                         fetchpriority="high"

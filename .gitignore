@@ -1,2 +1,6 @@
 node_modules/
 js-built/
+.env
+.firebase/
+firebase-debug.log
+.firebaserc

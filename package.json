@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite build --watch",
+    "setup": "node -e \"const fs=require('fs'); if(!fs.existsSync('.env')) fs.copyFileSync('.env.example','.env');\"",
+    "prebuild": "node scripts/generate-firebase-config.mjs && node scripts/verify-config.mjs",
     "build": "vite build && node scripts/copy-build.mjs",
+    "dev": "npm run prebuild && vite build --watch",
+    "deploy:prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +27,7 @@
     "firebase": "^12.19.0"
   },
   "devDependencies": {
+    "dotenv": "^18.0.4",
     "vite": "^8.3.1"
   }
 }

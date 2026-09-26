@@ -1,4 +1,4 @@
-import { initFirebase } from './firebase/init.js';
+import { initFirebase, isFirebaseConfigured } from './firebase/init.js';
 import { createIdea } from './shared/ideas.js';
 import { showFormMessage } from './shared/ui.js';
 
@@ -87,7 +87,7 @@ function setFirebaseStatus(enabled) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const firebase = initFirebase();
-    setFirebaseStatus(Boolean(firebase));
+    setFirebaseStatus(isFirebaseConfigured() && Boolean(firebase));
     setupNav();
     setupIdeaForm(firebase);
 });

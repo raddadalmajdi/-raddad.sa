@@ -1,0 +1,13 @@
+import{A as e,C as t,E as n,O as r,a as i,c as a,i as o,l as s,n as c,o as l,r as u,s as d}from"./chunks/ui-DzDLz73E.js";import{i as f,r as p,t as m}from"./chunks/tickets-jahSgcDJ.js";var h=e((()=>{t(),s(),f(),o();var e=`https://formsubmit.co/ajax/raddad@raddad.sa`;async function h(t){await fetch(e,{method:`POST`,headers:{"Content-Type":`application/json`,Accept:`application/json`},body:JSON.stringify({_captcha:`false`,_template:`table`,...t})})}function g(e,t){if(!t.length){e.innerHTML=`<p class="muted">لا توجد تذاكر بعد.</p>`;return}e.innerHTML=t.map(e=>`
+        <article class="ticket-card">
+            <div class="ticket-card__head">
+                <strong>${c(e.title)}</strong>
+                <span class="ticket-pill ticket-pill--${c(e.priority)}">${i(e.priority)}</span>
+            </div>
+            <p>${c(e.body)}</p>
+            <footer>
+                <span>#${c(e.publicId||e.id)}</span>
+                <span>${d(e.status)}</span>
+                <time>${c(u(e.createdAt))}</time>
+            </footer>
+        </article>`).join(``)}function _(){let e=a(),t=document.querySelector(`[data-config-status]`),i=document.querySelector(`[data-tickets-list]`),o=document.getElementById(`ticket-form`),s=document.querySelector(`[data-user-welcome]`),c=document.querySelector(`[data-logout]`);if(!e){t&&(t.textContent=`Firebase غير مهيأ. راجع js/firebase-config.js`,t.className=`status-banner status-banner--warn`);return}let{auth:u,db:d}=e;n(u,async e=>{if(!e){window.location.href=`/login.html?next=client`;return}s&&(s.textContent=`مرحبًا ${e.displayName||`عميل`} — ${e.email}`),t&&(t.textContent=`متصل بـ Firebase.`,t.className=`status-banner status-banner--ok`);let n=await p(d,e.uid);g(i,n)}),o?.addEventListener(`submit`,async e=>{e.preventDefault();let t=u.currentUser;if(!t)return;let n=new FormData(o),r=String(n.get(`title`)||``).trim(),a=String(n.get(`body`)||``).trim(),s=String(n.get(`priority`)||`normal`);if(!r||!a){l(o,`يرجى تعبئة عنوان التذكرة والتفاصيل.`,`error`);return}try{let e=await m(d,t,{title:r,body:a,priority:s});await h({_subject:`تذكرة دعم جديدة — ${e.publicId}`,type:`ticket`,ticket_id:e.publicId,email:t.email,title:r,body:a,priority:s}),l(o,`تم فتح التذكرة ${e.publicId} بنجاح.`,`success`),o.reset();let n=await p(d,t.uid);g(i,n)}catch(e){l(o,e.message||`تعذر إنشاء التذكرة.`,`error`)}}),c?.addEventListener(`click`,async()=>{await r(u),window.location.href=`/login.html`})}_()}));export default h();

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة العميل | raddad.sa</title>
+    <link rel="icon" href="/assets/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/platform.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <h1>لوحة العميل</h1>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a class="btn-secondary" href="/">الموقع</a>
+                <button class="btn-ghost" type="button" data-logout>تسجيل الخروج</button>
+            </div>
+        </div>
+
+        <p class="status-banner status-banner--warn" data-config-status></p>
+        <p class="muted" data-user-welcome style="margin-bottom:14px;"></p>
+
+        <div class="grid-2">
+            <section class="card">
+                <h2>فتح تذكرة جديدة</h2>
+                <form id="ticket-form" class="form-grid">
+                    <div class="field"><label for="ticket-title">عنوان التذكرة</label><input id="ticket-title" name="title" required></div>
+                    <div class="field">
+                        <label for="ticket-priority">الأولوية</label>
+                        <select id="ticket-priority" name="priority">
+                            <option value="normal">عادي</option>
+                            <option value="high">عاجل</option>
+                            <option value="low">منخفض</option>
+                        </select>
+                    </div>
+                    <div class="field"><label for="ticket-body">تفاصيل الطلب</label><textarea id="ticket-body" name="body" required></textarea></div>
+                    <button class="btn-primary" type="submit">إرسال التذكرة</button>
+                    <p class="form-message" hidden></p>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>تذاكري</h2>
+                <div data-tickets-list></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/client.bundle.js"></script>
+</body>
+</html>

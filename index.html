@@ -941,7 +941,9 @@
                 <a href="#services">الخدمات</a>
                 <a href="#process">آلية العمل</a>
                 <a href="#work">الأعمال</a>
-                <a href="#portal">بوابة العملاء</a>
+                <a href="/login.html">تسجيل الدخول</a>
+                <a href="/client.html">لوحة العميل</a>
+                <a href="/admin.html">الأدمن</a>
                 <a href="#request">طلب فكرة</a>
                 <a href="#contact">تواصل</a>
             </nav>
@@ -983,7 +985,8 @@
             </p>
             <div class="hero-actions">
                 <a href="#request" class="btn-primary">سجّل فكرة تطبيقك</a>
-                <a href="#portal" class="btn-secondary">بوابة العملاء</a>
+                <a href="/login.html" class="btn-secondary">تسجيل الدخول</a>
+                <a href="/client.html" class="btn-secondary">لوحة العميل</a>
             </div>
         </header>
         </section>
@@ -1109,67 +1112,26 @@
 
         <section id="portal" class="page-section" aria-labelledby="portal-heading">
             <div class="section-heading">
-                <h2 id="portal-heading">بوابة العملاء</h2>
-                <p>سجّل حسابك، ادخل برمز الدخول، وافتح تذكرة دعم أو متابعة لمشروعك.</p>
+                <h2 id="portal-heading">بوابة العملاء ولوحة الأدمن</h2>
+                <p>نظام موحّد عبر Firebase: تسجيل، دخول، تذاكر دعم، ومتابعة طلبات الأفكار.</p>
             </div>
-            <div class="portal-layout">
-                <div class="portal-card" data-tabs>
-                    <p class="firebase-status firebase-status--off" data-firebase-status></p>
-                    <p class="portal-welcome" data-portal-welcome hidden></p>
-                    <div class="tabs" role="tablist" aria-label="بوابة العملاء">
-                        <button class="tab-btn is-active" type="button" data-tab-target="tab-register" aria-selected="true">إنشاء حساب</button>
-                        <button class="tab-btn" type="button" data-tab-target="tab-login" aria-selected="false">تسجيل الدخول</button>
-                        <button class="tab-btn" type="button" data-tab-target="tab-ticket" aria-selected="false">فتح تذكرة</button>
-                    </div>
-
-                    <div class="tab-panel is-active" id="tab-register" data-tab-panel>
-                        <form id="register-form" class="form-grid">
-                            <div class="field"><label for="reg-name">الاسم الكامل</label><input id="reg-name" name="name" required></div>
-                            <div class="field"><label for="reg-email">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" required></div>
-                            <div class="field"><label for="reg-phone">رقم الجوال</label><input id="reg-phone" name="phone" required></div>
-                            <div class="field"><label for="reg-company">الشركة (اختياري)</label><input id="reg-company" name="company"></div>
-                            <div class="field" data-firebase-only hidden><label for="reg-password">كلمة المرور</label><input id="reg-password" name="password" type="password" minlength="6" autocomplete="new-password"></div>
-                            <button class="btn-primary" type="submit">إنشاء حساب</button>
-                            <p class="form-message" hidden></p>
-                        </form>
-                    </div>
-
-                    <div class="tab-panel" id="tab-login" data-tab-panel>
-                        <form id="login-form" class="form-grid">
-                            <div class="field"><label for="login-email">البريد الإلكتروني</label><input id="login-email" name="email" type="email" required></div>
-                            <div class="field" data-firebase-only hidden><label for="login-password">كلمة المرور</label><input id="login-password" name="password" type="password" minlength="6" autocomplete="current-password"></div>
-                            <div class="field" data-legacy-only><label for="login-code">رمز الدخول (وضع مؤقت بدون Firebase)</label><input id="login-code" name="access_code"></div>
-                            <button class="btn-primary" type="submit">تسجيل الدخول</button>
-                            <p class="form-message" hidden></p>
-                        </form>
-                    </div>
-
-                    <div class="tab-panel" id="tab-ticket" data-tab-panel>
-                        <form id="ticket-form" class="form-grid">
-                            <div class="field"><label for="ticket-email">البريد المسجل</label><input id="ticket-email" name="email" type="email" required></div>
-                            <div class="field"><label for="ticket-title">عنوان التذكرة</label><input id="ticket-title" name="title" required></div>
-                            <div class="field">
-                                <label for="ticket-priority">الأولوية</label>
-                                <select id="ticket-priority" name="priority">
-                                    <option value="normal">عادي</option>
-                                    <option value="high">عاجل</option>
-                                    <option value="low">منخفض</option>
-                                </select>
-                            </div>
-                            <div class="field"><label for="ticket-body">تفاصيل الطلب</label><textarea id="ticket-body" name="body" required></textarea></div>
-                            <button class="btn-primary" type="submit">إرسال التذكرة</button>
-                            <p class="form-message" hidden></p>
-                        </form>
-                    </div>
-
-                    <button class="btn-ghost" type="button" data-portal-logout hidden>تسجيل الخروج</button>
-                </div>
-
-                <aside class="portal-card">
-                    <h3>تذاكري</h3>
-                    <p class="muted">تظهر هنا تذاكرك بعد تسجيل الدخول (من Firebase عند التفعيل).</p>
-                    <div data-tickets-list></div>
-                </aside>
+            <p class="firebase-status firebase-status--off" data-firebase-status></p>
+            <div class="services-grid">
+                <article class="service-card">
+                    <h3>تسجيل الدخول</h3>
+                    <p>إنشاء حساب جديد أو تسجيل الدخول لعملاء المشاريع.</p>
+                    <a class="btn-primary" href="/login.html" style="margin-top:12px;">فتح صفحة الدخول</a>
+                </article>
+                <article class="service-card">
+                    <h3>لوحة العميل</h3>
+                    <p>فتح تذكرة ومتابعة حالة الطلبات الخاصة بمشروعك.</p>
+                    <a class="btn-secondary" href="/client.html" style="margin-top:12px;">لوحة العميل</a>
+                </article>
+                <article class="service-card">
+                    <h3>لوحة الأدمن</h3>
+                    <p>إدارة كل التذاكر وطلبات الأفكار وتحديث حالتها.</p>
+                    <a class="btn-secondary" href="/admin.html" style="margin-top:12px;">لوحة الأدمن</a>
+                </article>
             </div>
         </section>
 
@@ -1217,10 +1179,7 @@
         </footer>
     </main>
 
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
-    <script src="/js/firebase-config.js" defer></script>
-    <script src="/js/app.js" defer></script>
+    <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/app.bundle.js"></script>
 </body>
 </html>

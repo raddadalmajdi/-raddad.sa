@@ -1,8 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in ['raddad@raddad.sa'];
+    }
+
     match /clients/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId;
     }
 
     match /tickets/{ticketId} {
@@ -11,9 +17,17 @@ service cloud.firestore {
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.title is string
         && request.resource.data.body is string
-        && request.resource.data.priority in ['low', 'normal', 'high'];
+        && request.resource.data.priority in ['low', 'normal', 'high']
+        && request.resource.data.status == 'open';
 
-      allow read, update: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow read: if request.auth != null
+        && (resource.data.uid == request.auth.uid || isAdmin());
+
+      allow update: if isAdmin()
+        || (request.auth != null
+          && resource.data.uid == request.auth.uid
+          && request.resource.data.uid == resource.data.uid
+          && request.resource.data.email == resource.data.email);
     }
 
     match /ideas/{ideaId} {
@@ -24,7 +38,8 @@ service cloud.firestore {
         && request.resource.data.email.matches('.*@.*\\..*')
         && request.resource.data.description.size() > 10;
 
-      allow read, update, delete: if false;
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
     }
   }
 }

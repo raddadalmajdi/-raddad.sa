@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الأدمن | raddad.sa</title>
+    <link rel="icon" href="/assets/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/platform.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <h1>لوحة تحكم الأدمن</h1>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a class="btn-secondary" href="/">الموقع</a>
+                <button class="btn-ghost" type="button" data-logout hidden>تسجيل الخروج</button>
+            </div>
+        </div>
+
+        <p class="status-banner status-banner--warn" data-config-status></p>
+
+        <section class="card" data-admin-login>
+            <h2>تسجيل دخول الأدمن</h2>
+            <p class="muted" style="margin-bottom:12px;">الدخول مخصص لحسابات الإدارة فقط.</p>
+            <form id="admin-login-form" class="form-grid">
+                <div class="field"><label for="admin-email">البريد الإلكتروني</label><input id="admin-email" name="email" type="email" required></div>
+                <div class="field"><label for="admin-password">كلمة المرور</label><input id="admin-password" name="password" type="password" minlength="6" required></div>
+                <button class="btn-primary" type="submit">دخول</button>
+                <p class="form-message" hidden></p>
+            </form>
+        </section>
+
+        <section data-admin-dashboard hidden>
+            <div class="stats">
+                <div class="stat"><strong data-stats-tickets>0</strong><span class="muted">إجمالي التذاكر</span></div>
+                <div class="stat"><strong data-stats-open>0</strong><span class="muted">تذاكر مفتوحة</span></div>
+                <div class="stat"><strong data-stats-ideas>0</strong><span class="muted">طلبات الأفكار</span></div>
+            </div>
+
+            <div class="grid-2">
+                <section class="card">
+                    <h2>كل التذاكر</h2>
+                    <div data-admin-tickets></div>
+                </section>
+                <section class="card">
+                    <h2>طلبات أفكار التطبيقات</h2>
+                    <div data-admin-ideas></div>
+                </section>
+            </div>
+        </section>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/admin.bundle.js"></script>
+</body>
+</html>

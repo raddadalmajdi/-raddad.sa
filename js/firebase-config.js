@@ -1,4 +1,4 @@
-// انسخ هذا الملف من Firebase Console > Project settings > Your apps > Web app
+// Firebase Console > Project settings > Your apps > Web app
 window.firebaseConfig = {
     apiKey: 'YOUR_API_KEY',
     authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
@@ -7,3 +7,6 @@ window.firebaseConfig = {
     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
     appId: 'YOUR_APP_ID',
 };
+
+// حسابات الأدمن المسموح لها بالدخول إلى admin.html
+window.firebaseConfig.adminEmails = ['raddad@raddad.sa'];

@@ -39,7 +39,8 @@
 
             --space-page: clamp(1.25rem, 4vw, 2.5rem);
             --radius-card: clamp(16px, 3vw, 22px);
-            --max-content: min(720px, 100%);
+            --max-content: min(1120px, 100%);
+            --nav-height: 64px;
         }
 
         *,
@@ -63,12 +64,10 @@
             min-height: 100vh;
             min-height: 100dvh;
             padding:
-                calc(var(--space-page) + env(safe-area-inset-top, 0px))
+                calc(var(--nav-height) + var(--space-page) + env(safe-area-inset-top, 0px))
                 calc(var(--space-page) + env(safe-area-inset-right, 0px))
                 calc(var(--space-page) + env(safe-area-inset-bottom, 0px))
                 calc(var(--space-page) + env(safe-area-inset-left, 0px));
-            display: flex;
-            justify-content: center;
             background-image:
                 radial-gradient(ellipse 80% 50% at 15% 0%, rgba(78, 205, 196, 0.14) 0%, transparent 55%),
                 radial-gradient(ellipse 70% 45% at 90% 100%, rgba(20, 77, 90, 0.22) 0%, transparent 50%),
@@ -78,6 +77,389 @@
         .container {
             max-width: var(--max-content);
             width: 100%;
+            margin: 0 auto;
+        }
+
+        .site-nav {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 100;
+            height: calc(var(--nav-height) + env(safe-area-inset-top, 0px));
+            padding-top: env(safe-area-inset-top, 0px);
+            background: rgba(8, 14, 20, 0.82);
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .site-nav__inner {
+            max-width: var(--max-content);
+            margin: 0 auto;
+            height: var(--nav-height);
+            padding: 0 var(--space-page);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .nav-brand {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .nav-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .nav-panel {
+            display: none;
+            position: absolute;
+            top: calc(100% - 1px);
+            right: var(--space-page);
+            left: var(--space-page);
+            background: rgba(10, 18, 26, 0.98);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        .nav-panel.is-open {
+            display: grid;
+            gap: 4px;
+        }
+
+        .nav-panel a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+
+        .nav-panel a:hover,
+        .nav-panel a:focus-visible {
+            background: rgba(78, 205, 196, 0.1);
+            color: var(--cyan-bright);
+        }
+
+        @media (min-width: 900px) {
+            .nav-toggle {
+                display: none;
+            }
+
+            .nav-panel {
+                display: flex;
+                position: static;
+                border: 0;
+                background: transparent;
+                box-shadow: none;
+                padding: 0;
+                gap: 4px;
+            }
+
+            .nav-panel a {
+                padding: 8px 12px;
+            }
+        }
+
+        .page-section {
+            margin-bottom: clamp(44px, 8vw, 72px);
+            scroll-margin-top: calc(var(--nav-height) + 20px);
+        }
+
+        .section-heading {
+            margin-bottom: clamp(20px, 4vw, 28px);
+        }
+
+        .section-heading h2 {
+            font-size: clamp(1.35rem, 4vw, 1.8rem);
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 62ch;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 12px 22px;
+            border-radius: 12px;
+            border: 1px solid var(--badge-border);
+            color: var(--cyan-bright);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.92rem;
+            background: rgba(20, 77, 90, 0.2);
+        }
+
+        .services-grid,
+        .steps-grid,
+        .faq-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .services-grid {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .steps-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .service-card,
+        .step-card,
+        .faq-item,
+        .portal-card,
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-card);
+            padding: clamp(18px, 3vw, 24px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .service-card h3,
+        .step-card h3 {
+            font-size: 1.02rem;
+            margin-bottom: 8px;
+        }
+
+        .service-card p,
+        .step-card p,
+        .faq-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .step-card strong {
+            display: inline-flex;
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            align-items: center;
+            justify-content: center;
+            background: rgba(78, 205, 196, 0.15);
+            color: var(--cyan-bright);
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }
+
+        .portal-layout {
+            display: grid;
+            gap: 18px;
+        }
+
+        @media (min-width: 900px) {
+            .portal-layout {
+                grid-template-columns: 1.1fr 0.9fr;
+                align-items: start;
+            }
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tab-btn {
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .tab-btn.is-active {
+            color: #042f2e;
+            border-color: transparent;
+            background: var(--accent-gradient);
+            font-weight: 700;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.is-active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        @media (min-width: 700px) {
+            .form-grid--2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.84rem;
+            color: #b7c7ce;
+            margin-bottom: 6px;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            background: rgba(4, 10, 15, 0.65);
+            color: var(--text-primary);
+            padding: 11px 12px;
+            font: inherit;
+        }
+
+        .field textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .field input:focus-visible,
+        .field select:focus-visible,
+        .field textarea:focus-visible {
+            outline: 2px solid rgba(78, 205, 196, 0.45);
+            outline-offset: 1px;
+        }
+
+        .form-message {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+        }
+
+        .form-message.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #9ef0cb;
+        }
+
+        .form-message.error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fecaca;
+        }
+
+        .form-message.info {
+            background: rgba(78, 205, 196, 0.12);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: #c9ece8;
+        }
+
+        .portal-welcome {
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid rgba(78, 205, 196, 0.25);
+            color: var(--cyan-bright);
+            font-size: 0.88rem;
+        }
+
+        .ticket-card {
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ticket-card__head {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .ticket-card footer {
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            color: #6b8a94;
+            font-size: 0.78rem;
+        }
+
+        .ticket-pill {
+            font-size: 0.72rem;
+            border-radius: 999px;
+            padding: 2px 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .ticket-pill--high {
+            color: #fecaca;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .ticket-pill--normal {
+            color: #c9ece8;
+        }
+
+        .ticket-pill--low {
+            color: #cbd5e1;
+        }
+
+        .muted {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+        }
+
+        .btn-ghost {
+            margin-top: 10px;
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 10px;
+            min-height: 40px;
+            padding: 0 14px;
+            cursor: pointer;
+        }
+
+        .site-footer {
+            border-top: 1px solid var(--card-border);
+            padding-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
         }
 
         .status-badge {
@@ -515,14 +897,6 @@
             outline-offset: 3px;
         }
 
-        .site-footer {
-            margin-top: clamp(24px, 5vw, 32px);
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-secondary);
-            padding-bottom: env(safe-area-inset-bottom, 0);
-        }
-
         @media (prefers-reduced-motion: reduce) {
             html {
                 scroll-behavior: auto;
@@ -534,16 +908,28 @@
             }
         }
 
-        @media (min-width: 1024px) {
-            :root {
-                --max-content: min(1080px, 100%);
-            }
-        }
     </style>
 </head>
 <body>
 
+    <header class="site-nav">
+        <div class="site-nav__inner">
+            <a class="nav-brand" href="#home">رّداد · raddad.sa</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
+            <nav class="nav-panel" id="main-nav" aria-label="التنقل الرئيسي">
+                <a href="#home">الرئيسية</a>
+                <a href="#services">الخدمات</a>
+                <a href="#process">آلية العمل</a>
+                <a href="#work">الأعمال</a>
+                <a href="#portal">بوابة العملاء</a>
+                <a href="#request">طلب فكرة</a>
+                <a href="#contact">تواصل</a>
+            </nav>
+        </div>
+    </header>
+
     <main class="container">
+        <section id="home" class="page-section hero">
         <div class="status-badge">
             <span class="status-dot" aria-hidden="true"></span>
             متاح لاستقبال مشاريع التطبيقات وتطوير الحلول الرقمية
@@ -575,9 +961,42 @@
             <p class="bio">
                 متخصص في بناء وتطوير تطبيقات الهواتف الذكية عالية الأداء والمنصات الرقمية بلمسة تصميم حديثة وتجربة مستخدم سلسة. أحوّل الأفكار المعقدة إلى منتجات رقمية جاهزة للسوق معتمدًا على أحدث التقنيات.
             </p>
+            <div class="hero-actions">
+                <a href="#request" class="btn-primary">سجّل فكرة تطبيقك</a>
+                <a href="#portal" class="btn-secondary">بوابة العملاء</a>
+            </div>
         </header>
+        </section>
 
-        <section class="projects-section" aria-labelledby="projects-heading">
+        <section id="services" class="page-section" aria-labelledby="services-heading">
+            <div class="section-heading">
+                <h2 id="services-heading">الخدمات</h2>
+                <p>حلول رقمية متكاملة للأفراد والشركات — من الفكرة إلى الإطلاق والدعم.</p>
+            </div>
+            <div class="services-grid">
+                <article class="service-card"><h3>تطبيقات iOS و Android</h3><p>تصميم وتطوير تطبيقات عالية الأداء مع تجربة استخدام عربية احترافية.</p></article>
+                <article class="service-card"><h3>منصات ويب ولوحات تحكم</h3><p>بناء منصات SaaS، لوحات إدارة، ومواقع تفاعلية قابلة للتوسع.</p></article>
+                <article class="service-card"><h3>تكامل السحابة وFirebase</h3><p>مصادقة، قواعد بيانات، إشعارات، واستضافة موثوقة لمنتجك الرقمي.</p></article>
+                <article class="service-card"><h3>تصميم UI/UX</h3><p>واجهات عصرية متوافقة مع هوية علامتك وتجربة المستخدم.</p></article>
+                <article class="service-card"><h3>نشر المتاجر والصيانة</h3><p>إطلاق على App Store وGoogle Play مع تحديثات ودعم فني مستمر.</p></article>
+                <article class="service-card"><h3>استشارات تقنية</h3><p>مراجعة الفكرة، تقدير التكلفة، وخارطة طريق تنفيذ واضحة.</p></article>
+            </div>
+        </section>
+
+        <section id="process" class="page-section" aria-labelledby="process-heading">
+            <div class="section-heading">
+                <h2 id="process-heading">آلية العمل</h2>
+                <p>مسار واضح من أول تواصل حتى التسليم والمتابعة عبر التذاكر.</p>
+            </div>
+            <div class="steps-grid">
+                <article class="step-card"><strong>1</strong><h3>تسجيل الفكرة</h3><p>أرسل تفاصيل مشروعك أو سجّل حسابًا في بوابة العملاء.</p></article>
+                <article class="step-card"><strong>2</strong><h3>دراسة وعرض</h3><p>نحدد النطاق، الميزات، والجدول الزمني المناسب.</p></article>
+                <article class="step-card"><strong>3</strong><h3>التطوير والتسليم</h3><p>تنفيذ مرحلي مع تحديثات مستمرة حتى الإطلاق.</p></article>
+                <article class="step-card"><strong>4</strong><h3>دعم وتذاكر</h3><p>متابعة ما بعد الإطلاق عبر نظام تذاكر منظم.</p></article>
+            </div>
+        </section>
+
+        <section id="work" class="projects-section page-section" aria-labelledby="projects-heading">
             <div class="section-header">
                 <h2 class="section-title" id="projects-heading">أبرز الأعمال والمشاريع</h2>
             </div>
@@ -668,16 +1087,113 @@
             </div>
         </section>
 
-        <section class="contact-box" aria-labelledby="contact-heading">
+        <section id="portal" class="page-section" aria-labelledby="portal-heading">
+            <div class="section-heading">
+                <h2 id="portal-heading">بوابة العملاء</h2>
+                <p>سجّل حسابك، ادخل برمز الدخول، وافتح تذكرة دعم أو متابعة لمشروعك.</p>
+            </div>
+            <div class="portal-layout">
+                <div class="portal-card" data-tabs>
+                    <p class="portal-welcome" data-portal-welcome hidden></p>
+                    <div class="tabs" role="tablist" aria-label="بوابة العملاء">
+                        <button class="tab-btn is-active" type="button" data-tab-target="tab-register" aria-selected="true">إنشاء حساب</button>
+                        <button class="tab-btn" type="button" data-tab-target="tab-login" aria-selected="false">تسجيل الدخول</button>
+                        <button class="tab-btn" type="button" data-tab-target="tab-ticket" aria-selected="false">فتح تذكرة</button>
+                    </div>
+
+                    <div class="tab-panel is-active" id="tab-register" data-tab-panel>
+                        <form id="register-form" class="form-grid">
+                            <div class="field"><label for="reg-name">الاسم الكامل</label><input id="reg-name" name="name" required></div>
+                            <div class="field"><label for="reg-email">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" required></div>
+                            <div class="field"><label for="reg-phone">رقم الجوال</label><input id="reg-phone" name="phone" required></div>
+                            <div class="field"><label for="reg-company">الشركة (اختياري)</label><input id="reg-company" name="company"></div>
+                            <button class="btn-primary" type="submit">إنشاء حساب</button>
+                            <p class="form-message" hidden></p>
+                        </form>
+                    </div>
+
+                    <div class="tab-panel" id="tab-login" data-tab-panel>
+                        <form id="login-form" class="form-grid">
+                            <div class="field"><label for="login-email">البريد الإلكتروني</label><input id="login-email" name="email" type="email" required></div>
+                            <div class="field"><label for="login-code">رمز الدخول</label><input id="login-code" name="access_code" required></div>
+                            <button class="btn-primary" type="submit">تسجيل الدخول</button>
+                            <p class="form-message" hidden></p>
+                        </form>
+                    </div>
+
+                    <div class="tab-panel" id="tab-ticket" data-tab-panel>
+                        <form id="ticket-form" class="form-grid">
+                            <div class="field"><label for="ticket-email">البريد المسجل</label><input id="ticket-email" name="email" type="email" required></div>
+                            <div class="field"><label for="ticket-title">عنوان التذكرة</label><input id="ticket-title" name="title" required></div>
+                            <div class="field">
+                                <label for="ticket-priority">الأولوية</label>
+                                <select id="ticket-priority" name="priority">
+                                    <option value="normal">عادي</option>
+                                    <option value="high">عاجل</option>
+                                    <option value="low">منخفض</option>
+                                </select>
+                            </div>
+                            <div class="field"><label for="ticket-body">تفاصيل الطلب</label><textarea id="ticket-body" name="body" required></textarea></div>
+                            <button class="btn-primary" type="submit">إرسال التذكرة</button>
+                            <p class="form-message" hidden></p>
+                        </form>
+                    </div>
+
+                    <button class="btn-ghost" type="button" data-portal-logout hidden>تسجيل الخروج</button>
+                </div>
+
+                <aside class="portal-card">
+                    <h3>تذاكري</h3>
+                    <p class="muted">تظهر هنا التذاكر المفتوحة من هذا الجهاز بعد تسجيل الدخول.</p>
+                    <div data-tickets-list></div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="request" class="page-section" aria-labelledby="request-heading">
+            <div class="section-heading">
+                <h2 id="request-heading">طلب تسجيل فكرة تطبيق</h2>
+                <p>املأ النموذج وسيتم إرسال تفاصيل فكرتك مباشرة إلى بريدي لبدء النقاش.</p>
+            </div>
+            <div class="form-card">
+                <form id="idea-form" class="form-grid form-grid--2">
+                    <div class="field"><label for="idea-name">الاسم</label><input id="idea-name" name="name" required></div>
+                    <div class="field"><label for="idea-email">البريد</label><input id="idea-email" name="email" type="email" required></div>
+                    <div class="field"><label for="idea-phone">الجوال</label><input id="idea-phone" name="phone"></div>
+                    <div class="field"><label for="idea-app">اسم التطبيق/الفكرة</label><input id="idea-app" name="app_name"></div>
+                    <div class="field"><label for="idea-platform">المنصة</label><select id="idea-platform" name="platform"><option>iOS</option><option>Android</option><option>iOS + Android</option><option>Web</option></select></div>
+                    <div class="field"><label for="idea-budget">الميزانية التقديرية</label><input id="idea-budget" name="budget" placeholder="مثال: 3000 - 8000 د.ك"></div>
+                    <div class="field"><label for="idea-timeline">المدة المتوقعة</label><input id="idea-timeline" name="timeline" placeholder="مثال: 6 - 8 أسابيع"></div>
+                    <div class="field" style="grid-column: 1 / -1;"><label for="idea-desc">وصف الفكرة والميزات</label><textarea id="idea-desc" name="description" required></textarea></div>
+                    <button class="btn-primary" type="submit">إرسال الطلب</button>
+                    <p class="form-message" hidden></p>
+                </form>
+            </div>
+        </section>
+
+        <section id="faq" class="page-section" aria-labelledby="faq-heading">
+            <div class="section-heading">
+                <h2 id="faq-heading">أسئلة شائعة</h2>
+            </div>
+            <div class="faq-grid">
+                <article class="faq-item"><h3>كم يستغرق تنفيذ التطبيق؟</h3><p>يعتمد على عدد الميزات، وغالبًا بين 4 إلى 12 أسبوعًا للنسخة الأولى.</p></article>
+                <article class="faq-item"><h3>هل يمكن متابعة المشروع بعد الإطلاق؟</h3><p>نعم، عبر بوابة العملاء وفتح تذاكر دعم وتطوير مستمر.</p></article>
+                <article class="faq-item"><h3>هل أحتاج حسابًا قبل إرسال الفكرة؟</h3><p>لا، يمكنك إرسال الفكرة مباشرة. الحساب مفيد لمتابعة التذاكر لاحقًا.</p></article>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-box page-section" aria-labelledby="contact-heading">
             <h3 id="contact-heading">هل لديك فكرة تطبيق تريد تحويلها إلى واقع؟</h3>
             <p>أنا متاح للعمل الحر وتطوير المشروعات الرقمية من الفكرة وحتى النشر على المتجر.</p>
-            <a href="mailto:raddad@raddad.sa" class="btn-primary">ابدأ مشروعك الآن</a>
+            <a href="mailto:raddad@raddad.sa" class="btn-primary">راسلني مباشرة</a>
         </section>
 
         <footer class="site-footer">
             <span>&copy; 2026 raddad.sa</span>
+            <span>raddad@raddad.sa</span>
         </footer>
     </main>
 
+    <script src="/js/app.js" defer></script>
 </body>
 </html>

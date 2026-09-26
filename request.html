@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>طلب فكرة تطبيق | raddad.sa</title>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+    <header class="site-nav">
+        <div class="site-nav__inner">
+            <a class="nav-brand" href="/"><img src="/assets/logo.svg" alt="" width="38" height="41"><span>رّداد · raddad.sa</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
+            <nav class="nav-panel" id="main-nav" aria-label="التنقل الرئيسي">
+                <a href="/">الرئيسية</a>
+                <a href="/services.html">الخدمات</a>
+                <a href="/work.html">الأعمال</a>
+                <a href="/process.html">آلية العمل</a>
+                <a href="/request.html">طلب فكرة</a>
+                <a href="/login.html">تسجيل الدخول</a>
+                <a href="/client.html">لوحة العميل</a>
+                <a href="/contact.html">تواصل</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container page">
+        <div class="section-heading page-intro">
+            <h1>طلب تسجيل فكرة تطبيق</h1>
+            <p>املأ النموذج وسيتم حفظ الطلب وإرسال التفاصيل لبدء النقاش.</p>
+        </div>
+        <div class="form-card">
+            <form id="idea-form" class="form-grid form-grid--2">
+                <div class="field"><label for="idea-name">الاسم</label><input id="idea-name" name="name" required></div>
+                <div class="field"><label for="idea-email">البريد</label><input id="idea-email" name="email" type="email" required></div>
+                <div class="field"><label for="idea-phone">الجوال</label><input id="idea-phone" name="phone"></div>
+                <div class="field"><label for="idea-app">اسم التطبيق/الفكرة</label><input id="idea-app" name="app_name"></div>
+                <div class="field"><label for="idea-platform">المنصة</label><select id="idea-platform" name="platform"><option>iOS</option><option>Android</option><option>iOS + Android</option><option>Web</option></select></div>
+                <div class="field"><label for="idea-budget">الميزانية التقديرية</label><input id="idea-budget" name="budget" placeholder="مثال: 3000 - 8000 د.ك"></div>
+                <div class="field"><label for="idea-timeline">المدة المتوقعة</label><input id="idea-timeline" name="timeline" placeholder="مثال: 6 - 8 أسابيع"></div>
+                <div class="field" style="grid-column: 1 / -1;"><label for="idea-desc">وصف الفكرة والميزات</label><textarea id="idea-desc" name="description" required></textarea></div>
+                <button class="btn btn-primary" type="submit">إرسال الطلب</button>
+                <p class="form-message" hidden></p>
+            </form>
+        </div>
+        <footer class="site-footer"><span>&copy; 2026 raddad.sa</span><span><a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a></span></footer>
+    </main>
+    <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/app.bundle.js"></script>
+    <script src="/js/nav.js" defer></script>
+</body>
+</html>

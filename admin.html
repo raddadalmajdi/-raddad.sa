@@ -2,20 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>لوحة الأدمن | raddad.sa</title>
-    <link rel="icon" href="/assets/logo.png" type="image/png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/platform.css">
 </head>
-<body>
+<body class="platform-body">
+    <header class="site-nav">
+        <div class="site-nav__inner">
+            <a class="nav-brand" href="/"><img src="/assets/logo.svg" alt="" width="38" height="41"><span>رّداد · raddad.sa</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
+            <nav class="nav-panel" id="main-nav" aria-label="التنقل الرئيسي">
+                <a href="/">الرئيسية</a>
+                <a href="/services.html">الخدمات</a>
+                <a href="/work.html">الأعمال</a>
+                <a href="/process.html">آلية العمل</a>
+                <a href="/request.html">طلب فكرة</a>
+                <a href="/login.html">تسجيل الدخول</a>
+                <a href="/client.html">لوحة العميل</a>
+                <a href="/contact.html">تواصل</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container page">
     <div class="wrap">
         <div class="topbar">
             <h1>لوحة تحكم الأدمن</h1>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <a class="btn-secondary" href="/">الموقع</a>
-                <button class="btn-ghost" type="button" data-logout hidden>تسجيل الخروج</button>
-            </div>
+            <button class="btn-ghost" type="button" data-logout hidden>تسجيل الخروج</button>
         </div>
 
         <p class="status-banner status-banner--warn" data-config-status></p>
@@ -50,8 +66,10 @@
             </div>
         </section>
     </div>
+    </main>
 
     <script src="/js/firebase-config.js"></script>
     <script type="module" src="/js/admin.bundle.js"></script>
+    <script src="/js/nav.js" defer></script>
 </body>
 </html>

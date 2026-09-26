@@ -4,6 +4,82 @@
     const STORAGE_SESSION = 'raddad_session_v1';
     const FORM_ENDPOINT = 'https://formsubmit.co/ajax/raddad@raddad.sa';
 
+    let auth = null;
+    let db = null;
+    let firebaseEnabled = false;
+    let currentProfile = null;
+
+    function isFirebaseConfigured() {
+        const config = window.firebaseConfig;
+        if (!config) return false;
+        return Boolean(
+            config.apiKey &&
+            config.projectId &&
+            config.apiKey !== 'YOUR_API_KEY' &&
+            config.projectId !== 'YOUR_PROJECT_ID'
+        );
+    }
+
+    function initFirebase() {
+        if (!isFirebaseConfigured() || typeof firebase === 'undefined') {
+            return false;
+        }
+
+        firebase.initializeApp(window.firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+        firebaseEnabled = true;
+
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                currentProfile = null;
+                renderPortalState();
+                return;
+            }
+
+            try {
+                const doc = await db.collection('clients').doc(user.uid).get();
+                const data = doc.data() || {};
+                currentProfile = {
+                    uid: user.uid,
+                    name: data.name || user.displayName || 'عميل',
+                    email: user.email || data.email || '',
+                };
+            } catch {
+                currentProfile = {
+                    uid: user.uid,
+                    name: user.displayName || 'عميل',
+                    email: user.email || '',
+                };
+            }
+
+            renderPortalState();
+        });
+
+        return true;
+    }
+
+    function setFirebaseStatus() {
+        const el = document.querySelector('[data-firebase-status]');
+        if (el) {
+            if (firebaseEnabled) {
+                el.textContent = 'متصل بـ Firebase — الحسابات والتذاكر محفوظة في السحابة.';
+                el.className = 'firebase-status firebase-status--on';
+            } else {
+                el.textContent =
+                    'Firebase غير مفعّل بعد. أضف بيانات مشروعك في js/firebase-config.js ثم فعّل Auth وFirestore.';
+                el.className = 'firebase-status firebase-status--off';
+            }
+        }
+
+        document.querySelectorAll('[data-firebase-only]').forEach((node) => {
+            node.hidden = !firebaseEnabled;
+        });
+        document.querySelectorAll('[data-legacy-only]').forEach((node) => {
+            node.hidden = firebaseEnabled;
+        });
+    }
+
     function readJson(key, fallback) {
         try {
             const raw = localStorage.getItem(key);
@@ -23,6 +99,7 @@
     }
 
     function getSession() {
+        if (firebaseEnabled) return currentProfile;
         return readJson(STORAGE_SESSION, null);
     }
 
@@ -80,6 +157,19 @@
         return response.json();
     }
 
+    function authErrorMessage(error) {
+        const code = error && error.code ? error.code : '';
+        const map = {
+            'auth/email-already-in-use': 'هذا البريد مستخدم مسبقًا.',
+            'auth/invalid-email': 'البريد الإلكتروني غير صالح.',
+            'auth/weak-password': 'كلمة المرور ضعيفة. استخدم 6 أحرف على الأقل.',
+            'auth/user-not-found': 'لا يوجد حساب بهذا البريد.',
+            'auth/wrong-password': 'كلمة المرور غير صحيحة.',
+            'auth/invalid-credential': 'بيانات الدخول غير صحيحة.',
+        };
+        return map[code] || error.message || 'حدث خطأ غير متوقع.';
+    }
+
     function showFormMessage(form, message, type) {
         const box = form.querySelector('.form-message');
         if (!box) return;
@@ -124,7 +214,58 @@
         });
     }
 
-    function renderPortalState() {
+    function formatDate(value) {
+        if (!value) return '';
+        if (value.toDate) {
+            return value.toDate().toLocaleString('ar-KW');
+        }
+        return String(value);
+    }
+
+    async function fetchFirebaseTickets(uid) {
+        const snapshot = await db.collection('tickets').where('uid', '==', uid).get();
+        const tickets = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+                id: data.publicId || doc.id,
+                title: data.title,
+                body: data.body,
+                priority: data.priority || 'normal',
+                createdAt: formatDate(data.createdAt),
+            };
+        });
+
+        tickets.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+        return tickets;
+    }
+
+    function renderTicketsList(ticketsList, session, tickets) {
+        if (!session) {
+            ticketsList.innerHTML = '<p class="muted">سجّل الدخول لعرض تذاكرك.</p>';
+            return;
+        }
+
+        if (!tickets.length) {
+            ticketsList.innerHTML = '<p class="muted">لا توجد تذاكر بعد. افتح تذكرة جديدة من التبويب المجاور.</p>';
+            return;
+        }
+
+        ticketsList.innerHTML = tickets
+            .map(
+                (t) => `
+                <article class="ticket-card">
+                    <div class="ticket-card__head">
+                        <strong>${escapeHtml(t.title)}</strong>
+                        <span class="ticket-pill ticket-pill--${escapeHtml(t.priority)}">${priorityLabel(t.priority)}</span>
+                    </div>
+                    <p>${escapeHtml(t.body)}</p>
+                    <footer><span>#${escapeHtml(t.id)}</span><time>${escapeHtml(t.createdAt)}</time></footer>
+                </article>`
+            )
+            .join('');
+    }
+
+    async function renderPortalState() {
         const session = getSession();
         const welcome = document.querySelector('[data-portal-welcome]');
         const logoutBtn = document.querySelector('[data-portal-logout]');
@@ -149,32 +290,24 @@
             ticketEmail.readOnly = false;
         }
 
-        if (ticketsList) {
-            if (!session) {
-                ticketsList.innerHTML = '<p class="muted">سجّل الدخول لعرض تذاكرك المحفوظة على هذا الجهاز.</p>';
-                return;
-            }
+        if (!ticketsList) return;
 
-            const tickets = getTickets(session.email);
-            if (!tickets.length) {
-                ticketsList.innerHTML = '<p class="muted">لا توجد تذاكر بعد. افتح تذكرة جديدة من التبويب المجاور.</p>';
-                return;
-            }
-
-            ticketsList.innerHTML = tickets
-                .map(
-                    (t) => `
-                <article class="ticket-card">
-                    <div class="ticket-card__head">
-                        <strong>${escapeHtml(t.title)}</strong>
-                        <span class="ticket-pill ticket-pill--${escapeHtml(t.priority)}">${priorityLabel(t.priority)}</span>
-                    </div>
-                    <p>${escapeHtml(t.body)}</p>
-                    <footer><span>#${escapeHtml(t.id)}</span><time>${escapeHtml(t.createdAt)}</time></footer>
-                </article>`
-                )
-                .join('');
+        if (!session) {
+            renderTicketsList(ticketsList, null, []);
+            return;
         }
+
+        if (firebaseEnabled && session.uid) {
+            try {
+                const tickets = await fetchFirebaseTickets(session.uid);
+                renderTicketsList(ticketsList, session, tickets);
+            } catch {
+                ticketsList.innerHTML = '<p class="muted">تعذر تحميل التذاكر من Firebase.</p>';
+            }
+            return;
+        }
+
+        renderTicketsList(ticketsList, session, getTickets(session.email));
     }
 
     function priorityLabel(value) {
@@ -202,21 +335,39 @@
             const email = String(data.get('email') || '').trim();
             const phone = String(data.get('phone') || '').trim();
             const company = String(data.get('company') || '').trim();
+            const password = String(data.get('password') || '');
 
             if (!name || !email || !phone) {
                 showFormMessage(form, 'يرجى تعبئة الاسم والبريد والجوال.', 'error');
                 return;
             }
 
+            if (firebaseEnabled) {
+                if (!password) {
+                    showFormMessage(form, 'يرجى إدخال كلمة مرور.', 'error');
+                    return;
+                }
+                try {
+                    const cred = await auth.createUserWithEmailAndPassword(email, password);
+                    await cred.user.updateProfile({ displayName: name });
+                    await db.collection('clients').doc(cred.user.uid).set({
+                        name,
+                        email,
+                        phone,
+                        company,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+
+                    showFormMessage(form, 'تم إنشاء حسابك بنجاح. يمكنك الآن فتح تذكرة دعم.', 'success');
+                    form.reset();
+                } catch (error) {
+                    showFormMessage(form, authErrorMessage(error), 'error');
+                }
+                return;
+            }
+
             const accessCode = generateAccessCode();
-            const user = {
-                name,
-                email,
-                phone,
-                company,
-                accessCode,
-                createdAt: new Date().toISOString(),
-            };
+            const user = { name, email, phone, company, accessCode, createdAt: new Date().toISOString() };
 
             try {
                 await sendToInbox({
@@ -232,7 +383,7 @@
                 setSession({ name, email });
                 showFormMessage(
                     form,
-                    `تم التسجيل بنجاح. رمز الدخول الخاص بك: ${accessCode} (احفظه لاستخدام بوابة العملاء).`,
+                    `تم التسجيل (وضع مؤقت). رمز الدخول: ${accessCode}. فعّل Firebase لحساب دائم.`,
                     'success'
                 );
                 form.reset();
@@ -247,13 +398,30 @@
         const form = document.getElementById('login-form');
         if (!form) return;
 
-        form.addEventListener('submit', (event) => {
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
             const data = new FormData(form);
             const email = String(data.get('email') || '').trim();
+            const password = String(data.get('password') || '');
             const code = String(data.get('access_code') || '').trim().toUpperCase();
-            const user = findUser(email);
 
+            if (firebaseEnabled) {
+                if (!email || !password) {
+                    showFormMessage(form, 'يرجى إدخال البريد وكلمة المرور.', 'error');
+                    return;
+                }
+
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    showFormMessage(form, 'تم تسجيل الدخول بنجاح.', 'success');
+                    form.reset();
+                } catch (error) {
+                    showFormMessage(form, authErrorMessage(error), 'error');
+                }
+                return;
+            }
+
+            const user = findUser(email);
             if (!user || user.accessCode !== code) {
                 showFormMessage(form, 'بيانات الدخول غير صحيحة. تأكد من البريد ورمز الدخول.', 'error');
                 return;
@@ -281,6 +449,45 @@
 
             if (!email || !title || !body) {
                 showFormMessage(form, 'يرجى تعبئة البريد وعنوان التذكرة والتفاصيل.', 'error');
+                return;
+            }
+
+            if (firebaseEnabled) {
+                if (!auth.currentUser) {
+                    showFormMessage(form, 'يجب تسجيل الدخول أولًا قبل فتح تذكرة.', 'error');
+                    return;
+                }
+
+                const publicId = 'TK-' + Date.now().toString(36).toUpperCase();
+
+                try {
+                    await db.collection('tickets').add({
+                        uid: auth.currentUser.uid,
+                        email: auth.currentUser.email,
+                        title,
+                        body,
+                        priority,
+                        status: 'open',
+                        publicId,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+
+                    await sendToInbox({
+                        _subject: `تذكرة دعم جديدة — ${publicId}`,
+                        type: 'ticket',
+                        ticket_id: publicId,
+                        email: auth.currentUser.email,
+                        title,
+                        body,
+                        priority,
+                    });
+
+                    showFormMessage(form, `تم فتح التذكرة ${publicId} بنجاح.`, 'success');
+                    form.reset();
+                    renderPortalState();
+                } catch (error) {
+                    showFormMessage(form, error.message || 'تعذر حفظ التذكرة في Firebase.', 'error');
+                }
                 return;
             }
 
@@ -327,8 +534,6 @@
             event.preventDefault();
             const data = new FormData(form);
             const payload = {
-                _subject: 'طلب تسجيل فكرة تطبيق جديدة',
-                type: 'idea',
                 name: String(data.get('name') || '').trim(),
                 email: String(data.get('email') || '').trim(),
                 phone: String(data.get('phone') || '').trim(),
@@ -345,7 +550,20 @@
             }
 
             try {
-                await sendToInbox(payload);
+                if (firebaseEnabled) {
+                    await db.collection('ideas').add({
+                        ...payload,
+                        status: 'new',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+                }
+
+                await sendToInbox({
+                    _subject: 'طلب تسجيل فكرة تطبيق جديدة',
+                    type: 'idea',
+                    ...payload,
+                });
+
                 showFormMessage(form, 'تم إرسال فكرتك بنجاح. سأتواصل معك قريبًا.', 'success');
                 form.reset();
             } catch (error) {
@@ -357,13 +575,21 @@
     function setupLogout() {
         const btn = document.querySelector('[data-portal-logout]');
         if (!btn) return;
-        btn.addEventListener('click', () => {
+
+        btn.addEventListener('click', async () => {
+            if (firebaseEnabled && auth.currentUser) {
+                await auth.signOut();
+                return;
+            }
+
             clearSession();
             renderPortalState();
         });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        initFirebase();
+        setFirebaseStatus();
         setupNav();
         document.querySelectorAll('[data-tabs]').forEach(setupTabs);
         setupRegisterForm();

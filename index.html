@@ -442,6 +442,26 @@
             font-size: 0.88rem;
         }
 
+        .firebase-status {
+            margin-bottom: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.84rem;
+            line-height: 1.6;
+        }
+
+        .firebase-status--on {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #9ef0cb;
+        }
+
+        .firebase-status--off {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fde68a;
+        }
+
         .btn-ghost {
             margin-top: 10px;
             border: 1px solid var(--card-border);
@@ -1094,6 +1114,7 @@
             </div>
             <div class="portal-layout">
                 <div class="portal-card" data-tabs>
+                    <p class="firebase-status firebase-status--off" data-firebase-status></p>
                     <p class="portal-welcome" data-portal-welcome hidden></p>
                     <div class="tabs" role="tablist" aria-label="بوابة العملاء">
                         <button class="tab-btn is-active" type="button" data-tab-target="tab-register" aria-selected="true">إنشاء حساب</button>
@@ -1107,6 +1128,7 @@
                             <div class="field"><label for="reg-email">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" required></div>
                             <div class="field"><label for="reg-phone">رقم الجوال</label><input id="reg-phone" name="phone" required></div>
                             <div class="field"><label for="reg-company">الشركة (اختياري)</label><input id="reg-company" name="company"></div>
+                            <div class="field" data-firebase-only hidden><label for="reg-password">كلمة المرور</label><input id="reg-password" name="password" type="password" minlength="6" autocomplete="new-password"></div>
                             <button class="btn-primary" type="submit">إنشاء حساب</button>
                             <p class="form-message" hidden></p>
                         </form>
@@ -1115,7 +1137,8 @@
                     <div class="tab-panel" id="tab-login" data-tab-panel>
                         <form id="login-form" class="form-grid">
                             <div class="field"><label for="login-email">البريد الإلكتروني</label><input id="login-email" name="email" type="email" required></div>
-                            <div class="field"><label for="login-code">رمز الدخول</label><input id="login-code" name="access_code" required></div>
+                            <div class="field" data-firebase-only hidden><label for="login-password">كلمة المرور</label><input id="login-password" name="password" type="password" minlength="6" autocomplete="current-password"></div>
+                            <div class="field" data-legacy-only><label for="login-code">رمز الدخول (وضع مؤقت بدون Firebase)</label><input id="login-code" name="access_code"></div>
                             <button class="btn-primary" type="submit">تسجيل الدخول</button>
                             <p class="form-message" hidden></p>
                         </form>
@@ -1144,7 +1167,7 @@
 
                 <aside class="portal-card">
                     <h3>تذاكري</h3>
-                    <p class="muted">تظهر هنا التذاكر المفتوحة من هذا الجهاز بعد تسجيل الدخول.</p>
+                    <p class="muted">تظهر هنا تذاكرك بعد تسجيل الدخول (من Firebase عند التفعيل).</p>
                     <div data-tickets-list></div>
                 </aside>
             </div>
@@ -1194,6 +1217,10 @@
         </footer>
     </main>
 
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
+    <script src="/js/firebase-config.js" defer></script>
     <script src="/js/app.js" defer></script>
 </body>
 </html>

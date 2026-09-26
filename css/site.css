@@ -155,7 +155,7 @@ h1, h2, h3, h4 {
 
 @media (min-width: 860px) {
     /* عمود أوسع للشعار (العمود الثاني في RTL = جهة اليسار) */
-    .hero-home { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
+    .hero-home { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.48fr); }
 }
 
 .hero-logo-stage {
@@ -169,17 +169,16 @@ h1, h2, h3, h4 {
 
 .hero-logo-stage picture {
     display: block;
-    width: 100%;
-    max-width: clamp(300px, 46vw, 560px);
+    width: clamp(320px, 54vw, 620px);
+    max-width: 100%;
     margin-inline: auto;
 }
 
 .hero-logo-stage::before {
     content: "";
     position: absolute;
-    width: min(100%, 560px);
-    height: min(100%, 580px);
-    max-height: 92%;
+    width: clamp(320px, 54vw, 620px);
+    max-width: 100%;
     aspect-ratio: 500 / 520;
     border-radius: 42%;
     background: radial-gradient(
@@ -196,20 +195,21 @@ h1, h2, h3, h4 {
     position: relative;
     z-index: 1;
     display: block;
-    width: 100%;
-    max-width: clamp(300px, 46vw, 560px);
+    width: clamp(320px, 54vw, 620px);
+    max-width: 100%;
     height: auto;
-    aspect-ratio: 500 / 520;
     margin-inline: auto;
     object-fit: contain;
     object-position: center;
     filter: drop-shadow(0 22px 44px rgba(13, 37, 42, 0.16));
     animation: floatLogo 5s ease-in-out infinite;
+    transform: scaleX(1.06);
+    transform-origin: center center;
 }
 
 @keyframes floatLogo {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%, 100% { transform: scaleX(1.06) translateY(0); }
+    50% { transform: scaleX(1.06) translateY(-8px); }
 }
 
 @keyframes logoGlow {
@@ -409,5 +409,6 @@ a.card:hover {
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .hero-logo, .hero-logo-stage::before, .badge-dot { animation: none; }
+    .hero-logo { transform: scaleX(1.06); }
     .btn, .card { transition: none; }
 }

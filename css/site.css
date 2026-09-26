@@ -79,7 +79,12 @@ h1, h2, h3, h4 {
     font-size: 0.92rem;
 }
 
-.nav-brand svg { width: 38px; height: auto; }
+.nav-brand .nav-logo {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
 
 .nav-toggle {
     min-width: 44px;
@@ -152,15 +157,49 @@ h1, h2, h3, h4 {
     .hero-home { grid-template-columns: 1.1fr 0.9fr; }
 }
 
+.hero-logo-stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(12px, 4vw, 28px);
+}
+
+.hero-logo-stage::before {
+    content: "";
+    position: absolute;
+    width: min(92%, 360px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 42% 38%,
+        rgba(69, 181, 175, 0.28) 0%,
+        rgba(31, 106, 115, 0.1) 45%,
+        transparent 70%
+    );
+    animation: logoGlow 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
 .hero-logo {
-    width: min(100%, 280px);
+    position: relative;
+    z-index: 1;
+    width: min(100%, 380px);
+    height: auto;
     margin-inline: auto;
-    animation: floatLogo 4s ease-in-out infinite;
+    object-fit: contain;
+    filter: drop-shadow(0 22px 44px rgba(13, 37, 42, 0.16));
+    animation: floatLogo 5s ease-in-out infinite;
 }
 
 @keyframes floatLogo {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes logoGlow {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.88; }
 }
 
 .badge {
@@ -354,6 +393,6 @@ a.card:hover {
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .hero-logo, .badge-dot { animation: none; }
+    .hero-logo, .hero-logo-stage::before, .badge-dot { animation: none; }
     .btn, .card { transition: none; }
 }

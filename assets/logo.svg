@@ -1,26 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 260" role="img" aria-labelledby="logoTitle">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496 516" role="img" aria-labelledby="logoTitle">
   <title id="logoTitle">شعار رّداد</title>
-  <defs>
-    <linearGradient id="brandGrad" x1="18%" y1="8%" x2="88%" y2="92%">
-      <stop offset="0%" stop-color="#5eead4"/>
-      <stop offset="45%" stop-color="#14b8a6"/>
-      <stop offset="100%" stop-color="#0f766e"/>
-    </linearGradient>
-    <linearGradient id="brandShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#134e4a"/>
-      <stop offset="100%" stop-color="#042f2e"/>
-    </linearGradient>
-    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <path fill="url(#brandShadow)" d="M48 28h118c36 0 58 22 58 54 0 24-12 44-34 52l58 88H142L96 142H84v90H48V28zm36 36v52h70c16 0 26-10 26-26s-10-26-26-26H84z"/>
-  <path fill="url(#brandGrad)" filter="url(#softGlow)" d="M40 20h118c36 0 58 22 58 54 0 24-12 44-34 52l58 88H134L88 134H76v90H40V20zm36 36v52h70c16 0 26-10 26-26s-10-26-26-26H76z"/>
-  <rect x="118" y="62" width="34" height="58" rx="8" fill="#ffffff" opacity="0.95"/>
-  <rect x="124" y="68" width="22" height="46" rx="5" fill="#ecfdf5"/>
-  <rect x="132" y="72" width="6" height="3" rx="1.5" fill="#0f766e"/>
+  <image width="496" height="516" href="logo.png" xlink:href="logo.png" preserveAspectRatio="xMidYMid meet"/>
 </svg>

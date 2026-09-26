@@ -8,9 +8,12 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="color-scheme" content="light">
 
+    <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/assets/logo.png">
-    <meta property="og:image" content="https://raddad.sa/assets/logo.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <meta property="og:image" content="https://raddad.sa/assets/logo@2x.png">
+    <meta property="og:image:width" content="1040">
+    <meta property="og:image:height" content="1083">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +25,7 @@
     <header class="site-nav">
         <div class="site-nav__inner">
             <a class="nav-brand" href="/">
-                <img src="/assets/logo.svg" alt="" width="38" height="41" loading="eager">
+                <img class="nav-logo" src="/assets/logo.png" srcset="/assets/logo.png 1x, /assets/logo@2x.png 2x" alt="" width="40" height="42" loading="eager" decoding="async">
                 <span>رّداد · raddad.sa</span>
             </a>
             <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
@@ -51,8 +54,20 @@
                     <a href="/services.html" class="btn btn-secondary">عرض الخدمات</a>
                 </div>
             </div>
-            <div>
-                <img class="hero-logo" src="/assets/logo.svg" alt="شعار رّداد — حرف R بتصميم تطبيق جوال" width="280" height="303" loading="eager" decoding="async">
+            <div class="hero-logo-stage">
+                <picture>
+                    <source type="image/png" srcset="/assets/logo@2x.png 2x, /assets/logo.png 1x">
+                    <img
+                        class="hero-logo"
+                        src="/assets/logo.png"
+                        alt="شعار رّداد — حرف R مع تطبيق جوال بتدرج أخضر"
+                        width="496"
+                        height="516"
+                        loading="eager"
+                        decoding="async"
+                        fetchpriority="high"
+                    >
+                </picture>
             </div>
         </section>
 

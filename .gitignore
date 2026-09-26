@@ -3,4 +3,3 @@ js-built/
 .env
 .firebase/
 firebase-debug.log
-.firebaserc

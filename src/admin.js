@@ -1,5 +1,6 @@
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { initFirebase, isAdminEmail, needsFirestoreLongPolling, prepareAuthPersistence } from './firebase/init.js';
+import { watchIdleSession } from './shared/sessionIdle.js';
 import { fetchAllIdeas } from './shared/ideas.js';
 import { fetchAllTickets, updateTicketStatus } from './shared/tickets.js';
 import {
@@ -164,12 +165,17 @@ function boot() {
 
     setupSafariPasswordField();
 
-    if (status) {
+    const timeoutParam = new URLSearchParams(window.location.search).get('reason');
+    if (status && timeoutParam === 'timeout') {
+        status.textContent = 'انتهت جلسة الأدمن لعدم النشاط (10 دقائق). سجّل الدخول مجددًا.';
+        status.className = 'status-banner status-banner--warn';
+    } else if (status) {
         status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
         status.className = 'status-banner status-banner--ok';
     }
 
     let authListenerAttached = false;
+    let stopIdleWatch = null;
 
     const attachAuthListener = () => {
         if (authListenerAttached) return;
@@ -177,6 +183,10 @@ function boot() {
 
         onAuthStateChanged(auth, (user) => {
             try {
+                if (stopIdleWatch) {
+                    stopIdleWatch();
+                    stopIdleWatch = null;
+                }
                 handleAuthUser(user);
             } catch (error) {
                 console.error('onAuthStateChanged', error);
@@ -218,6 +228,12 @@ function boot() {
             status.textContent = 'تم الدخول — جاري تحميل البيانات…';
             status.className = 'status-banner status-banner--ok';
         }
+
+        stopIdleWatch = watchIdleSession(auth, {
+            onTimeout: () => {
+                window.location.replace('/admin.html?reason=timeout');
+            },
+        });
 
         loadDashboard(db, true)
             .then(() => {

@@ -11,6 +11,7 @@ export default defineConfig({
                 login: resolve(__dirname, 'src/login.js'),
                 client: resolve(__dirname, 'src/client.js'),
                 admin: resolve(__dirname, 'src/admin.js'),
+                navAuth: resolve(__dirname, 'src/navAuth.js'),
             },
             output: {
                 entryFileNames: '[name].bundle.js',

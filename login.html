@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>تسجيل الدخول | raddad.sa</title>
+    <meta name="description" content="تسجيل الدخول أو إنشاء حساب عميل لمتابعة تذاكر الدعم على raddad.sa">
     <meta name="theme-color" content="#ffffff">
     <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
@@ -23,8 +24,7 @@
                 <a href="/work.html">الأعمال</a>
                 <a href="/process.html">آلية العمل</a>
                 <a href="/request.html">طلب فكرة</a>
-                <a href="/login.html">تسجيل الدخول</a>
-                <a href="/client.html">لوحة العميل</a>
+                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
                 <a href="/contact.html">تواصل</a>
             </nav>
         </div>
@@ -34,31 +34,43 @@
         <div class="topbar">
             <h1>بوابة العملاء</h1>
         </div>
-        <p class="status-banner status-banner--warn" data-config-status></p>
+        <p class="status-banner status-banner--ok" data-config-status>جاري التحميل…</p>
+        <p class="muted" data-session-idle-note style="margin-bottom:14px;font-size:0.82rem;"></p>
 
         <div class="card" data-tabs>
             <div class="tabs">
-                <button class="tab-btn is-active" type="button" data-tab-target="tab-register">إنشاء حساب</button>
-                <button class="tab-btn" type="button" data-tab-target="tab-login">تسجيل الدخول</button>
+                <button class="tab-btn is-active" type="button" data-tab-target="tab-login">تسجيل الدخول</button>
+                <button class="tab-btn" type="button" data-tab-target="tab-register">إنشاء حساب</button>
             </div>
 
-            <div class="tab-panel is-active" id="tab-register" data-tab-panel>
-                <form id="register-form" class="form-grid">
-                    <div class="field"><label for="reg-name">الاسم الكامل</label><input id="reg-name" name="name" required></div>
-                    <div class="field"><label for="reg-email">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" required></div>
-                    <div class="field"><label for="reg-phone">رقم الجوال</label><input id="reg-phone" name="phone" required></div>
-                    <div class="field"><label for="reg-company">الشركة (اختياري)</label><input id="reg-company" name="company"></div>
-                    <div class="field"><label for="reg-password">كلمة المرور</label><input id="reg-password" name="password" type="password" minlength="6" required></div>
-                    <button class="btn-primary" type="submit">إنشاء حساب</button>
+            <div class="tab-panel is-active" id="tab-login" data-tab-panel>
+                <form id="login-form" class="form-grid">
+                    <div class="field"><label for="login-email">البريد الإلكتروني</label><input id="login-email" name="email" type="email" autocomplete="username" required></div>
+                    <div class="field"><label for="login-password">كلمة المرور</label><input id="login-password" name="password" type="password" autocomplete="current-password" minlength="6" required></div>
+                    <button class="btn-primary" type="submit">تسجيل الدخول</button>
                     <p class="form-message" hidden></p>
                 </form>
+                <p style="margin-top:12px;">
+                    <button class="btn-link" type="button" data-forgot-toggle aria-expanded="false">نسيت كلمة المرور؟</button>
+                </p>
+                <div data-forgot-panel hidden style="margin-top:12px;padding-top:12px;border-top:1px solid var(--card-border);">
+                    <form id="forgot-form" class="form-grid">
+                        <p class="muted" style="font-size:0.88rem;">أدخل بريدك لإرسال رابط إعادة تعيين كلمة المرور من Firebase.</p>
+                        <div class="field"><label for="forgot-email">البريد الإلكتروني</label><input id="forgot-email" name="email" type="email" autocomplete="email" required></div>
+                        <button class="btn-secondary" type="submit">إرسال رابط الاستعادة</button>
+                        <p class="form-message" hidden></p>
+                    </form>
+                </div>
             </div>
 
-            <div class="tab-panel" id="tab-login" data-tab-panel>
-                <form id="login-form" class="form-grid">
-                    <div class="field"><label for="login-email">البريد الإلكتروني</label><input id="login-email" name="email" type="email" required></div>
-                    <div class="field"><label for="login-password">كلمة المرور</label><input id="login-password" name="password" type="password" minlength="6" required></div>
-                    <button class="btn-primary" type="submit">تسجيل الدخول</button>
+            <div class="tab-panel" id="tab-register" data-tab-panel>
+                <form id="register-form" class="form-grid">
+                    <div class="field"><label for="reg-name">الاسم الكامل</label><input id="reg-name" name="name" autocomplete="name" required></div>
+                    <div class="field"><label for="reg-email">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" autocomplete="email" required></div>
+                    <div class="field"><label for="reg-phone">رقم الجوال</label><input id="reg-phone" name="phone" autocomplete="tel" required></div>
+                    <div class="field"><label for="reg-company">الشركة (اختياري)</label><input id="reg-company" name="company" autocomplete="organization"></div>
+                    <div class="field"><label for="reg-password">كلمة المرور</label><input id="reg-password" name="password" type="password" autocomplete="new-password" minlength="6" required></div>
+                    <button class="btn-primary" type="submit">إنشاء حساب</button>
                     <p class="form-message" hidden></p>
                 </form>
             </div>
@@ -95,6 +107,7 @@
     </div>
 
     <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/navAuth.bundle.js"></script>
     <script type="module" src="/js/login.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>

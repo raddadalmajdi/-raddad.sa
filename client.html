@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>لوحة العميل | raddad.sa</title>
+    <title>حسابي — الدعم والتذاكر | raddad.sa</title>
+    <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#ffffff">
     <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
@@ -23,8 +24,7 @@
                 <a href="/work.html">الأعمال</a>
                 <a href="/process.html">آلية العمل</a>
                 <a href="/request.html">طلب فكرة</a>
-                <a href="/login.html">تسجيل الدخول</a>
-                <a href="/client.html">لوحة العميل</a>
+                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
                 <a href="/contact.html">تواصل</a>
             </nav>
         </div>
@@ -32,7 +32,7 @@
     <main class="container page">
     <div class="wrap">
         <div class="topbar">
-            <h1>لوحة العميل</h1>
+            <h1>حسابي — الدعم والتذاكر</h1>
             <button class="btn-ghost" type="button" data-logout hidden>تسجيل الخروج</button>
         </div>
 
@@ -41,7 +41,7 @@
 
         <section class="card" data-client-login-prompt hidden>
             <h2>تسجيل الدخول مطلوب</h2>
-            <p class="muted">لوحة العميل مخصّصة لحسابات العملاء فقط. سجّل الدخول أو أنشئ حسابًا جديدًا.</p>
+            <p class="muted">هذه الصفحة محمية. سجّل الدخول أو أنشئ حساب عميل من بوابة تسجيل الدخول.</p>
             <p style="margin-top:12px;">
                 <a class="btn-primary" href="/login.html?next=client" style="display:inline-block;text-align:center;">تسجيل الدخول / إنشاء حساب</a>
             </p>
@@ -103,6 +103,7 @@
     </div>
 
     <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/navAuth.bundle.js"></script>
     <script type="module" src="/js/client.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>

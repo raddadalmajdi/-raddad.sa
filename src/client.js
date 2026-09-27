@@ -1,5 +1,6 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
+import { watchIdleSession } from './shared/sessionIdle.js';
 import { createTicket, fetchUserTickets } from './shared/tickets.js';
 import {
     escapeHtml,
@@ -54,7 +55,8 @@ function showClientDashboard(ui, user) {
         ui.welcome.textContent = `مرحبًا ${user.displayName || 'عميل'} — ${user.email}`;
     }
     if (ui.status) {
-        ui.status.textContent = 'حساب عميل — يمكنك فتح تذكرة ومتابعتها هنا.';
+        ui.status.textContent =
+            'حساب عميل — يمكنك فتح تذكرة ومتابعتها هنا. تُنهى الجلسة تلقائيًا بعد 10 دقائق بدون نشاط.';
         ui.status.className = 'status-banner status-banner--ok';
     }
 }
@@ -99,8 +101,13 @@ async function boot() {
     }
 
     const { auth, db } = firebase;
+    let stopIdleWatch = null;
 
     onAuthStateChanged(auth, async (user) => {
+        if (stopIdleWatch) {
+            stopIdleWatch();
+            stopIdleWatch = null;
+        }
         if (!user) {
             showLoginRequired(ui);
             window.location.replace('/login.html?next=client');
@@ -120,6 +127,12 @@ async function boot() {
         }
 
         showClientDashboard(ui, user);
+
+        stopIdleWatch = watchIdleSession(auth, {
+            onTimeout: () => {
+                window.location.replace('/login.html?reason=timeout');
+            },
+        });
 
         try {
             const tickets = await fetchUserTickets(db, user.uid);

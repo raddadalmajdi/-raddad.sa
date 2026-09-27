@@ -22,8 +22,7 @@
                 <a href="/work.html">الأعمال</a>
                 <a href="/process.html">آلية العمل</a>
                 <a href="/request.html">طلب فكرة</a>
-                <a href="/login.html">تسجيل الدخول</a>
-                <a href="/client.html">لوحة العميل</a>
+                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
                 <a href="/contact.html">تواصل</a>
             </nav>
         </div>
@@ -37,7 +36,7 @@
             <article class="step-card"><strong>1</strong><h3>تسجيل الفكرة</h3><p>أرسل تفاصيل مشروعك من <a href="/request.html">صفحة الطلب</a> أو سجّل حسابًا في بوابة العملاء.</p></article>
             <article class="step-card"><strong>2</strong><h3>دراسة وعرض</h3><p>نحدد النطاق، الميزات، والجدول الزمني المناسب.</p></article>
             <article class="step-card"><strong>3</strong><h3>التطوير والتسليم</h3><p>تنفيذ مرحلي مع تحديثات مستمرة حتى الإطلاق.</p></article>
-            <article class="step-card"><strong>4</strong><h3>دعم وتذاكر</h3><p>متابعة ما بعد الإطلاق عبر <a href="/client.html">نظام التذاكر</a>.</p></article>
+            <article class="step-card"><strong>4</strong><h3>دعم وتذاكر</h3><p>متابعة ما بعد الإطلاق عبر <a href="/login.html">نظام التذاكر</a>.</p></article>
         </div>
         <section class="section-heading" style="margin-top: 36px;">
             <h2>أسئلة شائعة</h2>
@@ -73,6 +72,8 @@
             </div>
         </footer>
     </main>
+    <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>
 </html>

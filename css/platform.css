@@ -128,6 +128,18 @@ h2 { font-size: 1.1rem; margin-bottom: 10px; color: #042f2e; }
     color: #042f2e;
     border: 1px solid var(--badge-border);
 }
+.btn-link {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: #115e59;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.btn-link:hover { color: #0d9488; }
 .btn-ghost {
     background: transparent;
     color: var(--text-secondary);

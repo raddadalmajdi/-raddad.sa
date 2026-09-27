@@ -1,12 +1,14 @@
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     updateProfile,
 } from 'firebase/auth';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
 import { authErrorMessage, showFormMessage } from './shared/ui.js';
+import { SESSION_IDLE_MS } from './shared/sessionIdle.js';
 
 function setupTabs(root) {
     const tabs = root.querySelectorAll('[data-tab-target]');
@@ -33,6 +35,14 @@ function redirectAfterLogin(email) {
     window.location.replace('/client.html');
 }
 
+function showTimeoutNotice(status) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reason') !== 'timeout' || !status) return;
+    status.textContent =
+        'انتهت جلستك لعدم النشاط (10 دقائق). سجّل الدخول مرة أخرى للمتابعة.';
+    status.className = 'status-banner status-banner--warn';
+}
+
 async function boot() {
     const firebase = initFirebase();
     const status = document.querySelector('[data-config-status]');
@@ -51,14 +61,47 @@ async function boot() {
         console.warn('Auth persistence', error);
     }
 
-    if (status) {
-        status.textContent = 'متصل بـ Firebase.';
-        status.className = 'status-banner status-banner--ok';
-    }
+    showTimeoutNotice(status);
 
     const { auth, db } = firebase;
     const registerForm = document.getElementById('register-form');
     const loginForm = document.getElementById('login-form');
+    const forgotForm = document.getElementById('forgot-form');
+    const forgotToggle = document.querySelector('[data-forgot-toggle]');
+    const forgotPanel = document.querySelector('[data-forgot-panel]');
+
+    if (status && !new URLSearchParams(window.location.search).get('reason')) {
+        status.textContent =
+            'سجّل الدخول أو أنشئ حسابًا للوصول إلى تذاكر الدعم. الجلسة تنتهي تلقائيًا بعد 10 دقائق بدون نشاط.';
+        status.className = 'status-banner status-banner--ok';
+    }
+
+    forgotToggle?.addEventListener('click', () => {
+        if (!forgotPanel) return;
+        const open = forgotPanel.hidden;
+        forgotPanel.hidden = !open;
+        forgotToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    forgotForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const data = new FormData(forgotForm);
+        const email = String(data.get('email') || '').trim().toLowerCase();
+        if (!email) {
+            showFormMessage(forgotForm, 'أدخل بريدك الإلكتروني.', 'error');
+            return;
+        }
+        try {
+            await sendPasswordResetEmail(auth, email);
+            showFormMessage(
+                forgotForm,
+                'أُرسل رابط إعادة تعيين كلمة المرور إلى بريدك. راجع البريد الوارد أو الرسائل غير المرغوبة.',
+                'success'
+            );
+        } catch (error) {
+            showFormMessage(forgotForm, authErrorMessage(error), 'error');
+        }
+    });
 
     registerForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -126,6 +169,12 @@ async function boot() {
     });
 
     document.querySelectorAll('[data-tabs]').forEach(setupTabs);
+
+    // إعلام المستخدم بمدة الجلسة (للتوثيق في الواجهة)
+    const idleNote = document.querySelector('[data-session-idle-note]');
+    if (idleNote) {
+        idleNote.textContent = `مدة الجلسة: ${SESSION_IDLE_MS / 60000} دقائق بدون نشاط ثم يُطلب الدخول مجددًا.`;
+    }
 }
 
 boot().catch(console.error);

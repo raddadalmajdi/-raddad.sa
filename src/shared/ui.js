@@ -27,6 +27,7 @@ export function authErrorMessage(error) {
         'auth/too-many-requests': 'محاولات كثيرة. انتظر قليلًا ثم أعد المحاولة.',
         'auth/network-request-failed': 'تعذر الاتصال. تحقق من الإنترنت أو أعد المحاولة.',
         'auth/operation-not-allowed': 'تسجيل الدخول بالبريد غير مفعّل في Firebase Console.',
+        'auth/missing-email': 'أدخل البريد الإلكتروني.',
         'auth/unauthorized-domain': 'النطاق غير مسموح. أضف raddad.sa في Firebase > Authentication > Authorized domains.',
         'auth/webkit-persistence-error':
             'Safari لم يحفظ الجلسة. عطّل التصفح الخاص أو اسمح بالتخزين للموقع ثم أعد المحاولة.',

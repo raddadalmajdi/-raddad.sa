@@ -22,8 +22,7 @@
                 <a href="/work.html">الأعمال</a>
                 <a href="/process.html">آلية العمل</a>
                 <a href="/request.html">طلب فكرة</a>
-                <a href="/login.html">تسجيل الدخول</a>
-                <a href="/client.html">لوحة العميل</a>
+                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
                 <a href="/contact.html">تواصل</a>
             </nav>
         </div>
@@ -39,7 +38,7 @@
         </div>
         <div class="quick-grid">
             <a class="card" href="/login.html"><h3>تسجيل الدخول</h3><p>إنشاء حساب أو دخول لعملاء المشاريع.</p></a>
-            <a class="card" href="/client.html"><h3>لوحة العميل</h3><p>فتح تذكرة ومتابعة حالة الطلبات.</p></a>
+            <a class="card" href="/login.html"><h3>تسجيل الدخول</h3><p>فتح تذكرة ومتابعة حالة الطلبات بعد إنشاء حساب أو الدخول.</p></a>
             <a class="card" href="/admin.html"><h3>لوحة الأدمن</h3><p>إدارة التذاكر وطلبات الأفكار (للمسؤولين).</p></a>
         </div>
         <footer class="site-footer">
@@ -68,6 +67,8 @@
             </div>
         </footer>
     </main>
+    <script src="/js/firebase-config.js"></script>
+    <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>
 </html>

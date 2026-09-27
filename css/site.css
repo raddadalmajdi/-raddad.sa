@@ -260,10 +260,36 @@ h1 {
 
 .subtitle-note { color: var(--green-800); font-weight: 700; }
 
+.freelance-logo {
+    display: block;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.freelance-logo--hero {
+    width: auto;
+    height: 32px;
+    max-width: 120px;
+}
+
+.freelance-logo--trust {
+    width: auto;
+    height: 52px;
+    max-width: 200px;
+    margin-bottom: 4px;
+}
+
+.freelance-logo--chip {
+    width: auto;
+    height: 26px;
+    max-width: 88px;
+}
+
 .activity-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-top: 10px;
     padding: 8px 12px;
     border-radius: 10px;
@@ -272,7 +298,7 @@ h1 {
     color: var(--green-900);
     font-size: 0.84rem;
     line-height: 1.5;
-    max-width: 36ch;
+    max-width: min(100%, 42rem);
 }
 
 .activity-badge strong { font-weight: 700; }
@@ -556,7 +582,8 @@ a.card:hover {
     line-height: 1.45;
 }
 
-.trust-bar__chip img {
+.trust-bar__chip img,
+.trust-bar__chip .freelance-logo {
     flex-shrink: 0;
 }
 

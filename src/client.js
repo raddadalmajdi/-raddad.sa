@@ -137,7 +137,11 @@ async function boot() {
             await reloadTickets(user);
         } catch (error) {
             if (status) {
-                status.textContent = 'تعذر تحميل التذاكر. أعد تحميل الصفحة.';
+                const code = error?.code || '';
+                status.textContent =
+                    code === 'permission-denied'
+                        ? 'تعذر قراءة التذاكر — تأكد من نشر قواعد Firestore في Firebase Console (ملف firestore.rules).'
+                        : 'تعذر تحميل التذاكر. أعد تحميل الصفحة أو جرّب لاحقًا.';
                 status.className = 'status-banner status-banner--warn';
             }
             console.error(error);

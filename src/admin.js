@@ -112,9 +112,33 @@ function renderIdeas(container, ideas) {
         .join('');
 }
 
-async function loadDashboard(db, canManage) {
-    const [rawTickets, ideas] = await Promise.all([fetchAllTickets(db), fetchAllIdeas(db)]);
-    const tickets = await fetchTicketsWithMessages(db, rawTickets);
+async function loadDashboard(db, canManage, statusEl) {
+    let rawTickets = [];
+    let ideas = [];
+    let loadError = null;
+
+    try {
+        rawTickets = await fetchAllTickets(db);
+    } catch (error) {
+        loadError = error;
+        console.error('fetchAllTickets', error);
+    }
+
+    try {
+        ideas = await fetchAllIdeas(db);
+    } catch (error) {
+        if (!loadError) loadError = error;
+        console.error('fetchAllIdeas', error);
+    }
+
+    let tickets = [];
+    try {
+        tickets = await fetchTicketsWithMessages(db, rawTickets);
+    } catch (error) {
+        if (!loadError) loadError = error;
+        tickets = rawTickets.map((ticket) => ({ ...ticket, messages: [] }));
+    }
+
     renderTickets(document.querySelector('[data-admin-tickets]'), tickets, canManage);
     renderIdeas(document.querySelector('[data-admin-ideas]'), ideas);
 
@@ -123,6 +147,20 @@ async function loadDashboard(db, canManage) {
     document.querySelector('[data-stats-open]').textContent = String(
         tickets.filter((ticket) => ticket.status !== 'closed').length
     );
+
+    if (statusEl && loadError) {
+        const code = loadError?.code || '';
+        statusEl.textContent =
+            code === 'permission-denied'
+                ? 'تعذر قراءة البيانات — انشر قواعد Firestore من المشروع (firestore.rules) في Firebase Console.'
+                : 'تم الدخول لكن تعذر تحميل بعض البيانات. حدّث الصفحة أو راجع Firestore ونطاق raddad.sa.';
+        statusEl.className = 'status-banner status-banner--warn';
+    } else if (statusEl && tickets.length) {
+        statusEl.textContent = `لوحة الأدمن — ${tickets.length} تذكرة`;
+        statusEl.className = 'status-banner status-banner--ok';
+    }
+
+    return { loadError, tickets };
 }
 
 function boot() {
@@ -227,21 +265,7 @@ function boot() {
             },
         });
 
-        loadDashboard(db, true)
-            .then(() => {
-                if (status) {
-                    status.textContent = `لوحة الأدمن — ${user.email}`;
-                    status.className = 'status-banner status-banner--ok';
-                }
-            })
-            .catch((error) => {
-                if (status) {
-                    status.textContent =
-                        'تم الدخول لكن تعذر تحميل البيانات. تأكد من Firestore ونطاق raddad.sa في Firebase.';
-                    status.className = 'status-banner status-banner--warn';
-                }
-                console.error(error);
-            });
+        void loadDashboard(db, true, status);
     }
 
     if (needsFirestoreLongPolling()) {
@@ -321,7 +345,7 @@ function boot() {
 
         try {
             await updateTicketStatus(db, ticketId, target.value);
-            await loadDashboard(db, true);
+            await loadDashboard(db, true, status);
         } catch (error) {
             alert(error.message || 'تعذر تحديث حالة التذكرة.');
         }
@@ -368,7 +392,7 @@ function boot() {
             }).catch(() => {});
             form.reset();
             showFormMessage(form, 'تم إرسال الرد للعميل على نفس التذكرة.', 'success');
-            await loadDashboard(db, true);
+            await loadDashboard(db, true, status);
         } catch (error) {
             showFormMessage(form, error.message || 'تعذر إرسال الرد.', 'error');
         }

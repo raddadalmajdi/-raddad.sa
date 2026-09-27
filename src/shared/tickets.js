@@ -24,24 +24,45 @@ export async function createTicket(db, user, payload) {
         updatedAt: serverTimestamp(),
     });
 
-    await addDoc(collection(db, 'tickets', ticketRef.id, 'messages'), {
-        text: payload.body,
-        authorRole: 'client',
-        authorUid: user.uid,
-        authorEmail: user.email,
-        createdAt: serverTimestamp(),
-    });
+    try {
+        await addDoc(collection(db, 'tickets', ticketRef.id, 'messages'), {
+            text: payload.body,
+            authorRole: 'client',
+            authorUid: user.uid,
+            authorEmail: user.email,
+            createdAt: serverTimestamp(),
+        });
+    } catch (error) {
+        console.warn('createTicket message', error);
+    }
 
     return { id: ticketRef.id, publicId };
 }
 
 export async function fetchTicketMessages(db, ticketId) {
-    const q = query(
-        collection(db, 'tickets', ticketId, 'messages'),
-        orderBy('createdAt', 'asc')
-    );
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    try {
+        let snapshot;
+        try {
+            const q = query(
+                collection(db, 'tickets', ticketId, 'messages'),
+                orderBy('createdAt', 'asc')
+            );
+            snapshot = await getDocs(q);
+        } catch {
+            snapshot = await getDocs(collection(db, 'tickets', ticketId, 'messages'));
+        }
+
+        const messages = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+        messages.sort((a, b) => {
+            const aTime = a.createdAt?.toMillis?.() || 0;
+            const bTime = b.createdAt?.toMillis?.() || 0;
+            return aTime - bTime;
+        });
+        return messages;
+    } catch (error) {
+        console.warn('fetchTicketMessages', ticketId, error);
+        return [];
+    }
 }
 
 export async function addTicketMessage(db, ticketId, user, text, authorRole) {
@@ -96,13 +117,13 @@ export async function fetchAllTickets(db) {
 }
 
 export async function fetchTicketsWithMessages(db, tickets) {
-    const withMessages = await Promise.all(
+    if (!tickets.length) return [];
+    return Promise.all(
         tickets.map(async (ticket) => {
             const messages = await fetchTicketMessages(db, ticket.id);
             return { ...ticket, messages };
         })
     );
-    return withMessages;
 }
 
 export async function updateTicketStatus(db, ticketId, status) {

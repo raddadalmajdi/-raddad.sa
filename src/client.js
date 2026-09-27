@@ -8,7 +8,7 @@ import {
     fetchUserTickets,
 } from './shared/tickets.js';
 import { renderTicketCard } from './shared/ticketUi.js';
-import { showFormMessage } from './shared/ui.js';
+import { firestoreErrorMessage, showFormMessage } from './shared/ui.js';
 
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/raddad@raddad.sa';
 
@@ -187,7 +187,7 @@ async function boot() {
             ticketForm.reset();
             await reloadTickets(user);
         } catch (error) {
-            showFormMessage(ticketForm, error.message || 'تعذر إنشاء التذكرة.', 'error');
+            showFormMessage(ticketForm, firestoreErrorMessage(error) || 'تعذر إنشاء التذكرة.', 'error');
         }
     });
 

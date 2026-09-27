@@ -35,6 +35,16 @@ export function authErrorMessage(error) {
     return map[code] || error.message || 'حدث خطأ غير متوقع.';
 }
 
+export function firestoreErrorMessage(error) {
+    const code = error && error.code ? error.code : '';
+    const map = {
+        'permission-denied':
+            'تعذر حفظ التذكرة (صلاحيات Firestore). حدّث الصفحة وأعد المحاولة، أو تواصل مع الدعم.',
+        'unavailable': 'الخدمة غير متاحة مؤقتًا. أعد المحاولة بعد قليل.',
+    };
+    return map[code] || authErrorMessage(error);
+}
+
 export function formatDate(value) {
     if (!value) return '';
     if (typeof value.toDate === 'function') {

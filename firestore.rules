@@ -11,31 +11,40 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    match /counters/tickets {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null
-        && request.resource.data.keys().hasOnly(['period', 'seq'])
-        && request.resource.data.period.matches('^[0-9]{4}-[0-9]{2}$')
-        && request.resource.data.seq == 1;
-      allow update: if request.auth != null
-        && request.resource.data.period is string
+    function ticketCounterPeriod(p) {
+      return p is string && p.matches('^[0-9]{4}-[0-9]{2}$');
+    }
+
+    function ticketCounterAdvance() {
+      let prevPeriod = resource.data.get('period', '');
+      let prevSeq = resource.data.get('seq', 0);
+      return ticketCounterPeriod(request.resource.data.period)
         && request.resource.data.seq is int
         && request.resource.data.seq >= 1
         && request.resource.data.seq <= 9999
         && (
-          (request.resource.data.period == resource.data.period
-            && request.resource.data.seq == resource.data.seq + 1)
-          || (request.resource.data.period != resource.data.period
-            && request.resource.data.seq == 1
-            && request.resource.data.period.matches('^[0-9]{4}-[0-9]{2}$'))
+          (request.resource.data.period == prevPeriod
+            && request.resource.data.seq == prevSeq + 1)
+          || (request.resource.data.period != prevPeriod
+            && request.resource.data.seq == 1)
         );
+    }
+
+    match /counters/tickets {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['period', 'seq'])
+        && ticketCounterPeriod(request.resource.data.period)
+        && request.resource.data.seq == 1;
+      allow update: if request.auth != null && ticketCounterAdvance();
       allow delete: if false;
     }
 
     match /tickets/{ticketId} {
       allow create: if request.auth != null
         && request.resource.data.uid == request.auth.uid
-        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 3
         && request.resource.data.title is string
         && request.resource.data.body is string
         && request.resource.data.priority in ['low', 'normal', 'high']
@@ -71,7 +80,7 @@ service cloud.firestore {
           && request.resource.data.text.size() <= 5000
           && request.resource.data.authorRole in ['admin', 'client']
           && request.resource.data.authorUid == request.auth.uid
-          && request.resource.data.authorEmail == request.auth.token.email
+          && request.resource.data.authorEmail is string
           && (
             (isAdmin() && request.resource.data.authorRole == 'admin')
             || (ticketDoc().uid == request.auth.uid

@@ -16,6 +16,7 @@ export async function createTicket(db, user, payload) {
     const counterRef = doc(db, 'counters', 'tickets');
     const ticketRef = doc(collection(db, 'tickets'));
     const period = getTicketPeriod();
+    const email = String(user.email || '').trim();
 
     const { publicId } = await runTransaction(db, async (transaction) => {
         const counterSnap = await transaction.get(counterRef);
@@ -27,7 +28,7 @@ export async function createTicket(db, user, payload) {
         transaction.set(counterRef, { period, seq: nextSeq }, { merge: true });
         transaction.set(ticketRef, {
             uid: user.uid,
-            email: user.email,
+            email,
             title: payload.title,
             body: payload.body,
             priority: payload.priority,
@@ -47,7 +48,7 @@ export async function createTicket(db, user, payload) {
             text: payload.body,
             authorRole: 'client',
             authorUid: user.uid,
-            authorEmail: user.email,
+            authorEmail: email,
             createdAt: serverTimestamp(),
         });
     } catch (error) {

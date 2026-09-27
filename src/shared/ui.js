@@ -23,6 +23,11 @@ export function authErrorMessage(error) {
         'auth/user-not-found': 'لا يوجد حساب بهذا البريد.',
         'auth/wrong-password': 'كلمة المرور غير صحيحة.',
         'auth/invalid-credential': 'بيانات الدخول غير صحيحة.',
+        'auth/invalid-login-credentials': 'البريد أو كلمة المرور غير صحيحة.',
+        'auth/too-many-requests': 'محاولات كثيرة. انتظر قليلًا ثم أعد المحاولة.',
+        'auth/network-request-failed': 'تعذر الاتصال. تحقق من الإنترنت أو أعد المحاولة.',
+        'auth/operation-not-allowed': 'تسجيل الدخول بالبريد غير مفعّل في Firebase Console.',
+        'auth/unauthorized-domain': 'النطاق غير مسموح. أضف raddad.sa في Firebase > Authentication > Authorized domains.',
     };
     return map[code] || error.message || 'حدث خطأ غير متوقع.';
 }

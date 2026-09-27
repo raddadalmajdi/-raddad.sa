@@ -100,15 +100,30 @@ function boot() {
 
     const { auth, db } = firebase;
 
+    if (status) {
+        status.textContent = 'جاهز للاتصال — سجّل الدخول بحساب الأدمن (raddad@raddad.sa)';
+        status.className = 'status-banner status-banner--ok';
+    }
+
     loginForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
         const data = new FormData(loginForm);
-        const email = String(data.get('email') || '').trim();
+        const email = String(data.get('email') || '').trim().toLowerCase();
         const password = String(data.get('password') || '');
 
+        if (!isAdminEmail(email)) {
+            showFormMessage(
+                loginForm,
+                'هذا البريد غير مصرّح كأدمن. استخدم raddad@raddad.sa أو أضف بريدك في إعدادات Firebase.',
+                'error'
+            );
+            return;
+        }
+
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            if (!isAdminEmail(email)) {
+            const cred = await signInWithEmailAndPassword(auth, email, password);
+            const signedEmail = cred.user?.email || email;
+            if (!isAdminEmail(signedEmail)) {
                 await signOut(auth);
                 showFormMessage(loginForm, 'هذا الحساب لا يملك صلاحية الأدمن.', 'error');
                 return;
@@ -128,6 +143,10 @@ function boot() {
         if (!isAdmin) {
             loginPanel.hidden = false;
             dashboard.hidden = true;
+            if (status && !user) {
+                status.textContent = 'جاهز للاتصال — سجّل الدخول بحساب الأدمن (raddad@raddad.sa)';
+                status.className = 'status-banner status-banner--ok';
+            }
             return;
         }
 
@@ -138,7 +157,16 @@ function boot() {
             status.className = 'status-banner status-banner--ok';
         }
 
-        await loadDashboard(db, true);
+        try {
+            await loadDashboard(db, true);
+        } catch (error) {
+            if (status) {
+                status.textContent =
+                    'تم الدخول لكن تعذر تحميل البيانات. تأكد من قواعد Firestore والنطاق raddad.sa في Firebase.';
+                status.className = 'status-banner status-banner--warn';
+            }
+            console.error(error);
+        }
     });
 
     document.addEventListener('change', async (event) => {

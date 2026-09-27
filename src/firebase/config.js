@@ -45,7 +45,12 @@ function fromWindowConfig() {
 }
 
 export function readFirebaseConfig() {
-    return fromViteEnv() || fromWindowConfig();
+    // على الموقع الحي: js/firebase-config.js يُحمَّل قبل الحزم — نعتمد عليه أولاً
+    if (typeof window !== 'undefined') {
+        const win = fromWindowConfig();
+        if (win) return win;
+    }
+    return fromViteEnv();
 }
 
 export function isFirebaseConfigured() {

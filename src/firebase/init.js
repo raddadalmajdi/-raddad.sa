@@ -47,9 +47,15 @@ export function initFirebase() {
 }
 
 export function isAdminEmail(email) {
-    const config = readFirebaseConfig();
-    const list = config?.adminEmails || ['raddad@raddad.sa'];
-    return list.includes(String(email || '').toLowerCase());
+    const normalized = String(email || '').trim().toLowerCase();
+    if (!normalized) return false;
+
+    const fromWindow = window.firebaseConfig?.adminEmails;
+    const list = Array.isArray(fromWindow) && fromWindow.length
+        ? fromWindow.map((item) => String(item).trim().toLowerCase()).filter(Boolean)
+        : (readFirebaseConfig()?.adminEmails || ['raddad@raddad.sa']);
+
+    return list.includes(normalized);
 }
 
 export { isFirebaseConfigured };

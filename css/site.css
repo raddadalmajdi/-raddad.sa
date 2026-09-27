@@ -260,6 +260,34 @@ h1 {
 
 .subtitle-note { color: var(--green-800); font-weight: 700; }
 
+.activity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--green-100);
+    color: var(--green-900);
+    font-size: 0.84rem;
+    line-height: 1.5;
+    max-width: 36ch;
+}
+
+.activity-badge strong { font-weight: 700; }
+
+.activity-code {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--green-50);
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 
 .btn {
@@ -577,7 +605,8 @@ a.card:hover {
     }
 
     .hero-copy .badge,
-    .hero-copy .lead {
+    .hero-copy .lead,
+    .hero-copy .activity-badge {
         margin-inline: auto;
     }
 

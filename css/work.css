@@ -39,30 +39,49 @@
 }
 
 .device-stage { display: flex; justify-content: center; margin-bottom: 14px; }
-.iphone-mockup { width: min(100%, 260px); filter: drop-shadow(0 16px 24px rgba(15, 118, 110, 0.15)); }
+.iphone-mockup {
+    width: min(100%, 260px);
+    filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.22));
+}
 .device-bezel {
-    padding: 10px;
-    border-radius: 36px;
-    background: linear-gradient(160deg, #f8fafc, #e2e8f0);
-    border: 1px solid #cbd5e1;
+    position: relative;
+    padding: 11px;
+    border-radius: 40px;
+    background: linear-gradient(155deg, #4a4a4a 0%, #1c1c1e 42%, #0a0a0b 100%);
+    border: 1px solid #2c2c2e;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 .device-screen {
     aspect-ratio: 9 / 19.5;
     min-height: 360px;
-    border-radius: 28px;
+    border-radius: 30px;
     overflow: hidden;
     background: #000;
 }
-.device-screen img, .device-screen iframe { width: 100%; height: 100%; min-height: 360px; border: 0; display: block; }
+.device-screen img {
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    border: 0;
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+}
+/* لقطة شاشة iPhone كاملة (تتضمن الشريط العلوي) */
+.device-bezel--native-shot .device-island {
+    display: none;
+}
 .device-island {
     position: absolute;
-    top: 16px;
+    top: 18px;
     left: 50%;
     transform: translateX(-50%);
-    width: 84px;
-    height: 22px;
-    background: #111;
-    border-radius: 16px;
+    width: 88px;
+    height: 24px;
+    background: #000;
+    border-radius: 18px;
     z-index: 2;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
-.device-bezel { position: relative; }

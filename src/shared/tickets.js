@@ -12,20 +12,41 @@ import {
 } from 'firebase/firestore';
 import { formatTicketPublicId, getTicketPeriod } from './ticketPublicId.js';
 
+async function resolveUserEmail(user) {
+    let email = String(user?.email || '').trim();
+    if (email || !user?.getIdTokenResult) {
+        return email;
+    }
+    try {
+        const token = await user.getIdTokenResult();
+        email = String(token.claims?.email || '').trim();
+    } catch {
+        /* ignore */
+    }
+    return email;
+}
+
 export async function createTicket(db, user, payload) {
-    const counterRef = doc(db, 'counters', 'tickets');
-    const ticketRef = doc(collection(db, 'tickets'));
     const period = getTicketPeriod();
-    const email = String(user.email || '').trim();
+    const email = await resolveUserEmail(user);
+    if (!email) {
+        throw new Error('تعذر قراءة بريد الحساب. سجّل الخروج ثم ادخل مرة أخرى.');
+    }
+
+    const counterRef = doc(db, 'counters', `ticket-${period}`);
+    const ticketRef = doc(collection(db, 'tickets'));
 
     const { publicId } = await runTransaction(db, async (transaction) => {
         const counterSnap = await transaction.get(counterRef);
-        const storedPeriod = counterSnap.exists() ? String(counterSnap.data().period || '') : '';
         const storedSeq = counterSnap.exists() ? Number(counterSnap.data().seq) || 0 : 0;
-        const nextSeq = storedPeriod === period ? storedSeq + 1 : 1;
+        const nextSeq = counterSnap.exists() ? storedSeq + 1 : 1;
         const id = formatTicketPublicId(period, nextSeq);
 
-        transaction.set(counterRef, { period, seq: nextSeq }, { merge: true });
+        if (counterSnap.exists()) {
+            transaction.update(counterRef, { seq: nextSeq });
+        } else {
+            transaction.set(counterRef, { seq: nextSeq });
+        }
         transaction.set(ticketRef, {
             uid: user.uid,
             email,
@@ -35,7 +56,7 @@ export async function createTicket(db, user, payload) {
             status: 'open',
             publicId: id,
             ticketPeriod: period,
-            ticketSeq: nextSeq,
+            ticketSeq: Math.floor(nextSeq),
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
         });

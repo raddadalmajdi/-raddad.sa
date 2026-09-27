@@ -148,73 +148,43 @@ h1, h2, h3, h4 {
 .page { padding-block: clamp(20px, 4vw, 36px); }
 
 .hero-home {
+    max-width: 40rem;
+}
+
+.hero-copy {
     display: grid;
-    gap: 22px;
-    align-items: center;
+    gap: 16px;
 }
 
-@media (min-width: 860px) {
-    /* عمود أوسع للشعار (العمود الثاني في RTL = جهة اليسار) */
-    .hero-home { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.48fr); }
-}
-
-.hero-logo-stage {
-    position: relative;
+.hero-brand {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: clamp(8px, 2vw, 20px);
+    align-items: flex-start;
+    gap: clamp(12px, 3vw, 18px);
 }
 
-.hero-logo-stage picture {
-    display: block;
-    width: clamp(320px, 54vw, 620px);
-    max-width: 100%;
-    margin-inline: auto;
-}
-
-.hero-logo-stage::before {
-    content: "";
-    position: absolute;
-    width: clamp(320px, 54vw, 620px);
-    max-width: 100%;
-    aspect-ratio: 500 / 520;
-    border-radius: 42%;
-    background: radial-gradient(
-        ellipse 70% 65% at 50% 42%,
-        rgba(69, 181, 175, 0.26) 0%,
-        rgba(31, 106, 115, 0.08) 50%,
-        transparent 72%
-    );
-    animation: logoGlow 6s ease-in-out infinite;
-    pointer-events: none;
-}
-
-.hero-logo {
-    position: relative;
-    z-index: 1;
-    display: block;
-    width: clamp(320px, 54vw, 620px);
-    max-width: 100%;
+.hero-mark {
+    width: clamp(56px, 14vw, 80px);
     height: auto;
-    margin-inline: auto;
+    flex-shrink: 0;
     object-fit: contain;
-    object-position: center;
-    filter: drop-shadow(0 22px 44px rgba(13, 37, 42, 0.16));
-    animation: floatLogo 5s ease-in-out infinite;
-    transform: scaleX(1.06);
-    transform-origin: center center;
+    filter: drop-shadow(0 6px 14px rgba(4, 47, 46, 0.12));
 }
 
-@keyframes floatLogo {
-    0%, 100% { transform: scaleX(1.06) translateY(0); }
-    50% { transform: scaleX(1.06) translateY(-8px); }
+.hero-brand__text {
+    flex: 1;
+    min-width: 0;
 }
 
-@keyframes logoGlow {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.88; }
+.hero-brand__text .badge {
+    margin-bottom: 8px;
+}
+
+.hero-brand__text h1 {
+    margin-bottom: 4px;
+}
+
+.hero-brand__text .subtitle {
+    margin-bottom: 0;
 }
 
 .badge {
@@ -549,23 +519,8 @@ a.card:hover {
 
 /* ——— ترتيب الجوال ——— */
 @media (max-width: 859px) {
-    .hero-home {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .hero-home .badge,
-    .hero-home .lead {
-        margin-inline: auto;
-    }
-
-    .hero-home .actions {
-        justify-content: center;
-    }
-
-    .hero-logo-stage {
-        order: -1;
-        padding-top: 0;
+    .hero-brand {
+        align-items: center;
     }
 
     .quick-grid {
@@ -576,7 +531,6 @@ a.card:hover {
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .hero-logo, .hero-logo-stage::before, .badge-dot { animation: none; }
-    .hero-logo { transform: scaleX(1.06); }
+    .badge-dot { animation: none; }
     .btn, .card { transition: none; }
 }

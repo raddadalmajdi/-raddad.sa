@@ -110,7 +110,7 @@ input[type="password"] {
 }
 .field textarea { min-height: 110px; resize: vertical; }
 
-.btn-primary, .btn-secondary, .btn-ghost {
+.btn-primary, .btn-secondary, .btn-ghost, .btn-logout {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -149,6 +149,20 @@ input[type="password"] {
     background: transparent;
     color: var(--text-secondary);
     border: 1px solid var(--card-border);
+}
+.btn-logout {
+    background: #dc2626;
+    color: #fff;
+    border: 1px solid #dc2626;
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.22);
+}
+.btn-logout:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+}
+.btn-logout:focus-visible {
+    outline: 2px solid #fca5a5;
+    outline-offset: 2px;
 }
 
 .form-message {

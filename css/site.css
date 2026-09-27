@@ -303,7 +303,8 @@ h1 {
 
 .activity-badge strong { font-weight: 700; }
 
-.activity-code {
+.activity-code,
+.verify-code {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 6px;
@@ -312,6 +313,9 @@ h1 {
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.04em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    direction: ltr;
+    unicode-bidi: isolate;
 }
 
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }

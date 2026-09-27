@@ -46,7 +46,7 @@
             <div class="tab-panel is-active" id="tab-login" data-tab-panel>
                 <form id="login-form" class="form-grid">
                     <div class="field"><label for="login-email">البريد الإلكتروني</label><input id="login-email" name="email" type="email" autocomplete="username" required></div>
-                    <div class="field"><label for="login-password">كلمة المرور</label><input id="login-password" name="password" type="password" autocomplete="current-password" minlength="6" required></div>
+                    <div class="field"><label for="login-password">كلمة المرور</label><input id="login-password" name="password" type="password" lang="en" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" minlength="6" required></div>
                     <button class="btn-primary" type="submit">تسجيل الدخول</button>
                     <p class="form-message" hidden></p>
                 </form>
@@ -69,7 +69,8 @@
                     <div class="field"><label for="reg-email">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" autocomplete="email" required></div>
                     <div class="field"><label for="reg-phone">رقم الجوال</label><input id="reg-phone" name="phone" autocomplete="tel" required></div>
                     <div class="field"><label for="reg-company">الشركة (اختياري)</label><input id="reg-company" name="company" autocomplete="organization"></div>
-                    <div class="field"><label for="reg-password">كلمة المرور</label><input id="reg-password" name="password" type="password" autocomplete="new-password" minlength="6" required></div>
+                    <div class="field"><label for="reg-password">كلمة المرور</label><input id="reg-password" name="password" type="password" lang="en" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" minlength="6" required></div>
+                    <p class="muted" style="font-size:0.82rem;">يمكن استخدام حروف إنجليزية كبيرة وصغيرة وأرقام ورموز.</p>
                     <button class="btn-primary" type="submit">إنشاء حساب</button>
                     <p class="form-message" hidden></p>
                 </form>

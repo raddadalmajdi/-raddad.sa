@@ -1,14 +1,14 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
 import { watchIdleSession } from './shared/sessionIdle.js';
-import { createTicket, fetchUserTickets } from './shared/tickets.js';
 import {
-    escapeHtml,
-    formatDate,
-    priorityLabel,
-    showFormMessage,
-    statusLabel,
-} from './shared/ui.js';
+    addTicketMessage,
+    createTicket,
+    fetchTicketsWithMessages,
+    fetchUserTickets,
+} from './shared/tickets.js';
+import { renderTicketCard } from './shared/ticketUi.js';
+import { showFormMessage } from './shared/ui.js';
 
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/raddad@raddad.sa';
 
@@ -20,28 +20,21 @@ async function notifyInbox(payload) {
     });
 }
 
-function renderTickets(container, tickets) {
+async function renderTickets(container, db, tickets) {
     if (!container) return;
     if (!tickets.length) {
         container.innerHTML = '<p class="muted">لا توجد تذاكر بعد.</p>';
         return;
     }
 
-    container.innerHTML = tickets
-        .map(
-            (ticket) => `
-        <article class="ticket-card">
-            <div class="ticket-card__head">
-                <strong>${escapeHtml(ticket.title)}</strong>
-                <span class="ticket-pill ticket-pill--${escapeHtml(ticket.priority)}">${priorityLabel(ticket.priority)}</span>
-            </div>
-            <p>${escapeHtml(ticket.body)}</p>
-            <footer>
-                <span>#${escapeHtml(ticket.publicId || ticket.id)}</span>
-                <span>${statusLabel(ticket.status)}</span>
-                <time>${escapeHtml(formatDate(ticket.createdAt))}</time>
-            </footer>
-        </article>`
+    const withMessages = await fetchTicketsWithMessages(db, tickets);
+    container.innerHTML = withMessages
+        .map((ticket) =>
+            renderTicketCard(ticket, {
+                canManage: false,
+                canReply: true,
+                messages: ticket.messages || [],
+            })
         )
         .join('');
 }
@@ -56,7 +49,7 @@ function showClientDashboard(ui, user) {
     }
     if (ui.status) {
         ui.status.textContent =
-            'حساب عميل — يمكنك فتح تذكرة ومتابعتها هنا. تُنهى الجلسة تلقائيًا بعد 10 دقائق بدون نشاط.';
+            'حساب عميل — تابع تذاكرك ورد على المحادثة بنفس رقم التذكرة. تُنهى الجلسة بعد 10 دقائق بدون نشاط.';
         ui.status.className = 'status-banner status-banner--ok';
     }
 }
@@ -103,11 +96,17 @@ async function boot() {
     const { auth, db } = firebase;
     let stopIdleWatch = null;
 
+    async function reloadTickets(user) {
+        const tickets = await fetchUserTickets(db, user.uid);
+        await renderTickets(ticketsList, db, tickets);
+    }
+
     onAuthStateChanged(auth, async (user) => {
         if (stopIdleWatch) {
             stopIdleWatch();
             stopIdleWatch = null;
         }
+
         if (!user) {
             showLoginRequired(ui);
             window.location.replace('/login.html?next=client');
@@ -135,8 +134,7 @@ async function boot() {
         });
 
         try {
-            const tickets = await fetchUserTickets(db, user.uid);
-            renderTickets(ticketsList, tickets);
+            await reloadTickets(user);
         } catch (error) {
             if (status) {
                 status.textContent = 'تعذر تحميل التذاكر. أعد تحميل الصفحة.';
@@ -183,10 +181,46 @@ async function boot() {
 
             showFormMessage(ticketForm, `تم فتح التذكرة ${ticket.publicId} بنجاح.`, 'success');
             ticketForm.reset();
-            const tickets = await fetchUserTickets(db, user.uid);
-            renderTickets(ticketsList, tickets);
+            await reloadTickets(user);
         } catch (error) {
             showFormMessage(ticketForm, error.message || 'تعذر إنشاء التذكرة.', 'error');
+        }
+    });
+
+    document.addEventListener('submit', async (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement) || !form.matches('[data-ticket-reply]')) {
+            return;
+        }
+        event.preventDefault();
+
+        const user = auth.currentUser;
+        if (!user || isAdminEmail(user.email)) return;
+
+        const ticketId = form.getAttribute('data-ticket-id');
+        const text = String(new FormData(form).get('reply') || '').trim();
+        if (!ticketId || !text) {
+            showFormMessage(form, 'اكتب نص الرد.', 'error');
+            return;
+        }
+
+        try {
+            await addTicketMessage(db, ticketId, user, text, 'client');
+            const publicId =
+                form.closest('[data-ticket-card]')?.querySelector('.ticket-id')?.textContent?.replace('#', '') ||
+                ticketId;
+            await notifyInbox({
+                _subject: `رد عميل على التذكرة ${publicId}`,
+                type: 'ticket_reply_client',
+                ticket_id: publicId,
+                email: user.email,
+                message: text,
+            });
+            form.reset();
+            showFormMessage(form, 'تم إرسال ردك. سيتابعك الفريق على نفس التذكرة.', 'success');
+            await reloadTickets(user);
+        } catch (error) {
+            showFormMessage(form, error.message || 'تعذر إرسال الرد.', 'error');
         }
     });
 

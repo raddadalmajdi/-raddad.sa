@@ -28,6 +28,28 @@ service cloud.firestore {
           && resource.data.uid == request.auth.uid
           && request.resource.data.uid == resource.data.uid
           && request.resource.data.email == resource.data.email);
+
+      match /messages/{messageId} {
+        function ticketDoc() {
+          return get(/databases/$(database)/documents/tickets/$(ticketId)).data;
+        }
+
+        allow read: if request.auth != null
+          && (isAdmin() || ticketDoc().uid == request.auth.uid);
+
+        allow create: if request.auth != null
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 5000
+          && request.resource.data.authorRole in ['admin', 'client']
+          && request.resource.data.authorUid == request.auth.uid
+          && request.resource.data.authorEmail == request.auth.token.email
+          && (
+            (isAdmin() && request.resource.data.authorRole == 'admin')
+            || (ticketDoc().uid == request.auth.uid
+              && request.resource.data.authorRole == 'client')
+          );
+      }
     }
 
     match /ideas/{ideaId} {

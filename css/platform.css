@@ -94,6 +94,11 @@ h2 { font-size: 1.1rem; margin-bottom: 10px; color: #042f2e; }
 
 .form-grid { display: grid; gap: 12px; }
 .field label { display: block; font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 6px; }
+input[type="password"] {
+    text-transform: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
 .field input, .field select, .field textarea {
     width: 100%;
     border-radius: 10px;
@@ -202,6 +207,81 @@ h2 { font-size: 1.1rem; margin-bottom: 10px; color: #042f2e; }
 .ticket-pill--high { color: #b91c1c; }
 .ticket-pill--normal { color: #0f766e; }
 .ticket-pill--low { color: #3d6f66; }
+
+.ticket-card__meta {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+    color: #3d6f66;
+    font-size: 0.78rem;
+}
+.ticket-id { font-weight: 700; color: #0f766e; }
+
+.ticket-thread {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--card-border);
+}
+.ticket-thread__title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #134e4a;
+}
+.ticket-thread__empty,
+.ticket-thread__closed {
+    font-size: 0.85rem;
+}
+.ticket-msg {
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.ticket-msg--client {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+}
+.ticket-msg--admin {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+}
+.ticket-msg__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+    color: #3d6f66;
+}
+.ticket-reply-form {
+    margin-top: 10px;
+    display: grid;
+    gap: 8px;
+}
+.ticket-reply-form textarea {
+    width: 100%;
+    min-height: 72px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font: inherit;
+    resize: vertical;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
 .stats {
     display: grid;

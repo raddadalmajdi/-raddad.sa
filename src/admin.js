@@ -2,7 +2,13 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebas
 import { initFirebase, isAdminEmail, needsFirestoreLongPolling, prepareAuthPersistence } from './firebase/init.js';
 import { watchIdleSession } from './shared/sessionIdle.js';
 import { fetchAllIdeas } from './shared/ideas.js';
-import { fetchAllTickets, updateTicketStatus } from './shared/tickets.js';
+import {
+    addTicketMessage,
+    fetchAllTickets,
+    fetchTicketsWithMessages,
+    updateTicketStatus,
+} from './shared/tickets.js';
+import { renderTicketCard } from './shared/ticketUi.js';
 import {
     authErrorMessage,
     escapeHtml,
@@ -13,6 +19,7 @@ import {
 } from './shared/ui.js';
 
 const AUTH_TIMEOUT_MS = 25000;
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/raddad@raddad.sa';
 
 function withTimeout(promise, ms, message) {
     return Promise.race([
@@ -63,36 +70,20 @@ function notifyUser(form, statusEl, message, type) {
 }
 
 function renderTickets(container, tickets, canManage) {
+    if (!container) return;
     if (!tickets.length) {
         container.innerHTML = '<p class="muted">لا توجد تذاكر.</p>';
         return;
     }
 
     container.innerHTML = tickets
-        .map((ticket) => {
-            const statusControl = canManage
-                ? `<select data-ticket-status data-id="${escapeHtml(ticket.id)}" aria-label="حالة التذكرة">
-                    <option value="open" ${ticket.status === 'open' ? 'selected' : ''}>مفتوحة</option>
-                    <option value="in_progress" ${ticket.status === 'in_progress' ? 'selected' : ''}>قيد التنفيذ</option>
-                    <option value="closed" ${ticket.status === 'closed' ? 'selected' : ''}>مغلقة</option>
-                   </select>`
-                : `<span>${statusLabel(ticket.status)}</span>`;
-
-            return `
-            <article class="ticket-card">
-                <div class="ticket-card__head">
-                    <strong>${escapeHtml(ticket.title)}</strong>
-                    <span class="ticket-pill ticket-pill--${escapeHtml(ticket.priority)}">${priorityLabel(ticket.priority)}</span>
-                </div>
-                <p class="muted">${escapeHtml(ticket.email || '')}</p>
-                <p>${escapeHtml(ticket.body)}</p>
-                <footer>
-                    <span>#${escapeHtml(ticket.publicId || ticket.id)}</span>
-                    ${statusControl}
-                    <time>${escapeHtml(formatDate(ticket.createdAt))}</time>
-                </footer>
-            </article>`;
-        })
+        .map((ticket) =>
+            renderTicketCard(ticket, {
+                canManage,
+                canReply: canManage,
+                messages: ticket.messages || [],
+            })
+        )
         .join('');
 }
 
@@ -122,7 +113,8 @@ function renderIdeas(container, ideas) {
 }
 
 async function loadDashboard(db, canManage) {
-    const [tickets, ideas] = await Promise.all([fetchAllTickets(db), fetchAllIdeas(db)]);
+    const [rawTickets, ideas] = await Promise.all([fetchAllTickets(db), fetchAllIdeas(db)]);
+    const tickets = await fetchTicketsWithMessages(db, rawTickets);
     renderTickets(document.querySelector('[data-admin-tickets]'), tickets, canManage);
     renderIdeas(document.querySelector('[data-admin-ideas]'), ideas);
 
@@ -332,6 +324,53 @@ function boot() {
             await loadDashboard(db, true);
         } catch (error) {
             alert(error.message || 'تعذر تحديث حالة التذكرة.');
+        }
+    });
+
+    document.addEventListener('submit', async (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement) || !form.matches('[data-ticket-reply]')) {
+            return;
+        }
+        event.preventDefault();
+
+        const user = auth.currentUser;
+        if (!user || !isAdminEmail(user.email)) return;
+
+        const ticketId = form.getAttribute('data-ticket-id');
+        const text = String(new FormData(form).get('reply') || '').trim();
+        if (!ticketId || !text) {
+            showFormMessage(form, 'اكتب نص الرد.', 'error');
+            return;
+        }
+
+        try {
+            await addTicketMessage(db, ticketId, user, text, 'admin');
+            const ticketCard = form.closest('[data-ticket-card]');
+            const publicId =
+                ticketCard?.querySelector('.ticket-id')?.textContent?.replace('#', '') || ticketId;
+            const statusSelect = form.closest('[data-ticket-card]')?.querySelector('[data-ticket-status]');
+            if (statusSelect && statusSelect.value !== 'closed') {
+                await updateTicketStatus(db, ticketId, 'in_progress');
+            }
+            await fetch(FORM_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({
+                    _captcha: 'false',
+                    _template: 'table',
+                    _subject: `رد على التذكرة ${publicId}`,
+                    type: 'ticket_reply',
+                    ticket_id: publicId,
+                    to_client: 'yes',
+                    message: text,
+                }),
+            }).catch(() => {});
+            form.reset();
+            showFormMessage(form, 'تم إرسال الرد للعميل على نفس التذكرة.', 'success');
+            await loadDashboard(db, true);
+        } catch (error) {
+            showFormMessage(form, error.message || 'تعذر إرسال الرد.', 'error');
         }
     });
 

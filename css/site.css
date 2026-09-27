@@ -148,43 +148,54 @@ h1, h2, h3, h4 {
 .page { padding-block: clamp(20px, 4vw, 36px); }
 
 .hero-home {
-    max-width: 40rem;
+    display: grid;
+    gap: clamp(20px, 4vw, 32px);
+    align-items: center;
+    width: 100%;
+}
+
+@media (min-width: 860px) {
+    .hero-home {
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+        gap: clamp(24px, 4vw, 48px);
+    }
 }
 
 .hero-copy {
     display: grid;
-    gap: 16px;
-}
-
-.hero-brand {
-    display: flex;
-    align-items: flex-start;
-    gap: clamp(12px, 3vw, 18px);
-}
-
-.hero-mark {
-    width: clamp(56px, 14vw, 80px);
-    height: auto;
-    flex-shrink: 0;
-    object-fit: contain;
-    filter: drop-shadow(0 6px 14px rgba(4, 47, 46, 0.12));
-}
-
-.hero-brand__text {
-    flex: 1;
+    gap: 12px;
     min-width: 0;
 }
 
-.hero-brand__text .badge {
-    margin-bottom: 8px;
+.hero-logo-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    background: transparent;
 }
 
-.hero-brand__text h1 {
-    margin-bottom: 4px;
+.hero-logo-stage picture {
+    display: block;
+    line-height: 0;
 }
 
-.hero-brand__text .subtitle {
-    margin-bottom: 0;
+.hero-logo {
+    display: block;
+    width: clamp(168px, 26vw, 300px);
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+    object-fit: contain;
+    background: transparent;
+    filter: drop-shadow(0 12px 28px rgba(4, 47, 46, 0.1));
+    animation: heroLogoFloat 5s ease-in-out infinite;
+}
+
+@keyframes heroLogoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
 .badge {
@@ -519,8 +530,26 @@ a.card:hover {
 
 /* ——— ترتيب الجوال ——— */
 @media (max-width: 859px) {
-    .hero-brand {
-        align-items: center;
+    .hero-home {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-logo-stage {
+        order: -1;
+    }
+
+    .hero-logo {
+        width: clamp(140px, 38vw, 220px);
+    }
+
+    .hero-copy .badge,
+    .hero-copy .lead {
+        margin-inline: auto;
+    }
+
+    .hero-copy .actions {
+        justify-content: center;
     }
 
     .quick-grid {
@@ -531,6 +560,6 @@ a.card:hover {
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .badge-dot { animation: none; }
+    .badge-dot, .hero-logo { animation: none; }
     .btn, .card { transition: none; }
 }

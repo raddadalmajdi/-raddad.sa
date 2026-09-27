@@ -33,10 +33,9 @@
     <div class="wrap">
         <div class="topbar">
             <h1>لوحة تحكم الأدمن</h1>
-            <button class="btn-ghost" type="button" data-logout hidden>تسجيل الخروج</button>
         </div>
 
-        <p class="status-banner status-banner--warn" data-config-status></p>
+        <p class="status-banner status-banner--ok" data-config-status>جاري تهيئة الاتصال…</p>
 
         <section class="card" data-admin-login>
             <h2>تسجيل دخول الأدمن</h2>
@@ -50,6 +49,10 @@
         </section>
 
         <section data-admin-dashboard hidden>
+            <div class="topbar" style="margin-bottom: 12px;">
+                <p class="muted" data-admin-welcome></p>
+                <button class="btn-ghost" type="button" data-logout>تسجيل الخروج</button>
+            </div>
             <div class="stats">
                 <div class="stat"><strong data-stats-tickets>0</strong><span class="muted">إجمالي التذاكر</span></div>
                 <div class="stat"><strong data-stats-open>0</strong><span class="muted">تذاكر مفتوحة</span></div>

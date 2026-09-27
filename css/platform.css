@@ -13,6 +13,10 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+[hidden] {
+    display: none !important;
+}
+
 body.platform-body {
     font-family: 'Readex Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-color);
@@ -135,10 +139,35 @@ h2 { font-size: 1.1rem; margin-bottom: 10px; color: #042f2e; }
     padding: 10px 12px;
     border-radius: 10px;
     font-size: 0.86rem;
+    display: block;
+}
+.form-message[hidden] {
+    display: none !important;
 }
 .form-message.success { background: #ecfdf5; color: #065f46; }
 .form-message.error { background: #fef2f2; color: #991b1b; }
 .form-message.info { background: #f0fdfa; color: #115e59; }
+
+.btn.is-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn.is-loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
 .ticket-card {
     border: 1px solid var(--card-border);

@@ -11,6 +11,41 @@ import {
     statusLabel,
 } from './shared/ui.js';
 
+const AUTH_TIMEOUT_MS = 25000;
+
+function withTimeout(promise, ms, message) {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => {
+            setTimeout(() => reject(new Error(message)), ms);
+        }),
+    ]);
+}
+
+function setSubmitLoading(form, loading) {
+    const btn = form?.querySelector('button[type="submit"]');
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.classList.toggle('is-loading', loading);
+    btn.setAttribute('aria-busy', loading ? 'true' : 'false');
+}
+
+function notifyUser(form, statusEl, message, type) {
+    showFormMessage(form, message, type);
+    const box = form?.querySelector('.form-message');
+    if (box) {
+        box.setAttribute('role', 'alert');
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    if (statusEl) {
+        statusEl.textContent = message;
+        statusEl.className =
+            type === 'error'
+                ? 'status-banner status-banner--warn'
+                : 'status-banner status-banner--ok';
+    }
+}
+
 function renderTickets(container, tickets, canManage) {
     if (!tickets.length) {
         container.innerHTML = '<p class="muted">لا توجد تذاكر.</p>';
@@ -89,6 +124,7 @@ function boot() {
     const status = document.querySelector('[data-config-status]');
     const loginForm = document.getElementById('admin-login-form');
     const logoutBtn = document.querySelector('[data-logout]');
+    const welcome = document.querySelector('[data-admin-welcome]');
 
     if (!firebase) {
         if (status) {
@@ -101,7 +137,7 @@ function boot() {
     const { auth, db } = firebase;
 
     if (status) {
-        status.textContent = 'جاهز للاتصال — سجّل الدخول بحساب الأدمن (raddad@raddad.sa)';
+        status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
         status.className = 'status-banner status-banner--ok';
     }
 
@@ -111,62 +147,97 @@ function boot() {
         const email = String(data.get('email') || '').trim().toLowerCase();
         const password = String(data.get('password') || '');
 
+        if (!password) {
+            notifyUser(loginForm, status, 'أدخل كلمة المرور.', 'error');
+            return;
+        }
+
         if (!isAdminEmail(email)) {
-            showFormMessage(
+            notifyUser(
                 loginForm,
-                'هذا البريد غير مصرّح كأدمن. استخدم raddad@raddad.sa أو أضف بريدك في إعدادات Firebase.',
+                status,
+                'هذا البريد غير مصرّح كأدمن. استخدم raddad@raddad.sa.',
                 'error'
             );
             return;
         }
 
+        setSubmitLoading(loginForm, true);
+        if (status) {
+            status.textContent = 'جاري التحقق من الحساب…';
+            status.className = 'status-banner status-banner--ok';
+        }
+
         try {
-            const cred = await signInWithEmailAndPassword(auth, email, password);
+            const cred = await withTimeout(
+                signInWithEmailAndPassword(auth, email, password),
+                AUTH_TIMEOUT_MS,
+                'انتهت مهلة الاتصال. تحقق من الإنترنت أو أعد المحاولة.'
+            );
             const signedEmail = cred.user?.email || email;
             if (!isAdminEmail(signedEmail)) {
                 await signOut(auth);
-                showFormMessage(loginForm, 'هذا الحساب لا يملك صلاحية الأدمن.', 'error');
+                notifyUser(loginForm, status, 'هذا الحساب لا يملك صلاحية الأدمن.', 'error');
                 return;
             }
-            showFormMessage(loginForm, 'تم تسجيل الدخول.', 'success');
+            notifyUser(loginForm, status, 'تم الدخول بنجاح — جاري فتح اللوحة…', 'success');
         } catch (error) {
-            showFormMessage(loginForm, authErrorMessage(error), 'error');
+            const message =
+                error && error.message && !error.code
+                    ? error.message
+                    : authErrorMessage(error);
+            notifyUser(loginForm, status, message, 'error');
+        } finally {
+            setSubmitLoading(loginForm, false);
         }
     });
 
-    onAuthStateChanged(auth, async (user) => {
-        const isAdmin = user && isAdminEmail(user.email);
-        if (logoutBtn) {
-            logoutBtn.hidden = !isAdmin;
-        }
+    onAuthStateChanged(auth, (user) => {
+        const isAdmin = Boolean(user && isAdminEmail(user.email));
 
         if (!isAdmin) {
             loginPanel.hidden = false;
             dashboard.hidden = true;
             if (status && !user) {
-                status.textContent = 'جاهز للاتصال — سجّل الدخول بحساب الأدمن (raddad@raddad.sa)';
+                status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
                 status.className = 'status-banner status-banner--ok';
+            }
+            if (user && !isAdminEmail(user.email)) {
+                notifyUser(
+                    loginForm,
+                    status,
+                    'أنت مسجّل بحساب عميل. سجّل الخروج من لوحة العميل أو استخدم raddad@raddad.sa هنا.',
+                    'error'
+                );
             }
             return;
         }
 
         loginPanel.hidden = true;
         dashboard.hidden = false;
+        if (welcome) {
+            welcome.textContent = `مرحبًا، ${user.email}`;
+        }
         if (status) {
-            status.textContent = `لوحة الأدمن — ${user.email}`;
+            status.textContent = 'تم الدخول — جاري تحميل البيانات…';
             status.className = 'status-banner status-banner--ok';
         }
 
-        try {
-            await loadDashboard(db, true);
-        } catch (error) {
-            if (status) {
-                status.textContent =
-                    'تم الدخول لكن تعذر تحميل البيانات. تأكد من قواعد Firestore والنطاق raddad.sa في Firebase.';
-                status.className = 'status-banner status-banner--warn';
-            }
-            console.error(error);
-        }
+        loadDashboard(db, true)
+            .then(() => {
+                if (status) {
+                    status.textContent = `لوحة الأدمن — ${user.email}`;
+                    status.className = 'status-banner status-banner--ok';
+                }
+            })
+            .catch((error) => {
+                if (status) {
+                    status.textContent =
+                        'تم الدخول لكن تعذر تحميل البيانات. تأكد من Firestore ونطاق raddad.sa في Firebase.';
+                    status.className = 'status-banner status-banner--warn';
+                }
+                console.error(error);
+            });
     });
 
     document.addEventListener('change', async (event) => {

@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { initFirebase, prepareAuthPersistence } from './firebase/init.js';
+import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
 import { createTicket, fetchUserTickets } from './shared/tickets.js';
 import {
     escapeHtml,
@@ -20,6 +20,7 @@ async function notifyInbox(payload) {
 }
 
 function renderTickets(container, tickets) {
+    if (!container) return;
     if (!tickets.length) {
         container.innerHTML = '<p class="muted">لا توجد تذاكر بعد.</p>';
         return;
@@ -44,6 +45,33 @@ function renderTickets(container, tickets) {
         .join('');
 }
 
+function showClientDashboard(ui, user) {
+    ui.dashboard.hidden = false;
+    ui.loginPrompt.hidden = true;
+    ui.logoutBtn.hidden = false;
+    if (ui.welcome) {
+        ui.welcome.hidden = false;
+        ui.welcome.textContent = `مرحبًا ${user.displayName || 'عميل'} — ${user.email}`;
+    }
+    if (ui.status) {
+        ui.status.textContent = 'حساب عميل — يمكنك فتح تذكرة ومتابعتها هنا.';
+        ui.status.className = 'status-banner status-banner--ok';
+    }
+}
+
+function showLoginRequired(ui) {
+    ui.dashboard.hidden = true;
+    ui.loginPrompt.hidden = false;
+    ui.logoutBtn.hidden = true;
+    if (ui.welcome) {
+        ui.welcome.hidden = true;
+    }
+    if (ui.status) {
+        ui.status.textContent = 'يجب تسجيل الدخول أو إنشاء حساب عميل للمتابعة.';
+        ui.status.className = 'status-banner status-banner--warn';
+    }
+}
+
 async function boot() {
     const firebase = initFirebase();
     const status = document.querySelector('[data-config-status]');
@@ -51,6 +79,10 @@ async function boot() {
     const ticketForm = document.getElementById('ticket-form');
     const welcome = document.querySelector('[data-user-welcome]');
     const logoutBtn = document.querySelector('[data-logout]');
+    const dashboard = document.querySelector('[data-client-dashboard]');
+    const loginPrompt = document.querySelector('[data-client-login-prompt]');
+
+    const ui = { status, welcome, logoutBtn, dashboard, loginPrompt };
 
     if (!firebase) {
         if (status) {
@@ -70,27 +102,49 @@ async function boot() {
 
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
-            window.location.href = '/login.html?next=client';
+            showLoginRequired(ui);
+            window.location.replace('/login.html?next=client');
             return;
         }
 
-        if (welcome) {
-            welcome.textContent = `مرحبًا ${user.displayName || 'عميل'} — ${user.email}`;
+        if (isAdminEmail(user.email)) {
+            if (status) {
+                status.textContent =
+                    'أنت مسجّل كأدمن — لوحة العميل للعملاء فقط. جارٍ تحويلك إلى لوحة الأدمن…';
+                status.className = 'status-banner status-banner--warn';
+            }
+            ui.dashboard.hidden = true;
+            ui.loginPrompt.hidden = true;
+            window.location.replace('/admin.html');
+            return;
         }
 
-        if (status) {
-            status.textContent = 'متصل بـ Firebase.';
-            status.className = 'status-banner status-banner--ok';
-        }
+        showClientDashboard(ui, user);
 
-        const tickets = await fetchUserTickets(db, user.uid);
-        renderTickets(ticketsList, tickets);
+        try {
+            const tickets = await fetchUserTickets(db, user.uid);
+            renderTickets(ticketsList, tickets);
+        } catch (error) {
+            if (status) {
+                status.textContent = 'تعذر تحميل التذاكر. أعد تحميل الصفحة.';
+                status.className = 'status-banner status-banner--warn';
+            }
+            console.error(error);
+        }
     });
 
     ticketForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
         const user = auth.currentUser;
-        if (!user) return;
+        if (!user) {
+            showFormMessage(ticketForm, 'سجّل الدخول أولًا.', 'error');
+            window.location.href = '/login.html?next=client';
+            return;
+        }
+        if (isAdminEmail(user.email)) {
+            showFormMessage(ticketForm, 'حساب الأدمن لا يفتح تذاكر عميل. استخدم لوحة الأدمن.', 'error');
+            return;
+        }
 
         const data = new FormData(ticketForm);
         const title = String(data.get('title') || '').trim();
@@ -125,7 +179,7 @@ async function boot() {
 
     logoutBtn?.addEventListener('click', async () => {
         await signOut(auth);
-        window.location.href = '/login.html';
+        window.location.replace('/login.html?next=client');
     });
 }
 

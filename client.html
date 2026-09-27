@@ -33,13 +33,21 @@
     <div class="wrap">
         <div class="topbar">
             <h1>لوحة العميل</h1>
-            <button class="btn-ghost" type="button" data-logout>تسجيل الخروج</button>
+            <button class="btn-ghost" type="button" data-logout hidden>تسجيل الخروج</button>
         </div>
 
-        <p class="status-banner status-banner--warn" data-config-status></p>
-        <p class="muted" data-user-welcome style="margin-bottom:14px;"></p>
+        <p class="status-banner status-banner--ok" data-config-status>جاري التحقق من الحساب…</p>
+        <p class="muted" data-user-welcome style="margin-bottom:14px;" hidden></p>
 
-        <div class="grid-2">
+        <section class="card" data-client-login-prompt hidden>
+            <h2>تسجيل الدخول مطلوب</h2>
+            <p class="muted">لوحة العميل مخصّصة لحسابات العملاء فقط. سجّل الدخول أو أنشئ حسابًا جديدًا.</p>
+            <p style="margin-top:12px;">
+                <a class="btn-primary" href="/login.html?next=client" style="display:inline-block;text-align:center;">تسجيل الدخول / إنشاء حساب</a>
+            </p>
+        </section>
+
+        <div class="grid-2" data-client-dashboard hidden>
             <section class="card">
                 <h2>فتح تذكرة جديدة</h2>
                 <form id="ticket-form" class="form-grid">

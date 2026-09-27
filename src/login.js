@@ -1,5 +1,6 @@
 import {
     createUserWithEmailAndPassword,
+    onAuthStateChanged,
     signInWithEmailAndPassword,
     updateProfile,
 } from 'firebase/auth';
@@ -24,13 +25,12 @@ function setupTabs(root) {
 }
 
 function redirectAfterLogin(email) {
-    const params = new URLSearchParams(window.location.search);
-    const next = params.get('next');
-    if (next === 'admin' && isAdminEmail(email)) {
-        window.location.href = '/admin.html';
+    const normalized = String(email || '').trim().toLowerCase();
+    if (isAdminEmail(normalized)) {
+        window.location.replace('/admin.html');
         return;
     }
-    window.location.href = '/client.html';
+    window.location.replace('/client.html');
 }
 
 async function boot() {
@@ -74,6 +74,15 @@ async function boot() {
             return;
         }
 
+        if (isAdminEmail(email)) {
+            showFormMessage(
+                registerForm,
+                'بريد الأدمن مخصّص للوحة الإدارة. استخدم بريد عميل آخر للتسجيل.',
+                'error'
+            );
+            return;
+        }
+
         try {
             const cred = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(cred.user, { displayName: name });
@@ -109,6 +118,11 @@ async function boot() {
         } catch (error) {
             showFormMessage(loginForm, authErrorMessage(error), 'error');
         }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+        if (!user) return;
+        redirectAfterLogin(user.email);
     });
 
     document.querySelectorAll('[data-tabs]').forEach(setupTabs);

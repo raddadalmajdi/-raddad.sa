@@ -25,6 +25,7 @@ export function initFirebase() {
         ? getFirestore(app)
         : initializeFirestore(app, {
               experimentalAutoDetectLongPolling: true,
+              experimentalForceLongPolling: true,
           });
 
     const auth = getAuth(app);

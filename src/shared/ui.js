@@ -28,6 +28,8 @@ export function authErrorMessage(error) {
         'auth/network-request-failed': 'تعذر الاتصال. تحقق من الإنترنت أو أعد المحاولة.',
         'auth/operation-not-allowed': 'تسجيل الدخول بالبريد غير مفعّل في Firebase Console.',
         'auth/unauthorized-domain': 'النطاق غير مسموح. أضف raddad.sa في Firebase > Authentication > Authorized domains.',
+        'auth/webkit-persistence-error':
+            'Safari لم يحفظ الجلسة. عطّل التصفح الخاص أو اسمح بالتخزين للموقع ثم أعد المحاولة.',
     };
     return map[code] || error.message || 'حدث خطأ غير متوقع.';
 }

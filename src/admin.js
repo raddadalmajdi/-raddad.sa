@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { initFirebase, isAdminEmail } from './firebase/init.js';
+import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
 import { fetchAllIdeas } from './shared/ideas.js';
 import { fetchAllTickets, updateTicketStatus } from './shared/tickets.js';
 import {
@@ -35,7 +35,7 @@ function notifyUser(form, statusEl, message, type) {
     const box = form?.querySelector('.form-message');
     if (box) {
         box.setAttribute('role', 'alert');
-        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        box.scrollIntoView({ block: 'nearest' });
     }
     if (statusEl) {
         statusEl.textContent = message;
@@ -117,7 +117,7 @@ async function loadDashboard(db, canManage) {
     );
 }
 
-function boot() {
+async function boot() {
     const firebase = initFirebase();
     const loginPanel = document.querySelector('[data-admin-login]');
     const dashboard = document.querySelector('[data-admin-dashboard]');
@@ -135,6 +135,12 @@ function boot() {
     }
 
     const { auth, db } = firebase;
+
+    try {
+        await prepareAuthPersistence(auth);
+    } catch (error) {
+        console.warn('Auth persistence', error);
+    }
 
     if (status) {
         status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
@@ -263,4 +269,11 @@ function boot() {
     });
 }
 
-boot();
+boot().catch((error) => {
+    console.error(error);
+    const status = document.querySelector('[data-config-status]');
+    if (status) {
+        status.textContent = 'تعذر تهيئة لوحة الأدمن. جرّب Chrome أو حدّث Safari.';
+        status.className = 'status-banner status-banner--warn';
+    }
+});

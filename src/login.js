@@ -4,7 +4,7 @@ import {
     updateProfile,
 } from 'firebase/auth';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { initFirebase, isAdminEmail } from './firebase/init.js';
+import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
 import { authErrorMessage, showFormMessage } from './shared/ui.js';
 
 function setupTabs(root) {
@@ -33,7 +33,7 @@ function redirectAfterLogin(email) {
     window.location.href = '/client.html';
 }
 
-function boot() {
+async function boot() {
     const firebase = initFirebase();
     const status = document.querySelector('[data-config-status]');
 
@@ -43,6 +43,12 @@ function boot() {
             status.className = 'status-banner status-banner--warn';
         }
         return;
+    }
+
+    try {
+        await prepareAuthPersistence(firebase.auth);
+    } catch (error) {
+        console.warn('Auth persistence', error);
     }
 
     if (status) {
@@ -108,4 +114,4 @@ function boot() {
     document.querySelectorAll('[data-tabs]').forEach(setupTabs);
 }
 
-boot();
+boot().catch(console.error);

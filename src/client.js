@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { initFirebase } from './firebase/init.js';
+import { initFirebase, prepareAuthPersistence } from './firebase/init.js';
 import { createTicket, fetchUserTickets } from './shared/tickets.js';
 import {
     escapeHtml,
@@ -44,7 +44,7 @@ function renderTickets(container, tickets) {
         .join('');
 }
 
-function boot() {
+async function boot() {
     const firebase = initFirebase();
     const status = document.querySelector('[data-config-status]');
     const ticketsList = document.querySelector('[data-tickets-list]');
@@ -58,6 +58,12 @@ function boot() {
             status.className = 'status-banner status-banner--warn';
         }
         return;
+    }
+
+    try {
+        await prepareAuthPersistence(firebase.auth);
+    } catch (error) {
+        console.warn('Auth persistence', error);
     }
 
     const { auth, db } = firebase;
@@ -123,4 +129,4 @@ function boot() {
     });
 }
 
-boot();
+boot().catch(console.error);

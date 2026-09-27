@@ -1,9 +1,49 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
+import {
+    browserLocalPersistence,
+    browserSessionPersistence,
+    connectAuthEmulator,
+    getAuth,
+    inMemoryPersistence,
+    setPersistence,
+} from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore, initializeFirestore } from 'firebase/firestore';
 import { isFirebaseConfigured, readFirebaseConfig } from './config.js';
 
 let cached = null;
+
+/** Safari وكل متصفحات iOS تستخدم WebKit — غالباً تحتاج long polling لـ Firestore */
+export function needsFirestoreLongPolling() {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent;
+    if (/iPhone|iPad|iPod/i.test(ua)) return true;
+    return /Safari/i.test(ua) && !/Chrome|Chromium|CriOS|Edg|EdgiOS|OPR|FxiOS/i.test(ua);
+}
+
+export async function prepareAuthPersistence(auth) {
+    const chain = [browserLocalPersistence, browserSessionPersistence, inMemoryPersistence];
+    for (const persistence of chain) {
+        try {
+            await setPersistence(auth, persistence);
+            return persistence;
+        } catch {
+            // Safari خاصةً في التصفح الخاص أو عند تعطيل التخزين
+        }
+    }
+    return null;
+}
+
+function createFirestore(app) {
+    const options = needsFirestoreLongPolling()
+        ? {
+              experimentalAutoDetectLongPolling: true,
+              experimentalForceLongPolling: true,
+          }
+        : {
+              experimentalAutoDetectLongPolling: true,
+          };
+    return initializeFirestore(app, options);
+}
 
 export function getFirebaseConfig() {
     return readFirebaseConfig();
@@ -21,11 +61,7 @@ export function initFirebase() {
 
     const existingApp = getApps()[0];
     const app = existingApp || initializeApp(config);
-    const db = existingApp
-        ? getFirestore(app)
-        : initializeFirestore(app, {
-              experimentalAutoDetectLongPolling: true,
-          });
+    const db = existingApp ? getFirestore(app) : createFirestore(app);
 
     const auth = getAuth(app);
 

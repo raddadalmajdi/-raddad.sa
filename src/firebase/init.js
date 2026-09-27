@@ -34,15 +34,22 @@ export async function prepareAuthPersistence(auth) {
 }
 
 function createFirestore(app) {
-    const options = needsFirestoreLongPolling()
-        ? {
-              experimentalAutoDetectLongPolling: true,
-              experimentalForceLongPolling: true,
-          }
-        : {
-              experimentalAutoDetectLongPolling: true,
-          };
-    return initializeFirestore(app, options);
+    const optionSets = needsFirestoreLongPolling()
+        ? [{ experimentalForceLongPolling: true }, { experimentalAutoDetectLongPolling: true }]
+        : [{ experimentalAutoDetectLongPolling: true }];
+
+    for (const options of optionSets) {
+        try {
+            return initializeFirestore(app, options);
+        } catch (error) {
+            const message = String(error?.message || error);
+            if (message.includes('already been called') || message.includes('already exists')) {
+                return getFirestore(app);
+            }
+        }
+    }
+
+    return getFirestore(app);
 }
 
 export function getFirebaseConfig() {
@@ -59,11 +66,11 @@ export function initFirebase() {
         return null;
     }
 
-    const existingApp = getApps()[0];
-    const app = existingApp || initializeApp(config);
-    const db = existingApp ? getFirestore(app) : createFirestore(app);
-
-    const auth = getAuth(app);
+    try {
+        const existingApp = getApps()[0];
+        const app = existingApp || initializeApp(config);
+        const db = existingApp ? getFirestore(app) : createFirestore(app);
+        const auth = getAuth(app);
 
     if (import.meta.env.DEV && import.meta.env.VITE_FIREBASE_USE_EMULATORS === 'true') {
         connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
@@ -77,8 +84,12 @@ export function initFirebase() {
         };
     }
 
-    cached = { app, auth, db, config };
-    return cached;
+        cached = { app, auth, db, config };
+        return cached;
+    } catch (error) {
+        console.error('initFirebase', error);
+        return null;
+    }
 }
 
 export function isAdminEmail(email) {

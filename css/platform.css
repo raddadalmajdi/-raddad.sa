@@ -149,24 +149,13 @@ h2 { font-size: 1.1rem; margin-bottom: 10px; color: #042f2e; }
 .form-message.info { background: #f0fdfa; color: #115e59; }
 
 .btn.is-loading {
-    position: relative;
-    color: transparent !important;
     pointer-events: none;
+    opacity: 0.85;
 }
 
-.btn.is-loading::after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    border-top-color: #fff;
-    animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
+/* دوّرة التحميل تعلّق بعض نسخ Safari عند التركيز على حقول كلمة المرور */
+.platform-body--admin .btn.is-loading::after {
+    display: none;
 }
 
 .ticket-card {

@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { initFirebase, isAdminEmail, prepareAuthPersistence } from './firebase/init.js';
+import { initFirebase, isAdminEmail, needsFirestoreLongPolling, prepareAuthPersistence } from './firebase/init.js';
 import { fetchAllIdeas } from './shared/ideas.js';
 import { fetchAllTickets, updateTicketStatus } from './shared/tickets.js';
 import {
@@ -25,9 +25,24 @@ function withTimeout(promise, ms, message) {
 function setSubmitLoading(form, loading) {
     const btn = form?.querySelector('button[type="submit"]');
     if (!btn) return;
+    const defaultLabel = btn.getAttribute('data-submit-label') || btn.textContent || 'دخول';
     btn.disabled = loading;
     btn.classList.toggle('is-loading', loading);
     btn.setAttribute('aria-busy', loading ? 'true' : 'false');
+    btn.textContent = loading ? 'جاري التحقق…' : defaultLabel;
+}
+
+function setupSafariPasswordField() {
+    if (!needsFirestoreLongPolling()) return;
+    const passwordInput = document.getElementById('admin-password');
+    if (!(passwordInput instanceof HTMLInputElement)) return;
+
+    passwordInput.setAttribute('readonly', 'true');
+    const unlock = () => {
+        passwordInput.removeAttribute('readonly');
+    };
+    passwordInput.addEventListener('pointerdown', unlock, { once: true });
+    passwordInput.addEventListener('focus', unlock, { once: true });
 }
 
 function notifyUser(form, statusEl, message, type) {
@@ -147,13 +162,91 @@ function boot() {
 
     const { auth, db } = firebase;
 
-    void prepareAuthPersistence(auth).catch((error) => {
-        console.warn('Auth persistence', error);
-    });
+    setupSafariPasswordField();
 
     if (status) {
         status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
         status.className = 'status-banner status-banner--ok';
+    }
+
+    let authListenerAttached = false;
+
+    const attachAuthListener = () => {
+        if (authListenerAttached) return;
+        authListenerAttached = true;
+
+        onAuthStateChanged(auth, (user) => {
+            try {
+                handleAuthUser(user);
+            } catch (error) {
+                console.error('onAuthStateChanged', error);
+                if (status) {
+                    status.textContent = 'حدث خطأ في الجلسة. أعد تحميل الصفحة وحاول الدخول مرة أخرى.';
+                    status.className = 'status-banner status-banner--warn';
+                }
+            }
+        });
+    };
+
+    function handleAuthUser(user) {
+        const isAdmin = Boolean(user && isAdminEmail(user.email));
+
+        if (!isAdmin) {
+            if (loginPanel) loginPanel.hidden = false;
+            if (dashboard) dashboard.hidden = true;
+            if (status && !user) {
+                status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
+                status.className = 'status-banner status-banner--ok';
+            }
+            if (user && !isAdminEmail(user.email)) {
+                notifyUser(
+                    loginForm,
+                    status,
+                    'أنت مسجّل بحساب عميل. سجّل الخروج من لوحة العميل أو استخدم raddad@raddad.sa هنا.',
+                    'error'
+                );
+            }
+            return;
+        }
+
+        if (loginPanel) loginPanel.hidden = true;
+        if (dashboard) dashboard.hidden = false;
+        if (welcome) {
+            welcome.textContent = `مرحبًا، ${user.email}`;
+        }
+        if (status) {
+            status.textContent = 'تم الدخول — جاري تحميل البيانات…';
+            status.className = 'status-banner status-banner--ok';
+        }
+
+        loadDashboard(db, true)
+            .then(() => {
+                if (status) {
+                    status.textContent = `لوحة الأدمن — ${user.email}`;
+                    status.className = 'status-banner status-banner--ok';
+                }
+            })
+            .catch((error) => {
+                if (status) {
+                    status.textContent =
+                        'تم الدخول لكن تعذر تحميل البيانات. تأكد من Firestore ونطاق raddad.sa في Firebase.';
+                    status.className = 'status-banner status-banner--warn';
+                }
+                console.error(error);
+            });
+    }
+
+    if (needsFirestoreLongPolling()) {
+        const attachWhenIdle = () => {
+            window.setTimeout(() => attachAuthListener(), 800);
+        };
+        if (typeof window.requestIdleCallback === 'function') {
+            window.requestIdleCallback(attachWhenIdle, { timeout: 3000 });
+        } else {
+            attachWhenIdle();
+        }
+    } else {
+        attachAuthListener();
     }
 
     loginForm?.addEventListener('submit', async (event) => {
@@ -184,6 +277,7 @@ function boot() {
         }
 
         try {
+            attachAuthListener();
             await prepareAuthPersistence(auth);
             const cred = await withTimeout(
                 signInWithEmailAndPassword(auth, email, password),
@@ -205,62 +299,6 @@ function boot() {
             notifyUser(loginForm, status, message, 'error');
         } finally {
             setSubmitLoading(loginForm, false);
-        }
-    });
-
-    onAuthStateChanged(auth, (user) => {
-        try {
-            const isAdmin = Boolean(user && isAdminEmail(user.email));
-
-            if (!isAdmin) {
-                if (loginPanel) loginPanel.hidden = false;
-                if (dashboard) dashboard.hidden = true;
-                if (status && !user) {
-                    status.textContent = 'جاهز — أدخل كلمة المرور ثم اضغط دخول';
-                    status.className = 'status-banner status-banner--ok';
-                }
-                if (user && !isAdminEmail(user.email)) {
-                    notifyUser(
-                        loginForm,
-                        status,
-                        'أنت مسجّل بحساب عميل. سجّل الخروج من لوحة العميل أو استخدم raddad@raddad.sa هنا.',
-                        'error'
-                    );
-                }
-                return;
-            }
-
-            if (loginPanel) loginPanel.hidden = true;
-            if (dashboard) dashboard.hidden = false;
-            if (welcome) {
-                welcome.textContent = `مرحبًا، ${user.email}`;
-            }
-            if (status) {
-                status.textContent = 'تم الدخول — جاري تحميل البيانات…';
-                status.className = 'status-banner status-banner--ok';
-            }
-
-            loadDashboard(db, true)
-                .then(() => {
-                    if (status) {
-                        status.textContent = `لوحة الأدمن — ${user.email}`;
-                        status.className = 'status-banner status-banner--ok';
-                    }
-                })
-                .catch((error) => {
-                    if (status) {
-                        status.textContent =
-                            'تم الدخول لكن تعذر تحميل البيانات. تأكد من Firestore ونطاق raddad.sa في Firebase.';
-                        status.className = 'status-banner status-banner--warn';
-                    }
-                    console.error(error);
-                });
-        } catch (error) {
-            console.error('onAuthStateChanged', error);
-            if (status) {
-                status.textContent = 'حدث خطأ في الجلسة. أعد تحميل الصفحة وحاول الدخول مرة أخرى.';
-                status.className = 'status-banner status-banner--warn';
-            }
         }
     });
 

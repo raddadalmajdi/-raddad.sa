@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/platform.css">
 </head>
-<body class="platform-body">
+<body class="platform-body platform-body--admin">
     <header class="site-nav">
         <div class="site-nav__inner">
             <a class="nav-brand" href="/"><img class="nav-logo" src="/assets/logo.png" srcset="/assets/logo.png 1x, /assets/logo@2x.png 2x" alt="" width="40" height="42" decoding="async"><span>رّداد · raddad.sa</span></a>
@@ -40,10 +40,10 @@
         <section class="card" data-admin-login>
             <h2>تسجيل دخول الأدمن</h2>
             <p class="muted" style="margin-bottom:12px;">الدخول مخصص لحسابات الإدارة فقط. البريد المعتمد: <strong>raddad@raddad.sa</strong></p>
-            <form id="admin-login-form" class="form-grid">
-                <div class="field"><label for="admin-email">البريد الإلكتروني</label><input id="admin-email" name="email" type="email" value="raddad@raddad.sa" autocomplete="username" required></div>
-                <div class="field"><label for="admin-password">كلمة المرور</label><input id="admin-password" name="password" type="password" minlength="6" required></div>
-                <button class="btn-primary" type="submit">دخول</button>
+            <form id="admin-login-form" class="form-grid" method="post" action="#" autocomplete="on">
+                <div class="field"><label for="admin-email">البريد الإلكتروني</label><input id="admin-email" name="email" type="email" value="raddad@raddad.sa" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required></div>
+                <div class="field"><label for="admin-password">كلمة المرور</label><input id="admin-password" name="password" type="password" minlength="6" autocomplete="current-password" required></div>
+                <button class="btn-primary" type="submit" data-submit-label="دخول">دخول</button>
                 <p class="form-message" hidden></p>
             </form>
         </section>

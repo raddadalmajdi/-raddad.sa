@@ -5,23 +5,41 @@ import {
     getDocs,
     orderBy,
     query,
+    runTransaction,
     serverTimestamp,
     updateDoc,
     where,
 } from 'firebase/firestore';
+import { formatTicketPublicId, getTicketPeriod } from './ticketPublicId.js';
 
 export async function createTicket(db, user, payload) {
-    const publicId = 'TK-' + Date.now().toString(36).toUpperCase();
-    const ticketRef = await addDoc(collection(db, 'tickets'), {
-        uid: user.uid,
-        email: user.email,
-        title: payload.title,
-        body: payload.body,
-        priority: payload.priority,
-        status: 'open',
-        publicId,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
+    const counterRef = doc(db, 'counters', 'tickets');
+    const ticketRef = doc(collection(db, 'tickets'));
+    const period = getTicketPeriod();
+
+    const { publicId } = await runTransaction(db, async (transaction) => {
+        const counterSnap = await transaction.get(counterRef);
+        const storedPeriod = counterSnap.exists() ? String(counterSnap.data().period || '') : '';
+        const storedSeq = counterSnap.exists() ? Number(counterSnap.data().seq) || 0 : 0;
+        const nextSeq = storedPeriod === period ? storedSeq + 1 : 1;
+        const id = formatTicketPublicId(period, nextSeq);
+
+        transaction.set(counterRef, { period, seq: nextSeq }, { merge: true });
+        transaction.set(ticketRef, {
+            uid: user.uid,
+            email: user.email,
+            title: payload.title,
+            body: payload.body,
+            priority: payload.priority,
+            status: 'open',
+            publicId: id,
+            ticketPeriod: period,
+            ticketSeq: nextSeq,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+        });
+
+        return { publicId: id, ticketSeq: nextSeq, ticketPeriod: period };
     });
 
     try {

@@ -6,6 +6,9 @@ import {
     addTicketMessage,
     fetchAllTickets,
     fetchTicketsWithMessages,
+    isTicketNewForAdmin,
+    markTicketSeenByAdmin,
+    sortTicketsForAdmin,
     updateTicketStatus,
 } from './shared/tickets.js';
 import { renderTicketCard } from './shared/ticketUi.js';
@@ -138,6 +141,7 @@ async function loadDashboard(db, canManage, statusEl) {
         if (!loadError) loadError = error;
         tickets = rawTickets.map((ticket) => ({ ...ticket, messages: [] }));
     }
+    tickets = sortTicketsForAdmin(tickets);
 
     renderTickets(document.querySelector('[data-admin-tickets]'), tickets, canManage);
     renderIdeas(document.querySelector('[data-admin-ideas]'), ideas);
@@ -147,6 +151,11 @@ async function loadDashboard(db, canManage, statusEl) {
     document.querySelector('[data-stats-open]').textContent = String(
         tickets.filter((ticket) => ticket.status !== 'closed').length
     );
+    const newCount = tickets.filter((ticket) => isTicketNewForAdmin(ticket)).length;
+    const newStat = document.querySelector('[data-stats-new]');
+    if (newStat) {
+        newStat.textContent = String(newCount);
+    }
 
     if (statusEl && loadError) {
         const code = loadError?.code || '';
@@ -334,6 +343,31 @@ function boot() {
         }
     });
 
+    const ticketsContainer = document.querySelector('[data-admin-tickets]');
+
+    ticketsContainer?.addEventListener('click', async (event) => {
+        const card = event.target.closest('[data-ticket-card]');
+        if (!card || !auth.currentUser || !isAdminEmail(auth.currentUser.email)) {
+            return;
+        }
+        const ticketId = card.getAttribute('data-ticket-card');
+        if (!ticketId || !card.classList.contains('ticket-card--unread')) {
+            return;
+        }
+        try {
+            await markTicketSeenByAdmin(db, ticketId);
+            card.classList.remove('ticket-card--unread');
+            card.querySelector('[data-ticket-new-badge]')?.remove();
+            const newStat = document.querySelector('[data-stats-new]');
+            if (newStat) {
+                const remaining = ticketsContainer.querySelectorAll('.ticket-card--unread').length;
+                newStat.textContent = String(remaining);
+            }
+        } catch (error) {
+            console.warn('markTicketSeenByAdmin', error);
+        }
+    });
+
     document.addEventListener('change', async (event) => {
         const target = event.target;
         if (!(target instanceof HTMLSelectElement) || !target.matches('[data-ticket-status]')) {
@@ -344,6 +378,7 @@ function boot() {
         if (!ticketId) return;
 
         try {
+            await markTicketSeenByAdmin(db, ticketId);
             await updateTicketStatus(db, ticketId, target.value);
             await loadDashboard(db, true, status);
         } catch (error) {
@@ -369,6 +404,7 @@ function boot() {
         }
 
         try {
+            await markTicketSeenByAdmin(db, ticketId);
             await addTicketMessage(db, ticketId, user, text, 'admin');
             const ticketCard = form.closest('[data-ticket-card]');
             const publicId =

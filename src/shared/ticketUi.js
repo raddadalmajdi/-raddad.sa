@@ -1,3 +1,4 @@
+import { isTicketNewForAdmin } from './tickets.js';
 import { escapeHtml, formatDate, priorityLabel, statusLabel } from './ui.js';
 
 function renderMessageList(messages, ticket) {
@@ -34,6 +35,10 @@ function renderMessageList(messages, ticket) {
 
 export function renderTicketCard(ticket, options = {}) {
     const { canManage = false, canReply = false, messages = [] } = options;
+    const isNew = canManage && isTicketNewForAdmin(ticket);
+    const newBadge = isNew
+        ? '<span class="ticket-pill ticket-pill--new" data-ticket-new-badge>جديد</span>'
+        : '';
     const statusControl = canManage
         ? `<select data-ticket-status data-id="${escapeHtml(ticket.id)}" aria-label="حالة التذكرة">
             <option value="open" ${ticket.status === 'open' ? 'selected' : ''}>مفتوحة</option>
@@ -56,10 +61,13 @@ export function renderTicketCard(ticket, options = {}) {
               : '';
 
     return `
-    <article class="ticket-card" data-ticket-card="${escapeHtml(ticket.id)}">
+    <article class="ticket-card${isNew ? ' ticket-card--unread' : ''}" data-ticket-card="${escapeHtml(ticket.id)}">
         <div class="ticket-card__head">
             <strong>${escapeHtml(ticket.title)}</strong>
-            <span class="ticket-pill ticket-pill--${escapeHtml(ticket.priority)}">${priorityLabel(ticket.priority)}</span>
+            <span class="ticket-card__badges">
+                ${newBadge}
+                <span class="ticket-pill ticket-pill--${escapeHtml(ticket.priority)}">${priorityLabel(ticket.priority)}</span>
+            </span>
         </div>
         ${canManage ? `<p class="muted">${escapeHtml(ticket.email || '')}</p>` : ''}
         <footer class="ticket-card__meta">

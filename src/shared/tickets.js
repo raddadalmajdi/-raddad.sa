@@ -145,15 +145,50 @@ export async function fetchUserTickets(db, uid) {
     return tickets;
 }
 
+function ticketCreatedAtMs(ticket) {
+    return ticket.createdAt?.toMillis?.() || 0;
+}
+
+/** لوحة الأدمن: الأحدث إنشاءً في الأعلى */
+export function sortTicketsForAdmin(tickets) {
+    return [...tickets].sort((a, b) => {
+        const aCreated = ticketCreatedAtMs(a);
+        const bCreated = ticketCreatedAtMs(b);
+        if (bCreated !== aCreated) {
+            return bCreated - aCreated;
+        }
+        const aSeq = Number(a.ticketSeq) || 0;
+        const bSeq = Number(b.ticketSeq) || 0;
+        return bSeq - aSeq;
+    });
+}
+
+export function ticketActivityAtMs(ticket) {
+    return (
+        ticket.lastReplyAt?.toMillis?.() ||
+        ticket.updatedAt?.toMillis?.() ||
+        ticket.createdAt?.toMillis?.() ||
+        0
+    );
+}
+
+/** تذكرة لم يُطّلع عليها الأدمن بعد آخر نشاط (فتح جديد أو رد عميل) */
+export function isTicketNewForAdmin(ticket) {
+    const seenAt = ticket.adminSeenAt?.toMillis?.() || 0;
+    const activityAt = ticketActivityAtMs(ticket);
+    return activityAt > seenAt;
+}
+
+export async function markTicketSeenByAdmin(db, ticketId) {
+    await updateDoc(doc(db, 'tickets', ticketId), {
+        adminSeenAt: serverTimestamp(),
+    });
+}
+
 export async function fetchAllTickets(db) {
     const snapshot = await getDocs(collection(db, 'tickets'));
     const tickets = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-    tickets.sort((a, b) => {
-        const aTime = a.updatedAt?.toMillis?.() || a.createdAt?.toMillis?.() || 0;
-        const bTime = b.updatedAt?.toMillis?.() || b.createdAt?.toMillis?.() || 0;
-        return bTime - aTime;
-    });
-    return tickets;
+    return sortTicketsForAdmin(tickets);
 }
 
 export async function fetchTicketsWithMessages(db, tickets) {

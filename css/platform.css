@@ -196,6 +196,27 @@ input[type="password"] {
     margin-bottom: 10px;
     background: #fafafa;
 }
+.ticket-card--unread {
+    border-color: #fca5a5;
+    background: #fff7f7;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.08);
+}
+.ticket-card__badges {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+.ticket-pill--new {
+    color: #fff;
+    background: #dc2626;
+    border-color: #dc2626;
+    font-weight: 700;
+}
+.stat--highlight strong {
+    color: #dc2626;
+}
 .ticket-card__head {
     display: flex;
     justify-content: space-between;

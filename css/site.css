@@ -600,12 +600,116 @@ a.card:hover {
     align-items: stretch;
 }
 
+.site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+    width: 100%;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+.site-footer__legal a {
+    color: var(--green-800);
+}
+.site-footer__legal a[aria-current="page"] {
+    color: var(--green-900);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .site-footer__meta {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 8px;
     width: 100%;
+}
+
+.legal-page h1 {
+    margin-bottom: 8px;
+}
+.legal-updated {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+}
+.legal-section {
+    margin-bottom: 22px;
+}
+.legal-section h2 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+.legal-list {
+    padding-right: 1.2rem;
+    margin: 8px 0;
+}
+.legal-list li {
+    margin-bottom: 6px;
+}
+.legal-list--ordered {
+    list-style: decimal;
+}
+.legal-disclaimer {
+    margin-top: 28px;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+.pricing-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    background: #fff;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+.pricing-card--featured {
+    border-color: var(--green-600);
+    box-shadow: 0 12px 28px rgba(13, 148, 136, 0.12);
+}
+.pricing-card__tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: var(--green-600);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 999px;
+}
+.pricing-card h2 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+    padding-top: 4px;
+}
+.pricing-card__price {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--green-900);
+}
+.pricing-card__list {
+    margin-top: 10px;
+    padding-right: 1.1rem;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+.pricing-card__list li {
+    margin-bottom: 4px;
 }
 
 .ip-badge {

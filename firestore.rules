@@ -78,6 +78,23 @@ service cloud.firestore {
       }
     }
 
+    match /payments/{paymentId} {
+      allow read: if isAdmin()
+        || (request.auth != null && resource.data.uid == request.auth.uid);
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email is string
+        && request.resource.data.gateway == 'moyasar'
+        && request.resource.data.moyasarPaymentId is string
+        && request.resource.data.moyasarPaymentId.size() > 8
+        && request.resource.data.planId in ['consultation', 'maintenance', 'deposit']
+        && request.resource.data.amountHalalas is int
+        && request.resource.data.amountHalalas >= 50000
+        && request.resource.data.amountHalalas <= 50000000
+        && request.resource.data.status == 'redirect_received';
+      allow update, delete: if isAdmin();
+    }
+
     match /ideas/{ideaId} {
       allow create: if request.resource.data.name is string
         && request.resource.data.email is string

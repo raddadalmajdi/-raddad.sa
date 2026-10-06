@@ -12,6 +12,8 @@ export default defineConfig({
                 client: resolve(__dirname, 'src/client.js'),
                 admin: resolve(__dirname, 'src/admin.js'),
                 navAuth: resolve(__dirname, 'src/navAuth.js'),
+                pay: resolve(__dirname, 'src/pay.js'),
+                paySuccess: resolve(__dirname, 'src/paySuccess.js'),
             },
             output: {
                 entryFileNames: '[name].bundle.js',

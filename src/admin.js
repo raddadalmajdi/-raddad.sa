@@ -2,6 +2,8 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebas
 import { initFirebase, isAdminEmail, needsFirestoreLongPolling, prepareAuthPersistence } from './firebase/init.js';
 import { watchIdleSession } from './shared/sessionIdle.js';
 import { fetchAllIdeas } from './shared/ideas.js';
+import { fetchAllPayments } from './shared/payments.js';
+import { formatSarFromHalalas } from './shared/paymentPlans.js';
 import {
     addTicketMessage,
     fetchAllTickets,
@@ -90,6 +92,31 @@ function renderTickets(container, tickets, canManage) {
         .join('');
 }
 
+function renderPayments(container, payments) {
+    if (!container) return;
+    if (!payments.length) {
+        container.innerHTML = '<p class="muted">لا توجد عمليات مسجّلة بعد.</p>';
+        return;
+    }
+    container.innerHTML = payments
+        .map(
+            (payment) => `
+        <article class="ticket-card">
+            <div class="ticket-card__head">
+                <strong>${escapeHtml(payment.planId || 'دفعة')}</strong>
+                <span class="ticket-pill ticket-pill--normal">${escapeHtml(formatSarFromHalalas(payment.amountHalalas))}</span>
+            </div>
+            <p class="muted">${escapeHtml(payment.email || '')}</p>
+            <footer class="ticket-card__meta">
+                <span class="ticket-id">${escapeHtml(payment.moyasarPaymentId || payment.id)}</span>
+                <span>${escapeHtml(payment.status || '')}</span>
+                <time>${escapeHtml(formatDate(payment.createdAt))}</time>
+            </footer>
+        </article>`
+        )
+        .join('');
+}
+
 function renderIdeas(container, ideas) {
     if (!ideas.length) {
         container.innerHTML = '<p class="muted">لا توجد طلبات أفكار.</p>';
@@ -118,6 +145,7 @@ function renderIdeas(container, ideas) {
 async function loadDashboard(db, canManage, statusEl) {
     let rawTickets = [];
     let ideas = [];
+    let payments = [];
     let loadError = null;
 
     try {
@@ -134,6 +162,13 @@ async function loadDashboard(db, canManage, statusEl) {
         console.error('fetchAllIdeas', error);
     }
 
+    try {
+        payments = await fetchAllPayments(db);
+    } catch (error) {
+        if (!loadError) loadError = error;
+        console.error('fetchAllPayments', error);
+    }
+
     let tickets = [];
     try {
         tickets = await fetchTicketsWithMessages(db, rawTickets);
@@ -145,6 +180,7 @@ async function loadDashboard(db, canManage, statusEl) {
 
     renderTickets(document.querySelector('[data-admin-tickets]'), tickets, canManage);
     renderIdeas(document.querySelector('[data-admin-ideas]'), ideas);
+    renderPayments(document.querySelector('[data-admin-payments]'), payments);
 
     document.querySelector('[data-stats-tickets]').textContent = String(tickets.length);
     document.querySelector('[data-stats-ideas]').textContent = String(ideas.length);
@@ -155,6 +191,10 @@ async function loadDashboard(db, canManage, statusEl) {
     const newStat = document.querySelector('[data-stats-new]');
     if (newStat) {
         newStat.textContent = String(newCount);
+    }
+    const payStat = document.querySelector('[data-stats-payments]');
+    if (payStat) {
+        payStat.textContent = String(payments.length);
     }
 
     if (statusEl && loadError) {

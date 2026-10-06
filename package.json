@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "setup": "node -e \"const fs=require('fs'); if(!fs.existsSync('.env')) fs.copyFileSync('.env.example','.env');\"",
-    "prebuild": "node scripts/generate-firebase-config.mjs && node scripts/verify-config.mjs",
+    "prebuild": "node scripts/generate-firebase-config.mjs && node scripts/generate-payment-config.mjs && node scripts/verify-config.mjs",
     "build": "vite build && node scripts/copy-build.mjs",
     "dev": "npm run prebuild && vite build --watch",
     "deploy:prepare": "npm run build",

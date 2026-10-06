@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>الدفع الآمن | raddad.sa</title>
+    <meta name="description" content="دفع إلكتروني آمن لاستشارات تطوير التطبيقات، مقدّم المشروع، والاشتراك الشهري عبر بوابة معتمدة.">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/platform.css">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="platform-body">
+    <header class="site-nav">
+        <div class="site-nav__inner">
+            <a class="nav-brand" href="/"><img class="nav-logo" src="/assets/logo.png" alt="" width="40" height="42"><span>رّداد · raddad.sa</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
+            <nav class="nav-panel" id="main-nav" aria-label="التنقل الرئيسي">
+                <a href="/">الرئيسية</a>
+                <a href="/pricing.html">الأسعار</a>
+                <a href="/pay.html" aria-current="page">الدفع</a>
+                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container page">
+        <div class="section-heading page-intro">
+            <h1>الدفع الآمن</h1>
+            <p>بوابة دفع إلكترونية معتمدة — بعد الموافقة على <a href="/pricing.html">عرض السعر</a> و<a href="/terms.html">الشروط</a>.</p>
+        </div>
+
+        <div class="pay-trust-strip" role="note">
+            <span>اتصال مشفّر HTTPS</span>
+            <span>مدى · Visa · Mastercard</span>
+            <span>فاتورة ومرجع عملية</span>
+            <span>عمل حر FL-629703910</span>
+        </div>
+
+        <div id="pay-inactive-notice" class="status-banner status-banner--warn" hidden>
+            بوابة الدفع قيد التفعيل مع ميسر. يمكنك الآن إتمام التسجيل معهم؛ بعد إرسال المفتاح العام (pk_) سنفعّل النموذج هنا تلقائياً. للفواتير اليدوية: <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a>.
+        </div>
+
+        <div class="grid-2 pay-layout">
+            <section class="card">
+                <h2>اختر نوع الدفعة</h2>
+                <form id="pay-form" class="form-grid">
+                    <div id="pay-plan-picker" class="pay-plan-picker"></div>
+                    <div class="field" id="pay-custom-amount-field" hidden>
+                        <label for="pay-custom-amount">مبلغ المقدّم (ر.س)</label>
+                        <input id="pay-custom-amount" name="custom_amount" type="number" min="5000" step="1" inputmode="numeric" placeholder="مثال: 15000">
+                        <p class="muted" style="font-size:0.82rem;margin-top:6px;">يجب أن يطابق المبلغ المتفق عليه في عرض السعر.</p>
+                    </div>
+                    <p id="pay-summary" class="muted"></p>
+                    <button class="btn-primary" type="submit">عرض نموذج الدفع الآمن</button>
+                    <p class="form-message" hidden></p>
+                </form>
+            </section>
+            <section class="card pay-help">
+                <h2>لماذا الدفع من المنصة؟</h2>
+                <ul class="legal-list">
+                    <li>مرجع واضح لكل عملية مرتبط بخدمتك.</li>
+                    <li>متابعة من <a href="/client.html">بوابة العميل</a> والتذاكر.</li>
+                    <li>سياسات <a href="/refund.html">الاسترجاع</a> و<a href="/privacy.html">الخصوصية</a> منشورة.</li>
+                </ul>
+                <p class="muted">للمشاريع الجديدة يُفضّل <a href="/request.html">طلب فكرة</a> أولاً لاستلام عرض سعر.</p>
+            </section>
+        </div>
+
+        <section id="pay-gateway" class="card pay-gateway" hidden>
+            <h2>إتمام الدفع</h2>
+            <div id="moyasar-form" class="mysr-form"></div>
+        </section>
+
+        <footer class="site-footer">
+            <nav class="site-footer__legal" aria-label="السياسات والأسعار">
+                <a href="/pricing.html">الأسعار والدفع</a>
+                <a href="/terms.html">الشروط والأحكام</a>
+                <a href="/privacy.html">سياسة الخصوصية</a>
+                <a href="/refund.html">الاسترجاع والإلغاء</a>
+                <a href="/about.html">عن المنصة</a>
+            </nav>
+            <div class="site-footer__meta">
+                <span>&copy; 2026 raddad.sa</span>
+                <span><a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a></span>
+            </div>
+        </footer>
+    </main>
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/payment-config.js"></script>
+    <script type="module" src="/js/pay.bundle.js"></script>
+    <script type="module" src="/js/navAuth.bundle.js"></script>
+    <script src="/js/nav.js" defer></script>
+</body>
+</html>

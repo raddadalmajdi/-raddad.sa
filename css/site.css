@@ -759,6 +759,68 @@ a.card:hover {
     }
 }
 
+.pay-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border-radius: var(--radius);
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--green-900);
+}
+.pay-layout {
+    align-items: start;
+}
+.pay-plan-picker {
+    display: grid;
+    gap: 8px;
+}
+.pay-plan-option {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    background: #fff;
+}
+.pay-plan-option:has(input:checked) {
+    border-color: var(--green-600);
+    background: var(--green-50);
+}
+.pay-plan-option input {
+    margin-top: 4px;
+}
+.pay-plan-option__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.pay-gateway {
+    margin-top: 16px;
+}
+.commerce-banner {
+    margin: 24px 0;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, #f0fdfa 0%, #fff 60%);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.commerce-banner p {
+    margin: 0;
+    max-width: 52ch;
+}
+
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .badge-dot, .hero-logo { animation: none; }

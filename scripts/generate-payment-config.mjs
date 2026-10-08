@@ -16,6 +16,7 @@ const paymentConfig = {
     siteUrl,
     moyasarPublishableKey: publishableKey,
     paymentsEnabled: publishableKey.startsWith('pk_'),
+    moyasarTestMode: publishableKey.startsWith('pk_test_'),
     callbackPath: '/pay-success.html',
 };
 

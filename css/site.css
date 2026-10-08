@@ -411,6 +411,56 @@ a.card:hover {
 
 .site-footer a { color: var(--green-800); }
 
+.site-footer__business {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--green-50);
+    border: 1px solid var(--border);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.site-footer__business p { margin: 0 0 6px; }
+.site-footer__business p:last-child { margin-bottom: 0; }
+
+.business-contact-card {
+    margin: 24px 0;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+}
+
+.business-contact-card h2 {
+    font-size: 1.1rem;
+    color: var(--green-900);
+    margin-bottom: 12px;
+}
+
+.business-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.business-contact-list li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+}
+
+.business-contact-list strong {
+    min-width: 7rem;
+    color: var(--green-900);
+}
+
 .section-heading { margin-bottom: 20px; }
 .section-heading h1,
 .section-heading h2 {

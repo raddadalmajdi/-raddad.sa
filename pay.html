@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>الدفع الآمن | raddad.sa</title>
-    <meta name="description" content="دفع إلكتروني آمن لاستشارات تطوير التطبيقات، مقدّم المشروع، والاشتراك الشهري عبر بوابة معتمدة.">
-    <meta name="robots" content="noindex">
+    <meta name="description" content="دفع آمن عبر ميسر — استشارة، مقدّم مشروع، أو اشتراك صيانة بعد عرض السعر.">
     <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/platform.css">
@@ -38,7 +37,10 @@
         </div>
 
         <div id="pay-inactive-notice" class="status-banner status-banner--warn" hidden>
-            بوابة الدفع قيد التفعيل مع ميسر. يمكنك الآن إتمام التسجيل معهم؛ بعد إرسال المفتاح العام (pk_) سنفعّل النموذج هنا تلقائياً. للفواتير اليدوية: <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a>.
+            بوابة ميسر مدمجة في المنصة وتُفعَّل فور استلام المفتاح العام من ميسر (<code>pk_test_</code> أو <code>pk_live_</code>). حتى ذلك الحين يمكنك إتمام التسجيل معهم وإرسال روابط الموقع. للفواتير أو الدفع اليدوي: <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> · <a href="tel:+966533160799">0533160799</a>.
+        </div>
+        <div id="pay-test-banner" class="status-banner status-banner--warn" hidden role="status">
+            وضع تجريبي (pk_test) — للاختبار فقط حتى تفعيل المفتاح الإنتاجي من ميسر.
         </div>
 
         <div class="grid-2 pay-layout">
@@ -87,7 +89,9 @@
         </footer>
     </main>
     <script src="/js/firebase-config.js"></script>
+    <script src="/js/site-business.js"></script>
     <script src="/js/payment-config.js"></script>
+    <script src="/js/site-business-boot.js" defer></script>
     <script type="module" src="/js/pay.bundle.js"></script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>

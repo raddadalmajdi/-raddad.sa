@@ -28,3 +28,14 @@ if (!runtime.includes(apiKey)) {
 }
 
 console.log(`Firebase config verified for project: ${projectId}`);
+
+const moyasarKey = (process.env.VITE_MOYASAR_PUBLISHABLE_KEY || '').trim();
+if (!moyasarKey.startsWith('pk_')) {
+    console.warn(
+        '[warn] VITE_MOYASAR_PUBLISHABLE_KEY not set — pay page shows activation notice until you add pk_test_ or pk_live_. See docs/MOYASAR-ACTIVATION.md'
+    );
+} else if (moyasarKey.startsWith('pk_test_')) {
+    console.log('Moyasar: test publishable key configured.');
+} else {
+    console.log('Moyasar: live publishable key configured.');
+}

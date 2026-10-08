@@ -23,11 +23,20 @@
     {
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
-      "name": "raddad.sa — رّداد الماجدي",
+      "name": "raddad.sa — Raddad",
+      "legalName": "رداد محمد مناطح الماجدي",
       "url": "https://raddad.sa",
       "email": "raddad@raddad.sa",
+      "telephone": "+966533160799",
       "areaServed": "SA",
-      "description": "تطوير تطبيقات جوال ومنصات رقمية — عمل حر معتمد، أسعار واضحة، ودفع إلكتروني آمن.",
+      "description": "تطوير برامج تطبيقات الجوال — عمل حر معتمد، أسعار واضحة، ودفع إلكتروني عبر ميسر.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "حفر الباطن",
+        "streetAddress": "حي الورود، شارع الإمام أحمد بن حنبل",
+        "postalCode": "39821",
+        "addressCountry": "SA"
+      },
       "sameAs": ["https://raddad.sa/about.html"]
     }
     </script>
@@ -183,19 +192,23 @@
             </div>
             <nav class="site-footer__legal" aria-label="السياسات والأسعار">
                 <a href="/pricing.html">الأسعار والدفع</a>
+                <a href="/pay.html">الدفع الآمن</a>
                 <a href="/terms.html">الشروط والأحكام</a>
                 <a href="/privacy.html">سياسة الخصوصية</a>
                 <a href="/refund.html">الاسترجاع والإلغاء</a>
                 <a href="/about.html">عن المنصة</a>
+                <a href="/contact.html">تواصل</a>
             </nav>
             <div class="site-footer__meta">
                 <span>&copy; 2026 raddad.sa — جميع الحقوق محفوظة</span>
-                <span><a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> · <a href="/admin.html">الأدمن</a></span>
+                <span><a href="tel:+966533160799">0533160799</a> · <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> · <a href="/admin.html">الأدمن</a></span>
             </div>
         </footer>
     </main>
 
     <script src="/js/firebase-config.js"></script>
+    <script src="/js/site-business.js"></script>
+    <script src="/js/site-business-boot.js" defer></script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>

@@ -3,5 +3,6 @@ window.paymentConfig = {
     "siteUrl": "https://raddad.sa",
     "moyasarPublishableKey": "",
     "paymentsEnabled": false,
+    "moyasarTestMode": false,
     "callbackPath": "/pay-success.html"
 };

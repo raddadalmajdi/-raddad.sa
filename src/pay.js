@@ -133,11 +133,18 @@ function boot() {
     if (!config.paymentsEnabled) {
         if (inactiveNotice) inactiveNotice.hidden = false;
         if (gatewayBox) gatewayBox.hidden = true;
+        form.querySelector('button[type="submit"]')?.setAttribute('disabled', 'disabled');
         return;
     }
 
     if (inactiveNotice) inactiveNotice.hidden = true;
     if (gatewayBox) gatewayBox.hidden = false;
+    form.querySelector('button[type="submit"]')?.removeAttribute('disabled');
+
+    if (config.moyasarTestMode) {
+        const testBanner = document.getElementById('pay-test-banner');
+        if (testBanner) testBanner.hidden = false;
+    }
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();

@@ -1,5 +1,10 @@
 import { initFirebase } from './firebase/init.js';
-import { formatSarFromHalalas, getPlan, PAYMENT_PLANS } from './shared/paymentPlans.js';
+import {
+    formatSarFromHalalas,
+    getPlan,
+    PAYMENT_PLAN_GROUPS,
+    PAYMENT_PLANS,
+} from './shared/paymentPlans.js';
 import { showFormMessage } from './shared/ui.js';
 
 const MOYASAR_JS = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.js';
@@ -27,19 +32,28 @@ function loadScript(src) {
     });
 }
 
-function renderPlanOptions(container) {
-    container.innerHTML = Object.values(PAYMENT_PLANS)
-        .map(
-            (plan) => `
+function planOptionHtml(plan, checkedId) {
+    return `
         <label class="pay-plan-option">
-            <input type="radio" name="plan" value="${plan.id}" ${plan.id === 'consultation' ? 'checked' : ''}>
+            <input type="radio" name="plan" value="${plan.id}" ${plan.id === checkedId ? 'checked' : ''}>
             <span class="pay-plan-option__body">
                 <strong>${plan.title}</strong>
                 <span class="muted">${plan.label}</span>
+                <span class="pay-plan-option__desc">${plan.description}</span>
             </span>
-        </label>`
-        )
-        .join('');
+        </label>`;
+}
+
+function renderPlanOptions(container, checkedId = 'beni_ghanem_invite') {
+    const blocks = PAYMENT_PLAN_GROUPS.map((group) => {
+        const options = group.planIds
+            .map((id) => PAYMENT_PLANS[id])
+            .filter(Boolean)
+            .map((plan) => planOptionHtml(plan, checkedId))
+            .join('');
+        return `<fieldset class="pay-plan-group"><legend>${group.legend}</legend>${options}</fieldset>`;
+    });
+    container.innerHTML = blocks.join('');
 }
 
 function getSelectedPlanId(form) {
@@ -109,12 +123,10 @@ function boot() {
 
     const params = new URLSearchParams(window.location.search);
     const initialPlan = params.get('plan');
-    if (initialPlan && getPlan(initialPlan)) {
-        const radio = form.querySelector(`input[name="plan"][value="${initialPlan}"]`);
-        if (radio) radio.checked = true;
-    }
+    const defaultPlan =
+        initialPlan && getPlan(initialPlan) ? initialPlan : 'beni_ghanem_invite';
 
-    renderPlanOptions(planPicker);
+    renderPlanOptions(planPicker, defaultPlan);
 
     function syncCustomField() {
         const plan = getPlan(getSelectedPlanId(form));

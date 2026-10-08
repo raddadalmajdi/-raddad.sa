@@ -87,7 +87,10 @@ service cloud.firestore {
         && request.resource.data.gateway == 'moyasar'
         && request.resource.data.moyasarPaymentId is string
         && request.resource.data.moyasarPaymentId.size() > 8
-        && request.resource.data.planId in ['consultation', 'maintenance', 'deposit']
+        && request.resource.data.planId in [
+          'consultation', 'maintenance', 'deposit',
+          'beni_ghanem_invite', 'eysalk_monthly'
+        ]
         && request.resource.data.amountHalalas is int
         && request.resource.data.amountHalalas >= 50000
         && request.resource.data.amountHalalas <= 50000000

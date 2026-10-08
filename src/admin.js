@@ -3,7 +3,7 @@ import { initFirebase, isAdminEmail, needsFirestoreLongPolling, prepareAuthPersi
 import { watchIdleSession } from './shared/sessionIdle.js';
 import { fetchAllIdeas } from './shared/ideas.js';
 import { fetchAllPayments } from './shared/payments.js';
-import { formatSarFromHalalas } from './shared/paymentPlans.js';
+import { formatSarFromHalalas, getPlan } from './shared/paymentPlans.js';
 import {
     addTicketMessage,
     fetchAllTickets,
@@ -103,7 +103,7 @@ function renderPayments(container, payments) {
             (payment) => `
         <article class="ticket-card">
             <div class="ticket-card__head">
-                <strong>${escapeHtml(payment.planId || 'دفعة')}</strong>
+                <strong>${escapeHtml(getPlan(payment.planId)?.title || payment.planId || 'دفعة')}</strong>
                 <span class="ticket-pill ticket-pill--normal">${escapeHtml(formatSarFromHalalas(payment.amountHalalas))}</span>
             </div>
             <p class="muted">${escapeHtml(payment.email || '')}</p>

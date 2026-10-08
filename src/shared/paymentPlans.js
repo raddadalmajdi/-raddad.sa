@@ -6,6 +6,25 @@ export const PAYMENT_PLANS = {
         description: 'جلسة مراجعة فكرة وتقدير أولي (مدة محددة في عرض السعر).',
         amountHalalas: 50000,
         label: '500 ر.س',
+        group: 'dev',
+    },
+    beni_ghanem_invite: {
+        id: 'beni_ghanem_invite',
+        title: 'دعوة زواج — تطبيق مناسبات بني غانم',
+        description:
+            'خدمة إضافة وتنسيق صورة دعوة الزواج داخل تطبيق مناسبات بني غانم (تصميم/رفع وفق المواصفات المتفق عليها).',
+        amountHalalas: 19900,
+        label: '199 ر.س',
+        group: 'products',
+    },
+    eysalk_monthly: {
+        id: 'eysalk_monthly',
+        title: 'اشتراك شهري — منصة إيصالك',
+        description:
+            'اشتراك شهري لمنصة إيصالك: أرشفة واسترجاع الفواتير الورقية برقم الجوال لمتجرك أو نشاطك.',
+        amountHalalas: 29900,
+        label: '299 ر.س / شهر',
+        group: 'products',
     },
     maintenance: {
         id: 'maintenance',
@@ -13,6 +32,7 @@ export const PAYMENT_PLANS = {
         description: 'دفعة شهرية للصيانة والدعم وفق العقد.',
         amountHalalas: 150000,
         label: '1,500 ر.س / شهر',
+        group: 'dev',
     },
     deposit: {
         id: 'deposit',
@@ -23,8 +43,21 @@ export const PAYMENT_PLANS = {
         customAmount: true,
         minHalalas: 500000,
         maxHalalas: 50000000,
+        group: 'dev',
     },
 };
+
+/** ترتيب العرض في صفحة الدفع */
+export const PAYMENT_PLAN_GROUPS = [
+    {
+        legend: 'منتجاتنا — خدمات داخل التطبيق والمنصة',
+        planIds: ['beni_ghanem_invite', 'eysalk_monthly'],
+    },
+    {
+        legend: 'تطوير واستشارات',
+        planIds: ['consultation', 'maintenance', 'deposit'],
+    },
+];
 
 export function getPlan(planId) {
     return PAYMENT_PLANS[planId] || null;

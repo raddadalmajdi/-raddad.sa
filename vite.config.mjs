@@ -14,6 +14,7 @@ export default defineConfig({
                 navAuth: resolve(__dirname, 'src/navAuth.js'),
                 pay: resolve(__dirname, 'src/pay.js'),
                 paySuccess: resolve(__dirname, 'src/paySuccess.js'),
+                assistant: resolve(__dirname, 'src/assistant.js'),
             },
             output: {
                 entryFileNames: '[name].bundle.js',

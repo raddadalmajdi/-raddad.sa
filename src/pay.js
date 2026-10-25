@@ -102,6 +102,11 @@ async function mountMoyasarForm({ plan, amountHalalas, config }) {
         publishable_api_key: config.moyasarPublishableKey,
         callback_url: callbackUrl,
         methods: ['creditcard', 'mada', 'applepay'],
+        apple_pay: {
+            country: 'SA',
+            label: 'Raddad · raddad.sa',
+            validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate',
+        },
         metadata: {
             plan_id: plan.id,
             site: 'raddad.sa',

@@ -1,0 +1,92 @@
+/* صفحة إتمام الدفع — تنسيق خفيف متوافق مع نموذج ميسر (بدون platform.css/site.css) */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body.pay-checkout-body {
+    margin: 0;
+    font-family: 'Readex Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f4fbf9;
+    color: #134e4a;
+    line-height: 1.6;
+}
+
+.pay-checkout-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #fff;
+    border-bottom: 1px solid #d4ebe6;
+}
+
+.pay-checkout-header a {
+    color: #115e59;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.pay-checkout-main {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+}
+
+.pay-checkout-main h1 {
+    font-size: 1.35rem;
+    margin: 0 0 8px;
+    color: #042f2e;
+}
+
+.pay-checkout-summary {
+    margin: 0 0 16px;
+    font-size: 0.95rem;
+    color: #3d6f66;
+}
+
+.pay-checkout-banner {
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+}
+
+.pay-checkout-banner[hidden] {
+    display: none !important;
+}
+
+.moyasar-wrap {
+    background: #fff;
+    border: 1px solid #d4ebe6;
+    border-radius: 14px;
+    padding: 16px 12px 20px;
+    box-shadow: 0 8px 24px rgba(4, 47, 46, 0.06);
+}
+
+/* لا transform/overflow على الحاوية — يتعارض مع حقول الدفع */
+.moyasar-wrap .mysr-form,
+.moyasar-wrap .mysr-form-moyasarForm {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 220px;
+    overflow: visible !important;
+}
+
+.moyasar-wrap input.mysr-form-input,
+.moyasar-wrap input.mysr-form-input[type='text'] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+}

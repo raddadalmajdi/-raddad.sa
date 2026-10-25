@@ -3,46 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>إتمام الدفع | raddad.sa</title>
     <meta name="robots" content="noindex">
     <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="stylesheet" href="/css/site.css">
-    <link rel="stylesheet" href="/css/platform.css">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.14.0/moyasar.css">
+    <link rel="stylesheet" href="/css/pay-checkout.css">
 </head>
-<body class="platform-body">
-    <header class="site-nav">
-        <div class="site-nav__inner">
-            <a class="nav-brand" href="/"><img class="nav-logo" src="/assets/logo.png" alt="" width="40" height="42"><span>رّداد · raddad.sa</span></a>
-            <a class="btn btn-secondary" href="/pay.html" style="margin-inline-start:auto">← تعديل الاختيار</a>
-        </div>
+<body class="pay-checkout-body">
+    <header class="pay-checkout-header">
+        <a href="/">رّداد · raddad.sa</a>
+        <a href="/pay.html">← تعديل الاختيار</a>
     </header>
-    <main class="container page">
-        <div class="section-heading page-intro">
-            <h1>إتمام الدفع</h1>
-            <p id="checkout-summary" class="muted">جاري تجهيز ملخص الدفعة…</p>
-        </div>
-        <div id="pay-test-banner" class="status-banner status-banner--warn" hidden role="status">
-            وضع تجريبي (pk_test) — للاختبار فقط.
-        </div>
-        <p id="checkout-error" class="status-banner status-banner--warn" hidden></p>
-        <p id="checkout-fallback" class="status-banner status-banner--warn" hidden>
-            لم يظهر نموذج البطاقة. تأكد في <strong>لوحة ميسر</strong> أن الدفع بالبطاقة مفعّل لحسابك (الوضع التجريبي)، ثم حدّث الصفحة. للمساعدة:
-            <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> أو دعم ميسر.
+    <main class="pay-checkout-main">
+        <h1>إتمام الدفع</h1>
+        <p id="checkout-summary" class="pay-checkout-summary">جاري التحميل…</p>
+        <p id="pay-test-banner" class="pay-checkout-banner" hidden>وضع تجريبي (pk_test) — للاختبار فقط.</p>
+        <p id="checkout-error" class="pay-checkout-banner" hidden></p>
+        <p id="checkout-fallback" class="pay-checkout-banner" hidden>
+            تعذر عرض حقول البطاقة. حدّث الصفحة أو جرّب متصفح Safari/Chrome. إن استمرت المشكلة راسلنا على
+            <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a>.
         </p>
-        <section class="card pay-gateway pay-gateway--checkout">
+        <div class="moyasar-wrap">
             <div class="mysr-form"></div>
-        </section>
+        </div>
     </main>
     <script src="/js/payment-config.js"></script>
-    <script>
-        if (window.paymentConfig?.moyasarTestMode) {
-            const b = document.getElementById('pay-test-banner');
-            if (b) b.hidden = false;
-        }
-    </script>
     <script src="https://cdn.moyasar.com/mpf/1.14.0/moyasar.js"></script>
-    <script type="module" src="/js/payCheckout.bundle.js"></script>
+    <script src="/js/pay-checkout-init.js"></script>
 </body>
 </html>

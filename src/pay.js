@@ -78,11 +78,19 @@ function resolveAmountHalalas(plan, customInput) {
     return plan.amountHalalas;
 }
 
-async function mountMoyasarForm({ plan, amountHalalas, config }) {
-    const mount = document.getElementById('moyasar-form');
-    if (!mount) return;
+function resetMoyasarMount() {
+    const wrapper = document.getElementById('moyasar-mount');
+    if (!wrapper) return null;
+    wrapper.replaceChildren();
+    const mount = document.createElement('div');
+    mount.id = 'moyasar-form';
+    wrapper.appendChild(mount);
+    return mount;
+}
 
-    mount.innerHTML = '';
+async function mountMoyasarForm({ plan, amountHalalas, config }) {
+    if (!resetMoyasarMount()) return;
+
     loadStylesheet(MOYASAR_CSS);
     await loadScript(MOYASAR_JS);
 
@@ -94,19 +102,17 @@ async function mountMoyasarForm({ plan, amountHalalas, config }) {
     sessionStorage.setItem('raddad_pay_plan', plan.id);
     sessionStorage.setItem('raddad_pay_amount', String(amountHalalas));
 
+    // Card + Mada only until Apple Pay domain is registered in Moyasar dashboard.
     window.Moyasar.init({
         element: '#moyasar-form',
         amount: amountHalalas,
         currency: 'SAR',
+        language: 'ar',
         description: `raddad.sa — ${plan.title}`,
         publishable_api_key: config.moyasarPublishableKey,
         callback_url: callbackUrl,
-        methods: ['creditcard', 'mada', 'applepay'],
-        apple_pay: {
-            country: 'SA',
-            label: 'Raddad · raddad.sa',
-            validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate',
-        },
+        methods: ['creditcard', 'mada'],
+        supported_networks: ['mada', 'visa', 'mastercard'],
         metadata: {
             plan_id: plan.id,
             site: 'raddad.sa',

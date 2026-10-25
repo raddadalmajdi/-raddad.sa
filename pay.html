@@ -53,6 +53,23 @@
                         <input id="pay-custom-amount" name="custom_amount" type="number" min="5000" step="1" inputmode="numeric" placeholder="مثال: 15000">
                         <p class="muted" style="font-size:0.82rem;margin-top:6px;">يجب أن يطابق المبلغ المتفق عليه في عرض السعر.</p>
                     </div>
+                    <fieldset class="pay-plan-group pay-channel-picker">
+                        <legend>طريقة الدفع</legend>
+                        <label class="pay-plan-option">
+                            <input type="radio" name="pay_channel" value="card" checked>
+                            <span class="pay-plan-option__body">
+                                <strong>بطاقة</strong>
+                                <span class="muted">مدى · Visa · Mastercard</span>
+                            </span>
+                        </label>
+                        <label class="pay-plan-option">
+                            <input type="radio" name="pay_channel" value="applepay">
+                            <span class="pay-plan-option__body">
+                                <strong>Apple Pay</strong>
+                                <span class="muted">Safari على iPhone أو Mac</span>
+                            </span>
+                        </label>
+                    </fieldset>
                     <p id="pay-summary" class="muted"></p>
                     <button class="btn-primary" type="submit">عرض نموذج الدفع الآمن</button>
                     <p class="form-message" hidden></p>
@@ -71,7 +88,7 @@
 
         <section id="pay-gateway" class="card pay-gateway" hidden>
             <h2>إتمام الدفع</h2>
-            <p class="muted pay-gateway-hint">حقول البطاقة (مدى / Visa / Mastercard) تظهر تلقائياً <strong>أسفل</strong> زر Apple Pay — عبارة «أو ادفع باستخدام بطاقتك» للتوضيح وليست زراً.</p>
+            <p class="muted pay-gateway-hint" id="pay-gateway-hint"></p>
             <div id="moyasar-mount"></div>
         </section>
 
@@ -94,7 +111,7 @@
     <script src="/js/payment-config.js"></script>
     <script src="/js/site-business-boot.js" defer></script>
     <script src="/js/assistant-boot.js" defer></script>
-    <script type="module" src="/js/pay.bundle.js?v=4"></script>
+    <script type="module" src="/js/pay.bundle.js?v=5"></script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>

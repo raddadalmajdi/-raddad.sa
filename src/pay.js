@@ -7,8 +7,8 @@ import {
 } from './shared/paymentPlans.js';
 import { showFormMessage } from './shared/ui.js';
 
-const MOYASAR_JS = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.js';
-const MOYASAR_CSS = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.css';
+const MOYASAR_JS = 'https://cdn.moyasar.com/mpf/1.16.0/moyasar.js';
+const MOYASAR_CSS = 'https://cdn.moyasar.com/mpf/1.16.0/moyasar.css';
 
 function loadStylesheet(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
@@ -61,6 +61,20 @@ function getSelectedPlanId(form) {
     return selected ? selected.value : 'consultation';
 }
 
+function getSelectedPayChannel(form) {
+    const selected = form.querySelector('input[name="pay_channel"]:checked');
+    return selected?.value === 'applepay' ? 'applepay' : 'card';
+}
+
+function syncGatewayHint(channel) {
+    const hint = document.getElementById('pay-gateway-hint');
+    if (!hint) return;
+    hint.textContent =
+        channel === 'applepay'
+            ? 'اضغط زر Apple Pay لإتمام الدفع. لاختبار البطاقة، ارجع واختر «بطاقة» ثم اعرض النموذج من جديد.'
+            : 'أدخل بيانات البطاقة في الحقول أدناه ثم اضغط ادفع.';
+}
+
 function resolveAmountHalalas(plan, customInput) {
     if (plan.customAmount) {
         const sar = Number(String(customInput || '').replace(/,/g, '').trim());
@@ -88,9 +102,16 @@ function resetMoyasarMount() {
     return mount;
 }
 
-async function mountMoyasarForm({ plan, amountHalalas, config }) {
+function unloadMoyasarAssets() {
+    document.querySelectorAll(`script[src^="https://cdn.moyasar.com/mpf/"]`).forEach((el) => el.remove());
+    document.querySelectorAll(`link[href^="https://cdn.moyasar.com/mpf/"]`).forEach((el) => el.remove());
+    delete window.Moyasar;
+}
+
+async function mountMoyasarForm({ plan, amountHalalas, config, channel }) {
     if (!resetMoyasarMount()) return;
 
+    unloadMoyasarAssets();
     loadStylesheet(MOYASAR_CSS);
     await loadScript(MOYASAR_JS);
 
@@ -102,7 +123,7 @@ async function mountMoyasarForm({ plan, amountHalalas, config }) {
     sessionStorage.setItem('raddad_pay_plan', plan.id);
     sessionStorage.setItem('raddad_pay_amount', String(amountHalalas));
 
-    window.Moyasar.init({
+    const init = {
         element: '#moyasar-form',
         amount: amountHalalas,
         currency: 'SAR',
@@ -110,20 +131,28 @@ async function mountMoyasarForm({ plan, amountHalalas, config }) {
         description: `raddad.sa — ${plan.title}`,
         publishable_api_key: config.moyasarPublishableKey,
         callback_url: callbackUrl,
-        // Mada is a network on the card form — not a separate `methods` entry (see Moyasar docs).
-        methods: ['creditcard', 'applepay'],
-        supported_networks: ['mada', 'visa', 'mastercard'],
         fixed_width: false,
-        apple_pay: {
-            country: 'SA',
-            label: 'Raddad · raddad.sa',
-            validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate',
-        },
         metadata: {
             plan_id: plan.id,
             site: 'raddad.sa',
         },
-    });
+    };
+
+    if (channel === 'applepay') {
+        init.methods = ['applepay'];
+        init.apple_pay = {
+            country: 'SA',
+            label: 'Raddad · raddad.sa',
+            validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate',
+        };
+    } else {
+        init.methods = ['creditcard'];
+        init.supported_networks = ['mada', 'visa', 'mastercard'];
+    }
+
+    window.Moyasar.init(init);
+    syncGatewayHint(channel);
+    document.getElementById('pay-gateway')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function boot() {
@@ -157,7 +186,13 @@ function boot() {
     }
 
     planPicker.addEventListener('change', syncCustomField);
+    form.addEventListener('change', (event) => {
+        if (event.target?.name === 'pay_channel') {
+            syncGatewayHint(getSelectedPayChannel(form));
+        }
+    });
     syncCustomField();
+    syncGatewayHint(getSelectedPayChannel(form));
 
     if (!config.paymentsEnabled) {
         if (inactiveNotice) inactiveNotice.hidden = false;
@@ -187,7 +222,8 @@ function boot() {
             if (summary) {
                 summary.textContent = `المبلغ المطلوب: ${formatSarFromHalalas(amountHalalas)}`;
             }
-            await mountMoyasarForm({ plan, amountHalalas, config });
+            const channel = getSelectedPayChannel(form);
+            await mountMoyasarForm({ plan, amountHalalas, config, channel });
             showFormMessage(form, 'أكمل الدفع في النموذج الآمن أدناه.', 'success');
         } catch (error) {
             showFormMessage(form, error.message || 'تعذر تجهيز الدفع.', 'error');

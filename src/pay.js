@@ -110,8 +110,10 @@ async function mountMoyasarForm({ plan, amountHalalas, config }) {
         description: `raddad.sa — ${plan.title}`,
         publishable_api_key: config.moyasarPublishableKey,
         callback_url: callbackUrl,
-        methods: ['creditcard', 'mada', 'applepay'],
+        // Mada is a network on the card form — not a separate `methods` entry (see Moyasar docs).
+        methods: ['creditcard', 'applepay'],
         supported_networks: ['mada', 'visa', 'mastercard'],
+        fixed_width: false,
         apple_pay: {
             country: 'SA',
             label: 'Raddad · raddad.sa',

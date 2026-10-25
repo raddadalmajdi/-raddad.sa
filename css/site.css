@@ -874,6 +874,17 @@ a.card:hover {
 .pay-gateway {
     margin-top: 16px;
 }
+.pay-gateway-hint {
+    font-size: 0.85rem;
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+.pay-gateway #moyasar-mount,
+.pay-gateway .mysr-form-moyasarForm {
+    overflow: visible;
+    max-height: none;
+    min-height: 120px;
+}
 /* —— مساعد المنصة —— */
 .assistant-root {
     position: fixed;

@@ -1,7 +1,7 @@
 import { formatSarFromHalalas, getPlan } from './shared/paymentPlans.js';
 
-const MOYASAR_JS = 'https://cdn.moyasar.com/mpf/1.16.0/moyasar.js';
-const MOYASAR_CSS = 'https://cdn.moyasar.com/mpf/1.16.0/moyasar.css';
+const MOYASAR_JS = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.js';
+const MOYASAR_CSS = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.css';
 
 function showError(message) {
     const box = document.getElementById('checkout-error');
@@ -98,7 +98,7 @@ async function boot() {
     sessionStorage.setItem('raddad_pay_amount', String(amountHalalas));
 
     const init = {
-        element: '#moyasar-form',
+        element: '.mysr-form',
         amount: amountHalalas,
         currency: 'SAR',
         language: 'ar',
@@ -132,7 +132,7 @@ async function boot() {
     if (channel === 'card' && fallback) {
         window.setTimeout(() => {
             const hasField = document.querySelector(
-                '#moyasar-form input, #moyasar-form .mysr-form-cardInfo, #moyasar-form .mysr-form-inputGroup'
+                '.mysr-form input, .mysr-form .mysr-form-cardInfo, .mysr-form .mysr-form-inputGroup'
             );
             if (!hasField) {
                 fallback.hidden = false;
@@ -141,4 +141,8 @@ async function boot() {
     }
 }
 
-boot();
+if (document.readyState === 'complete') {
+    boot();
+} else {
+    window.addEventListener('load', () => boot(), { once: true });
+}

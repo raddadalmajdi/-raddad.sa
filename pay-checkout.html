@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/platform.css">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.16.0/moyasar.css">
+    <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.14.0/moyasar.css">
 </head>
 <body class="platform-body">
     <header class="site-nav">
@@ -28,11 +28,11 @@
         </div>
         <p id="checkout-error" class="status-banner status-banner--warn" hidden></p>
         <p id="checkout-fallback" class="status-banner status-banner--warn" hidden>
-            لم يظهر نموذج البطاقة. حدّث الصفحة، أو جرّب متصفحاً آخر، أو تواصل معنا على
-            <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a>.
+            لم يظهر نموذج البطاقة. تأكد في <strong>لوحة ميسر</strong> أن الدفع بالبطاقة مفعّل لحسابك (الوضع التجريبي)، ثم حدّث الصفحة. للمساعدة:
+            <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> أو دعم ميسر.
         </p>
         <section class="card pay-gateway pay-gateway--checkout">
-            <div id="moyasar-form" class="mysr-form"></div>
+            <div class="mysr-form"></div>
         </section>
     </main>
     <script src="/js/payment-config.js"></script>
@@ -42,7 +42,7 @@
             if (b) b.hidden = false;
         }
     </script>
-    <script src="https://cdn.moyasar.com/mpf/1.16.0/moyasar.js"></script>
+    <script src="https://cdn.moyasar.com/mpf/1.14.0/moyasar.js"></script>
     <script type="module" src="/js/payCheckout.bundle.js"></script>
 </body>
 </html>

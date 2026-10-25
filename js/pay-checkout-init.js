@@ -50,8 +50,11 @@
             description: 'raddad.sa order',
             publishable_api_key: String(cfg.moyasarPublishableKey || '').trim(),
             callback_url: callback,
-            supported_networks: ['mada', 'visa', 'mastercard'],
             fixed_width: false,
+            metadata: {
+                plan_id: planId,
+                site: 'raddad.sa',
+            },
         };
 
         if (channel === 'applepay') {
@@ -63,6 +66,7 @@
             };
         } else {
             init.methods = ['creditcard'];
+            init.supported_networks = ['visa', 'mastercard', 'mada'];
         }
 
         return init;
@@ -138,22 +142,10 @@
 
         window.setTimeout(function () {
             if (cardFormMounted()) return;
-            try {
-                mountMoyasar(init);
-            } catch (retryErr) {
-                /* ignore */
-            }
-            window.setTimeout(function () {
-                if (cardFormMounted()) return;
-                var fallback = document.getElementById('checkout-fallback');
-                if (fallback) fallback.hidden = false;
-            }, 4000);
-        }, 1500);
+            var fallback = document.getElementById('checkout-fallback');
+            if (fallback) fallback.hidden = false;
+        }, 8000);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-    } else {
-        boot();
-    }
+    window.addEventListener('load', boot, { once: true });
 })();

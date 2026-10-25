@@ -26,7 +26,7 @@
     <main class="container page">
         <div class="section-heading page-intro">
             <h1>الدفع الآمن</h1>
-            <p>بوابة دفع إلكترونية معتمدة — خدمات <strong>مناسبات بني غانم</strong> و<strong>إيصالك</strong>، أو تطوير واستشارات بعد <a href="/pricing.html">عرض السعر</a> و<a href="/terms.html">الشروط</a>.</p>
+            <p>اختر الخدمة والمبلغ، ثم أتمم الدفع عبر ميسر (مدى · Visa · Mastercard · Apple Pay). للمشاريع المخصصة راجع <a href="/pricing.html">الأسعار</a>.</p>
         </div>
 
         <div class="pay-trust-strip" role="note">
@@ -43,7 +43,7 @@
             وضع تجريبي (pk_test) — للاختبار فقط حتى تفعيل المفتاح الإنتاجي من ميسر.
         </div>
 
-        <div class="grid-2 pay-layout">
+        <div class="pay-layout" style="max-width: 520px; margin: 0 auto;">
             <section class="card">
                 <h2>اختر نوع الدفعة</h2>
                 <form id="pay-form" class="form-grid">
@@ -75,15 +75,9 @@
                     <p class="form-message" hidden></p>
                 </form>
             </section>
-            <section class="card pay-help">
-                <h2>لماذا الدفع من المنصة؟</h2>
-                <ul class="legal-list">
-                    <li>مرجع واضح لكل عملية مرتبط بخدمتك.</li>
-                    <li>متابعة من <a href="/client.html">بوابة العميل</a> والتذاكر.</li>
-                    <li>سياسات <a href="/refund.html">الاسترجاع</a> و<a href="/privacy.html">الخصوصية</a> منشورة.</li>
-                </ul>
-                <p class="muted">للمشاريع الجديدة يُفضّل <a href="/request.html">طلب فكرة</a> أولاً لاستلام عرض سعر.</p>
-            </section>
+            <p class="muted" style="text-align:center;font-size:0.88rem;margin-top:12px;">
+                <a href="/refund.html">الاسترجاع</a> · <a href="/privacy.html">الخصوصية</a> · <a href="/terms.html">الشروط</a>
+            </p>
         </div>
 
         <footer class="site-footer">
@@ -103,7 +97,7 @@
     <script src="/js/site-business.js"></script>
     <script src="/js/payment-config.js"></script>
     <script src="/js/site-business-boot.js" defer></script>
-    <script type="module" src="/js/pay.bundle.js?v=7"></script>
+    <script type="module" src="/js/pay.bundle.js?v=8"></script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>
 </body>

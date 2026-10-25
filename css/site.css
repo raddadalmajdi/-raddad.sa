@@ -880,10 +880,16 @@ a.card:hover {
     line-height: 1.5;
 }
 .pay-gateway #moyasar-mount,
-.pay-gateway .mysr-form-moyasarForm {
+.pay-gateway .mysr-form-moyasarForm,
+.pay-gateway--checkout .mysr-form,
+.pay-gateway--checkout .mysr-form-moyasarForm {
     overflow: visible;
     max-height: none;
     min-height: 120px;
+    width: 100%;
+}
+.pay-gateway--checkout {
+    margin-top: 12px;
 }
 /* —— مساعد المنصة —— */
 .assistant-root {

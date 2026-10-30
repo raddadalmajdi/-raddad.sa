@@ -8,5 +8,5 @@ window.firebaseConfig = {
     "appId": "1:447411415246:web:9b5b24bc33034c3218c89f"
 };
 window.firebaseConfig.adminEmails = [
-    "raddad@raddad.sa"
+    "raddadalmajdi@gmail.com"
 ];

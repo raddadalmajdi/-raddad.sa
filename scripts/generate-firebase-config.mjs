@@ -18,7 +18,7 @@ const config = {
     appId: process.env.VITE_FIREBASE_APP_ID || 'YOUR_APP_ID',
 };
 
-const adminEmails = (process.env.VITE_FIREBASE_ADMIN_EMAILS || 'raddad@raddad.sa')
+const adminEmails = (process.env.VITE_FIREBASE_ADMIN_EMAILS || 'raddadalmajdi@gmail.com')
     .split(',')
     .map((item) => item.trim())
     .filter(Boolean);

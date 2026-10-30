@@ -1,5 +1,5 @@
 function parseAdminEmails(raw) {
-    if (!raw) return ['raddad@raddad.sa'];
+    if (!raw) return ['raddadalmajdi@gmail.com'];
     return raw
         .split(',')
         .map((item) => item.trim().toLowerCase())

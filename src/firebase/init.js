@@ -99,7 +99,7 @@ export function isAdminEmail(email) {
     const fromWindow = window.firebaseConfig?.adminEmails;
     const list = Array.isArray(fromWindow) && fromWindow.length
         ? fromWindow.map((item) => String(item).trim().toLowerCase()).filter(Boolean)
-        : (readFirebaseConfig()?.adminEmails || ['raddad@raddad.sa']);
+        : (readFirebaseConfig()?.adminEmails || ['raddadalmajdi@gmail.com']);
 
     return list.includes(normalized);
 }

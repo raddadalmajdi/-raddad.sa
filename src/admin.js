@@ -351,7 +351,7 @@ function boot() {
                 notifyUser(
                     loginForm,
                     status,
-                    'أنت مسجّل بحساب عميل. سجّل الخروج من لوحة العميل أو استخدم raddad@raddad.sa هنا.',
+                    'أنت مسجّل بحساب عميل. سجّل الخروج من لوحة العميل أو استخدم raddadalmajdi@gmail.com هنا.',
                     'error'
                 );
             }
@@ -405,7 +405,7 @@ function boot() {
             notifyUser(
                 loginForm,
                 status,
-                'هذا البريد غير مصرّح كأدمن. استخدم raddad@raddad.sa.',
+                'هذا البريد غير مصرّح كأدمن. استخدم raddadalmajdi@gmail.com.',
                 'error'
             );
             return;

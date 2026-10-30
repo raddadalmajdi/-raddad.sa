@@ -72,6 +72,24 @@
                 </section>
             </div>
             <section class="card" style="margin-top: 16px;">
+                <h2>رابط دفع (واتساب)</h2>
+                <p class="muted" style="margin-bottom: 10px;">اكتب الخدمة والمبلغ — يُنشأ رابط للعميل يفتح صفحة دفع مستقلة.</p>
+                <form id="admin-payment-link-form" class="form-grid">
+                    <div class="field">
+                        <label for="admin-link-title">نوع الخدمة</label>
+                        <input id="admin-link-title" name="service_title" type="text" maxlength="120" required placeholder="مثال: موقع تعريفي + استضافة سنة">
+                    </div>
+                    <div class="field">
+                        <label for="admin-link-amount">المبلغ (ر.س)</label>
+                        <input id="admin-link-amount" name="amount_sar" type="number" min="1" step="0.01" inputmode="decimal" required placeholder="1500">
+                    </div>
+                    <button class="btn-primary" type="submit">إنشاء الرابط</button>
+                    <p class="form-message" hidden></p>
+                </form>
+                <div id="admin-payment-link-result" class="status-banner status-banner--ok" hidden style="margin-top:12px;"></div>
+                <div data-admin-payment-links style="margin-top: 16px;"></div>
+            </section>
+            <section class="card" style="margin-top: 16px;">
                 <h2>عمليات الدفع (ميسر)</h2>
                 <p class="muted" style="margin-bottom: 10px;">تُسجَّل تلقائياً عند عودة العميل من بوابة الدفع وهو مسجّل الدخول.</p>
                 <div data-admin-payments></div>
@@ -116,6 +134,7 @@
     </div>
 
     <script src="/js/firebase-config.js"></script>
+    <script src="/js/payment-config.js"></script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
     <script type="module" src="/js/admin.bundle.js"></script>
     <script src="/js/nav.js" defer></script>

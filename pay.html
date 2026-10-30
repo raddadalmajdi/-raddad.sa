@@ -3,102 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>الدفع الآمن | raddad.sa</title>
-    <meta name="description" content="دفع آمن عبر ميسر — استشارة، مقدّم مشروع، أو اشتراك صيانة بعد عرض السعر.">
+    <title>الدفع | raddad.sa</title>
+    <meta name="description" content="دفع آمن عبر ميسر — اختر الخدمة وأكمل الدفع.">
     <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="stylesheet" href="/css/site.css">
-    <link rel="stylesheet" href="/css/platform.css">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/pay-simple.css">
 </head>
-<body class="platform-body">
-    <header class="site-nav">
-        <div class="site-nav__inner">
-            <a class="nav-brand" href="/"><img class="nav-logo" src="/assets/logo.png" alt="" width="40" height="42"><span>رّداد · raddad.sa</span></a>
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
-            <nav class="nav-panel" id="main-nav" aria-label="التنقل الرئيسي">
-                <a href="/">الرئيسية</a>
-                <a href="/pricing.html">الأسعار</a>
-                <a href="/pay.html" aria-current="page">الدفع</a>
-                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
-            </nav>
-        </div>
+<body class="pay-simple">
+    <header class="pay-simple__header">
+        <a href="/">رّداد · raddad.sa</a>
+        <a href="/pricing.html">الأسعار</a>
     </header>
-    <main class="container page">
-        <div class="section-heading page-intro">
-            <h1>الدفع الآمن</h1>
-            <p>اختر الخدمة والمبلغ، ثم أتمم الدفع عبر ميسر (مدى · Visa · Mastercard · Apple Pay). للمشاريع المخصصة راجع <a href="/pricing.html">الأسعار</a>.</p>
+
+    <main class="pay-simple__main">
+        <h1>الدفع</h1>
+        <p class="pay-simple__lead">اختر الخدمة — الدفع عبر ميسر (مدى · Visa · Apple Pay)</p>
+
+        <div id="pay-inactive-notice" class="pay-simple__banner pay-simple__banner--warn" hidden>
+            الدفع غير مفعّل بعد. <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a>
+        </div>
+        <div id="pay-test-banner" class="pay-simple__banner pay-simple__banner--warn" hidden role="status">
+            وضع تجريبي — للاختبار فقط.
         </div>
 
-        <div class="pay-trust-strip" role="note">
-            <span>اتصال مشفّر HTTPS</span>
-            <span>مدى · Visa · Mastercard</span>
-            <span>فاتورة ومرجع عملية</span>
-            <span>عمل حر FL-629703910</span>
-        </div>
+        <form id="pay-form" class="pay-simple__form">
+            <div id="pay-plan-picker" class="pay-simple__plans"></div>
 
-        <div id="pay-inactive-notice" class="status-banner status-banner--warn" hidden>
-            بوابة ميسر مدمجة في المنصة وتُفعَّل فور استلام المفتاح العام من ميسر (<code>pk_test_</code> أو <code>pk_live_</code>). حتى ذلك الحين يمكنك إتمام التسجيل معهم وإرسال روابط الموقع. للفواتير أو الدفع اليدوي: <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> · <a href="tel:+966533160799">0533160799</a>.
-        </div>
-        <div id="pay-test-banner" class="status-banner status-banner--warn" hidden role="status">
-            وضع تجريبي (pk_test) — للاختبار فقط حتى تفعيل المفتاح الإنتاجي من ميسر.
-        </div>
-
-        <div class="pay-layout" style="max-width: 520px; margin: 0 auto;">
-            <section class="card">
-                <h2>اختر نوع الدفعة</h2>
-                <form id="pay-form" class="form-grid">
-                    <div id="pay-plan-picker" class="pay-plan-picker"></div>
-                    <div class="field" id="pay-custom-amount-field" hidden>
-                        <label for="pay-custom-amount">مبلغ المقدّم (ر.س)</label>
-                        <input id="pay-custom-amount" name="custom_amount" type="number" min="5000" step="1" inputmode="numeric" placeholder="مثال: 15000">
-                        <p class="muted" style="font-size:0.82rem;margin-top:6px;">يجب أن يطابق المبلغ المتفق عليه في عرض السعر.</p>
-                    </div>
-                    <fieldset class="pay-plan-group pay-channel-picker">
-                        <legend>طريقة الدفع</legend>
-                        <label class="pay-plan-option">
-                            <input type="radio" name="pay_channel" value="card" checked>
-                            <span class="pay-plan-option__body">
-                                <strong>بطاقة</strong>
-                                <span class="muted">مدى · Visa · Mastercard</span>
-                            </span>
-                        </label>
-                        <label class="pay-plan-option">
-                            <input type="radio" name="pay_channel" value="applepay">
-                            <span class="pay-plan-option__body">
-                                <strong>Apple Pay</strong>
-                                <span class="muted">Safari على iPhone أو Mac</span>
-                            </span>
-                        </label>
-                    </fieldset>
-                    <p id="pay-summary" class="muted"></p>
-                    <button class="btn-primary" type="submit">متابعة إلى الدفع الآمن</button>
-                    <p class="form-message" hidden></p>
-                </form>
-            </section>
-            <p class="muted" style="text-align:center;font-size:0.88rem;margin-top:12px;">
-                <a href="/refund.html">الاسترجاع</a> · <a href="/privacy.html">الخصوصية</a> · <a href="/terms.html">الشروط</a>
-            </p>
-        </div>
-
-        <footer class="site-footer">
-            <nav class="site-footer__legal" aria-label="السياسات والأسعار">
-                <a href="/pricing.html">الأسعار والدفع</a>
-                <a href="/terms.html">الشروط والأحكام</a>
-                <a href="/privacy.html">سياسة الخصوصية</a>
-                <a href="/refund.html">الاسترجاع والإلغاء</a>
-                <a href="/about.html">عن المنصة</a>
-            </nav>
-            <div class="site-footer__meta">
-                <span>&copy; 2026 raddad.sa</span>
-                <span><a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a></span>
+            <div class="pay-simple__field" id="pay-custom-amount-field" hidden>
+                <label for="pay-custom-amount">المبلغ (ر.س)</label>
+                <input id="pay-custom-amount" name="custom_amount" type="number" min="5000" step="1" inputmode="numeric" placeholder="15000">
             </div>
-        </footer>
+
+            <p class="pay-simple__label">طريقة الدفع</p>
+            <div class="pay-simple__channels">
+                <label class="pay-simple__pill">
+                    <input type="radio" name="pay_channel" value="card" checked>
+                    <span>بطاقة</span>
+                </label>
+                <label class="pay-simple__pill">
+                    <input type="radio" name="pay_channel" value="applepay">
+                    <span>Apple Pay</span>
+                </label>
+            </div>
+
+            <p id="pay-summary" class="pay-simple__summary"></p>
+            <button class="pay-simple__submit" type="submit">متابعة الدفع</button>
+            <p class="form-message" hidden></p>
+        </form>
+
+        <p class="pay-simple__legal">
+            <a href="/refund.html">الاسترجاع</a> · <a href="/privacy.html">الخصوصية</a> · <a href="/terms.html">الشروط</a>
+        </p>
     </main>
-    <script src="/js/site-business.js"></script>
+
     <script src="/js/payment-config.js"></script>
-    <script src="/js/site-business-boot.js" defer></script>
-    <script type="module" src="/js/pay.bundle.js?v=8"></script>
-    <script type="module" src="/js/navAuth.bundle.js"></script>
-    <script src="/js/nav.js" defer></script>
+    <script type="module" src="/js/pay.bundle.js?v=9"></script>
 </body>
 </html>

@@ -1,0 +1,255 @@
+/* صفحة الدفع — خفيفة ومختصرة */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body.pay-simple {
+    margin: 0;
+    font-family: 'Readex Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f6fbf9;
+    color: #134e4a;
+    line-height: 1.5;
+    min-height: 100dvh;
+}
+
+.pay-simple__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #fff;
+    border-bottom: 1px solid #dceee8;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.pay-simple__header a {
+    color: #0f766e;
+    text-decoration: none;
+}
+
+.pay-simple__main {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px 16px 32px;
+}
+
+.pay-simple__main h1 {
+    margin: 0 0 6px;
+    font-size: 1.35rem;
+    color: #042f2e;
+}
+
+.pay-simple__lead {
+    margin: 0 0 18px;
+    font-size: 0.82rem;
+    color: #5a8a80;
+}
+
+.pay-simple__banner {
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+.pay-simple__banner--warn {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+}
+
+.pay-simple__banner[hidden] {
+    display: none !important;
+}
+
+.pay-simple__form {
+    background: #fff;
+    border: 1px solid #dceee8;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 4px 16px rgba(4, 47, 46, 0.04);
+}
+
+.pay-simple__plans {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.pay-plan-group {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pay-plan-group legend {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 2px;
+    padding: 0;
+}
+
+.pay-plan-option--compact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #fafafa;
+}
+
+.pay-plan-option--compact:has(input:checked) {
+    border-color: #0d9488;
+    background: #ecfdf5;
+}
+
+.pay-plan-option--compact input {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+.pay-plan-option__row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pay-plan-option__name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #134e4a;
+}
+
+.pay-plan-option__price {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #0f766e;
+    white-space: nowrap;
+}
+
+.pay-simple__field {
+    margin-top: 12px;
+}
+
+.pay-simple__field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #64748b;
+}
+
+.pay-simple__field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.pay-simple__field[hidden] {
+    display: none !important;
+}
+
+.pay-simple__label {
+    margin: 14px 0 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.pay-simple__channels {
+    display: flex;
+    gap: 8px;
+}
+
+.pay-simple__pill {
+    flex: 1;
+    cursor: pointer;
+}
+
+.pay-simple__pill input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pay-simple__pill span {
+    display: block;
+    text-align: center;
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #fafafa;
+}
+
+.pay-simple__pill:has(input:checked) span {
+    border-color: #0d9488;
+    background: #ecfdf5;
+    color: #0f766e;
+}
+
+.pay-simple__summary {
+    margin: 12px 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0f766e;
+    min-height: 1.25em;
+}
+
+.pay-simple__submit {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: #0f766e;
+    cursor: pointer;
+}
+
+.pay-simple__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pay-simple__legal {
+    margin: 16px 0 0;
+    text-align: center;
+    font-size: 0.75rem;
+}
+
+.pay-simple__legal a {
+    color: #64748b;
+}
+
+.pay-simple__form .form-message {
+    margin-top: 10px;
+    font-size: 0.82rem;
+    color: #b91c1c;
+}
+
+.pay-simple__form .form-message[hidden] {
+    display: none !important;
+}

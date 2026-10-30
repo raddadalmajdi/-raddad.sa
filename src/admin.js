@@ -3,6 +3,13 @@ import { initFirebase, isAdminEmail, needsFirestoreLongPolling, prepareAuthPersi
 import { watchIdleSession } from './shared/sessionIdle.js';
 import { fetchAllIdeas } from './shared/ideas.js';
 import { fetchAllPayments } from './shared/payments.js';
+import {
+    buildPaymentLinkUrl,
+    buildWhatsAppShareUrl,
+    cancelPaymentLink,
+    createPaymentLink,
+    fetchAllPaymentLinks,
+} from './shared/paymentLinks.js';
 import { formatSarFromHalalas, getPlan } from './shared/paymentPlans.js';
 import {
     addTicketMessage,
@@ -92,6 +99,49 @@ function renderTickets(container, tickets, canManage) {
         .join('');
 }
 
+function renderPaymentLinks(container, links, siteUrl) {
+    if (!container) return;
+    if (!links.length) {
+        container.innerHTML = '<p class="muted">لا توجد روابط بعد. أنشئ رابطاً وأرسله واتساب.</p>';
+        return;
+    }
+    container.innerHTML = links
+        .map((link) => {
+            const url =
+                link.status === 'active'
+                    ? buildPaymentLinkUrl(link.id, siteUrl)
+                    : '';
+            const amount = formatSarFromHalalas(link.amountHalalas);
+            const statusLabel =
+                link.status === 'active'
+                    ? 'نشط'
+                    : link.status === 'paid'
+                      ? 'مدفوع'
+                      : link.status === 'cancelled'
+                        ? 'ملغى'
+                        : link.status || '';
+            return `
+        <article class="ticket-card">
+            <div class="ticket-card__head">
+                <strong>${escapeHtml(link.serviceTitle || 'دفعة')}</strong>
+                <span class="ticket-pill ticket-pill--normal">${escapeHtml(amount)} · ${escapeHtml(statusLabel)}</span>
+            </div>
+            ${
+                url
+                    ? `<p class="muted" style="word-break:break-all;font-size:0.82rem;"><a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(url)}</a></p>
+            <p style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+                <button type="button" class="btn-secondary" data-copy-link="${escapeHtml(link.id)}">نسخ الرابط</button>
+                <a class="btn-primary" href="${escapeHtml(buildWhatsAppShareUrl(url, link.serviceTitle, amount))}" target="_blank" rel="noopener">واتساب</a>
+                <button type="button" class="btn-logout" data-cancel-link="${escapeHtml(link.id)}">إلغاء الرابط</button>
+            </p>`
+                    : `<p class="muted">${escapeHtml(link.moyasarPaymentId || '')}</p>`
+            }
+            <footer class="ticket-card__meta"><time>${escapeHtml(formatDate(link.createdAt))}</time></footer>
+        </article>`;
+        })
+        .join('');
+}
+
 function renderPayments(container, payments) {
     if (!container) return;
     if (!payments.length) {
@@ -146,6 +196,7 @@ async function loadDashboard(db, canManage, statusEl) {
     let rawTickets = [];
     let ideas = [];
     let payments = [];
+    let paymentLinks = [];
     let loadError = null;
 
     try {
@@ -169,6 +220,13 @@ async function loadDashboard(db, canManage, statusEl) {
         console.error('fetchAllPayments', error);
     }
 
+    try {
+        paymentLinks = await fetchAllPaymentLinks(db);
+    } catch (error) {
+        if (!loadError) loadError = error;
+        console.error('fetchAllPaymentLinks', error);
+    }
+
     let tickets = [];
     try {
         tickets = await fetchTicketsWithMessages(db, rawTickets);
@@ -181,6 +239,8 @@ async function loadDashboard(db, canManage, statusEl) {
     renderTickets(document.querySelector('[data-admin-tickets]'), tickets, canManage);
     renderIdeas(document.querySelector('[data-admin-ideas]'), ideas);
     renderPayments(document.querySelector('[data-admin-payments]'), payments);
+    const siteUrl = window.paymentConfig?.siteUrl || 'https://raddad.sa';
+    renderPaymentLinks(document.querySelector('[data-admin-payment-links]'), paymentLinks, siteUrl);
 
     document.querySelector('[data-stats-tickets]').textContent = String(tickets.length);
     document.querySelector('[data-stats-ideas]').textContent = String(ideas.length);
@@ -477,6 +537,69 @@ function boot() {
     logoutBtn?.addEventListener('click', async () => {
         await signOut(auth);
         window.location.reload();
+    });
+
+    const linkForm = document.getElementById('admin-payment-link-form');
+    const linkResult = document.getElementById('admin-payment-link-result');
+    const linksContainer = document.querySelector('[data-admin-payment-links]');
+    const siteUrl = window.paymentConfig?.siteUrl || 'https://raddad.sa';
+
+    linkForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const user = auth.currentUser;
+        if (!user || !isAdminEmail(user.email)) return;
+
+        const data = new FormData(linkForm);
+        const serviceTitle = String(data.get('service_title') || '').trim();
+        const amountSar = String(data.get('amount_sar') || '').trim();
+
+        try {
+            const created = await createPaymentLink(db, user.email, { serviceTitle, amountSar });
+            const url = buildPaymentLinkUrl(created.id, siteUrl);
+            if (linkResult) {
+                linkResult.hidden = false;
+                linkResult.innerHTML = `تم الإنشاء — <a href="${escapeHtml(url)}" target="_blank" rel="noopener">فتح الرابط</a> · <a href="${escapeHtml(buildWhatsAppShareUrl(url, created.serviceTitle, formatSarFromHalalas(created.amountHalalas)))}" target="_blank" rel="noopener">إرسال واتساب</a>`;
+            }
+            showFormMessage(linkForm, 'تم إنشاء رابط الدفع.', 'success');
+            linkForm.reset();
+            await loadDashboard(db, true, status);
+        } catch (error) {
+            showFormMessage(linkForm, error.message || 'تعذر إنشاء الرابط.', 'error');
+        }
+    });
+
+    linksContainer?.addEventListener('click', async (event) => {
+        const copyBtn = event.target.closest('[data-copy-link]');
+        const cancelBtn = event.target.closest('[data-cancel-link]');
+        const user = auth.currentUser;
+        if (!user || !isAdminEmail(user.email)) return;
+
+        if (copyBtn) {
+            const id = copyBtn.getAttribute('data-copy-link');
+            if (!id) return;
+            const url = buildPaymentLinkUrl(id, siteUrl);
+            try {
+                await navigator.clipboard.writeText(url);
+                copyBtn.textContent = 'تم النسخ';
+                window.setTimeout(() => {
+                    copyBtn.textContent = 'نسخ الرابط';
+                }, 2000);
+            } catch {
+                window.prompt('انسخ الرابط:', url);
+            }
+            return;
+        }
+
+        if (cancelBtn) {
+            const id = cancelBtn.getAttribute('data-cancel-link');
+            if (!id || !window.confirm('إلغاء هذا الرابط؟ لن يستطيع العميل الدفع عبره.')) return;
+            try {
+                await cancelPaymentLink(db, id);
+                await loadDashboard(db, true, status);
+            } catch (error) {
+                alert(error.message || 'تعذر الإلغاء.');
+            }
+        }
     });
 }
 

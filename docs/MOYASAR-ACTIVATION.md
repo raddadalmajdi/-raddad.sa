@@ -1,13 +1,30 @@
 # تفعيل ميسر على raddad.sa
 
-## 1) بعد موافقة ميسر
+## ربط المفاتيح الحية (بعد ما يعطيك ميسر اللوحة)
 
-احصل على **المفتاح العام** فقط:
+المطلوب في الموقع **المفتاح العام فقط** `pk_live_...` (أو `pk_test_...` للتجربة).
+
+| المفتاح | أين يُستخدم |
+|--------|-------------|
+| `pk_live_` / `pk_test_` | `.env` → `npm run build` → `js/payment-config.js` → GitHub Pages |
+| `sk_live_` / `sk_test_` | **لا** في الموقع — فقط لوحة ميسر، أو Firebase Secret لـ Webhook لاحقاً |
+
+**لا تضع** `sk_` في Git أو في `payment-config.js`.
+
+### خطوات سريعة (raddad.sa)
+
+1. في `.env`: `VITE_MOYASAR_PUBLISHABLE_KEY=pk_live_xxxxxxxx`
+2. `npm run build` (يولّد `js/payment-config.js` ويُخفى تنبيه «وضع تجريبي» تلقائياً)
+3. GitHub → **Settings → Secrets → Actions** → `VITE_MOYASAR_PUBLISHABLE_KEY` = نفس `pk_live_...`
+4. ادفع `js/payment-config.js` مع التغييرات إلى `main`
+5. جرّب دفعة حقيقية صغيرة من `/pay.html` وتأكد في لوحة ميسر
+
+مشاريع أخرى (مثل **quuq.ai**): نفس `pk_live_` إن كان نفس حساب التاجر — انسخ منطق `payment-config.js` + صفحة الدفع، أو اربط نفس المستودع/النشر حسب استضافتك.
+
+## 1) المفاتيح (مرجع)
 
 - تجريبي: `pk_test_...`
 - إنتاج: `pk_live_...`
-
-**لا تضع** `sk_` في الموقع أو GitHub إلا كـ Secret لـ Cloud Functions (اختياري).
 
 ## 2) محلياً
 

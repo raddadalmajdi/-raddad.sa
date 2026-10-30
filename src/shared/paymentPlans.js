@@ -3,6 +3,7 @@ export const PAYMENT_PLANS = {
     consultation: {
         id: 'consultation',
         title: 'استشارة تقنية',
+        choiceLabel: 'استشارة تقنية',
         description: 'جلسة مراجعة فكرة وتقدير أولي (مدة محددة في عرض السعر).',
         amountHalalas: 50000,
         label: '500 ر.س',
@@ -11,6 +12,7 @@ export const PAYMENT_PLANS = {
     beni_ghanem_invite: {
         id: 'beni_ghanem_invite',
         title: 'دعوة زواج — تطبيق مناسبات بني غانم',
+        choiceLabel: 'دعوة زواج — بني غانم',
         description:
             'خدمة إضافة وتنسيق صورة دعوة الزواج داخل تطبيق مناسبات بني غانم (تصميم/رفع وفق المواصفات المتفق عليها).',
         amountHalalas: 19900,
@@ -20,8 +22,19 @@ export const PAYMENT_PLANS = {
     eysalk_monthly: {
         id: 'eysalk_monthly',
         title: 'اشتراك شهري — منصة إيصالك',
+        choiceLabel: 'إيصالك — اشتراك شهري',
         description:
             'اشتراك شهري لمنصة إيصالك: أرشفة واسترجاع الفواتير الورقية برقم الجوال لمتجرك أو نشاطك.',
+        amountHalalas: 29900,
+        label: '299 ر.س / شهر',
+        group: 'products',
+    },
+    quuq_ai_monthly: {
+        id: 'quuq_ai_monthly',
+        title: 'اشتراك شهري — quuq.ai للأعمال',
+        choiceLabel: 'quuq.ai — اشتراك شهري',
+        description:
+            'اشتراك شهري لمنصة quuq.ai: بورصة تداول الطلبات بين السائقين عبر SDK داخل تطبيق شركتك (299 ر.س/شهر + رسوم منصة لكل عملية).',
         amountHalalas: 29900,
         label: '299 ر.س / شهر',
         group: 'products',
@@ -29,6 +42,7 @@ export const PAYMENT_PLANS = {
     maintenance: {
         id: 'maintenance',
         title: 'اشتراك صيانة شهري',
+        choiceLabel: 'صيانة شهرية',
         description: 'دفعة شهرية للصيانة والدعم وفق العقد.',
         amountHalalas: 150000,
         label: '1,500 ر.س / شهر',
@@ -37,6 +51,7 @@ export const PAYMENT_PLANS = {
     deposit: {
         id: 'deposit',
         title: 'مقدّم مشروع',
+        choiceLabel: 'مقدّم مشروع',
         description: 'دفعة مقدّم بعد الموافقة على عرض السعر المكتوب.',
         amountHalalas: null,
         label: 'حسب عرض السعر',
@@ -50,11 +65,11 @@ export const PAYMENT_PLANS = {
 /** ترتيب العرض في صفحة الدفع */
 export const PAYMENT_PLAN_GROUPS = [
     {
-        legend: 'منتجاتنا — خدمات داخل التطبيق والمنصة',
-        planIds: ['beni_ghanem_invite', 'eysalk_monthly'],
+        legend: 'منتجات',
+        planIds: ['beni_ghanem_invite', 'eysalk_monthly', 'quuq_ai_monthly'],
     },
     {
-        legend: 'تطوير واستشارات',
+        legend: 'خدمات',
         planIds: ['consultation', 'maintenance', 'deposit'],
     },
 ];

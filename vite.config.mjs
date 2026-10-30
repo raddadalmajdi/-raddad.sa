@@ -14,6 +14,8 @@ export default defineConfig({
                 navAuth: resolve(__dirname, 'src/navAuth.js'),
                 pay: resolve(__dirname, 'src/pay.js'),
                 payCheckout: resolve(__dirname, 'src/payCheckout.js'),
+                payLinkCheckout: resolve(__dirname, 'src/payLinkCheckout.js'),
+                payRequest: resolve(__dirname, 'src/payRequest.js'),
                 paySuccess: resolve(__dirname, 'src/paySuccess.js'),
                 assistant: resolve(__dirname, 'src/assistant.js'),
             },

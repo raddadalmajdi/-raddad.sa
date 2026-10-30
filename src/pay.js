@@ -7,13 +7,13 @@ import {
 import { showFormMessage } from './shared/ui.js';
 
 function planOptionHtml(plan, checkedId) {
+    const name = plan.choiceLabel || plan.title;
     return `
-        <label class="pay-plan-option">
+        <label class="pay-plan-option pay-plan-option--compact">
             <input type="radio" name="plan" value="${plan.id}" ${plan.id === checkedId ? 'checked' : ''}>
-            <span class="pay-plan-option__body">
-                <strong>${plan.title}</strong>
-                <span class="muted">${plan.label}</span>
-                <span class="pay-plan-option__desc">${plan.description}</span>
+            <span class="pay-plan-option__row">
+                <span class="pay-plan-option__name">${name}</span>
+                <span class="pay-plan-option__price">${plan.label}</span>
             </span>
         </label>`;
 }
@@ -38,6 +38,12 @@ function getSelectedPlanId(form) {
 function getSelectedPayChannel(form) {
     const selected = form.querySelector('input[name="pay_channel"]:checked');
     return selected?.value === 'applepay' ? 'applepay' : 'card';
+}
+
+function sanitizePaySource(raw) {
+    const s = String(raw || '').trim().toLowerCase();
+    if (!/^[a-z][a-z0-9_]{0,31}$/.test(s)) return '';
+    return s;
 }
 
 function resolveAmountHalalas(plan, customInput) {
@@ -70,6 +76,7 @@ function boot() {
 
     const params = new URLSearchParams(window.location.search);
     const initialPlan = params.get('plan');
+    const initialSource = sanitizePaySource(params.get('source'));
     const defaultPlan =
         initialPlan && getPlan(initialPlan) ? initialPlan : 'beni_ghanem_invite';
 
@@ -81,8 +88,8 @@ function boot() {
         if (customField) customField.hidden = !show;
         if (summary && plan) {
             summary.textContent = plan.customAmount
-                ? 'أدخل مبلغ المقدّم المتفق عليه في عرض السعر.'
-                : `المبلغ: ${plan.label}`;
+                ? 'المبلغ حسب عرض السعر أدناه.'
+                : plan.label;
         }
     }
 
@@ -116,6 +123,7 @@ function boot() {
                 plan: plan.id,
                 channel,
             });
+            if (initialSource) checkoutParams.set('source', initialSource);
             if (plan.customAmount) {
                 const sar = Number(String(customInput?.value || '').replace(/,/g, '').trim());
                 if (!Number.isFinite(sar) || sar <= 0) {

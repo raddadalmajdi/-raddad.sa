@@ -6,6 +6,7 @@
     var PLANS = {
         beni_ghanem_invite: { title: 'دعوة زواج — بني غانم', halalas: 19900 },
         eysalk_monthly: { title: 'اشتراك إيصالك', halalas: 29900 },
+        quuq_ai_monthly: { title: 'اشتراك quuq.ai للأعمال', halalas: 29900 },
         consultation: { title: 'استشارة تقنية', halalas: 50000 },
         maintenance: { title: 'اشتراك صيانة', halalas: 150000 },
         deposit: {
@@ -38,7 +39,13 @@
         return halalas;
     }
 
-    function buildInit(cfg, planId, amountHalalas, channel) {
+    function sanitizeSource(raw) {
+        var s = String(raw || '').trim().toLowerCase();
+        if (!/^[a-z][a-z0-9_]{0,31}$/.test(s)) return '';
+        return s;
+    }
+
+    function buildInit(cfg, planId, amountHalalas, channel, source) {
         var callback =
             cfg.siteUrl + (cfg.callbackPath || '/pay-success.html') + '?plan=' + encodeURIComponent(planId);
 
@@ -54,6 +61,7 @@
             metadata: {
                 plan_id: planId,
                 site: 'raddad.sa',
+                source: source || 'raddad_sa',
             },
         };
 
@@ -126,10 +134,13 @@
             if (testBanner) testBanner.hidden = false;
         }
 
+        var source = sanitizeSource(params.get('source'));
+
         sessionStorage.setItem('raddad_pay_plan', planId);
         sessionStorage.setItem('raddad_pay_amount', String(amountHalalas));
+        if (source) sessionStorage.setItem('raddad_pay_source', source);
 
-        var init = buildInit(cfg, planId, amountHalalas, channel);
+        var init = buildInit(cfg, planId, amountHalalas, channel, source);
 
         try {
             mountMoyasar(init);

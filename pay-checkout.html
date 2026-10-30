@@ -30,7 +30,31 @@
         </div>
     </main>
     <script src="/js/payment-config.js?v=2"></script>
-    <script src="https://cdn.moyasar.com/mpf/1.14.0/moyasar.js"></script>
-    <script src="/js/pay-checkout-init.js?v=2"></script>
+    <script src="/js/firebase-config.js"></script>
+    <script>
+        (function () {
+            var link = new URLSearchParams(window.location.search).get('link');
+            var back = document.querySelector('.pay-checkout-header a[href="/pay.html"]');
+            if (link && back) {
+                back.href = '/pay-request.html?link=' + encodeURIComponent(link);
+                back.textContent = '← الرجوع';
+            }
+            if (link) {
+                var mod = document.createElement('script');
+                mod.type = 'module';
+                mod.src = '/js/payLinkCheckout.bundle.js?v=1';
+                document.body.appendChild(mod);
+                return;
+            }
+            var moyasar = document.createElement('script');
+            moyasar.src = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.js';
+            moyasar.onload = function () {
+                var init = document.createElement('script');
+                init.src = '/js/pay-checkout-init.js?v=2';
+                document.body.appendChild(init);
+            };
+            document.body.appendChild(moyasar);
+        })();
+    </script>
 </body>
 </html>

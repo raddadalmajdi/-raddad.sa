@@ -332,3 +332,41 @@ input[type="password"] {
     background: #fff;
 }
 .stat strong { display: block; font-size: 1.3rem; color: #0d9488; }
+
+.nav-admin-link {
+    font-weight: 600;
+    color: #0f766e;
+}
+
+.admin-entry-card {
+    margin-top: 1.25rem;
+    border-color: #99f6e4;
+    background: linear-gradient(180deg, #f0fdfa 0%, #fff 55%);
+}
+
+.admin-entry-card__head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+
+.admin-entry-card__icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.admin-entry-card h2 {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+}
+
+.admin-entry-card__lead {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.admin-entry-card__btn {
+    display: inline-block;
+    text-align: center;
+}

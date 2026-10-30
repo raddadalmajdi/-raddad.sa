@@ -43,7 +43,10 @@ function withTimeout(promise, ms, message) {
 }
 
 function setSubmitLoading(form, loading) {
-    const btn = form?.querySelector('button[type="submit"]');
+    const btn =
+        form?.querySelector('#admin-login-btn') ||
+        form?.querySelector('button[type="submit"]') ||
+        form?.querySelector('button[type="button"].btn-primary');
     if (!btn) return;
     const defaultLabel = btn.getAttribute('data-submit-label') || btn.textContent || 'دخول';
     btn.disabled = loading;
@@ -390,8 +393,17 @@ function boot() {
         attachAuthListener();
     }
 
-    loginForm?.addEventListener('submit', async (event) => {
+    loginForm?.addEventListener('submit', (event) => {
         event.preventDefault();
+        void performAdminLogin();
+    });
+
+    document.getElementById('admin-login-btn')?.addEventListener('click', () => {
+        void performAdminLogin();
+    });
+
+    async function performAdminLogin() {
+        if (!loginForm) return;
         const data = new FormData(loginForm);
         const email = String(data.get('email') || '').trim().toLowerCase();
         const password = String(data.get('password') || '');
@@ -441,7 +453,7 @@ function boot() {
         } finally {
             setSubmitLoading(loginForm, false);
         }
-    });
+    }
 
     const ticketsContainer = document.querySelector('[data-admin-tickets]');
 

@@ -43,7 +43,7 @@
             <p class="status-banner status-banner--ok" style="margin-bottom:12px;font-size:0.85rem;">
                 افتح لوحة الأدمن من <strong>https://raddad.sa/admin.html</strong> فقط — روابط <code>firebaseapp.com</code> لا تحتوي الموقع (404).
             </p>
-                <form id="admin-login-form" class="form-grid" method="post" action="#" autocomplete="on">
+            <form id="admin-login-form" class="form-grid" autocomplete="on" onsubmit="return false;">
                 <div class="field"><label for="admin-email">البريد الإلكتروني</label><input id="admin-email" name="email" type="email" value="raddadalmajdi@gmail.com" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required></div>
                 <div class="field"><label for="admin-password">كلمة المرور</label><input id="admin-password" name="password" type="password" lang="en" minlength="6" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" required></div>
                 <button class="btn-primary" type="submit" data-submit-label="دخول">دخول</button>
@@ -77,7 +77,7 @@
             <section class="card" style="margin-top: 16px;">
                 <h2>رابط دفع (واتساب)</h2>
                 <p class="muted" style="margin-bottom: 10px;">اكتب الخدمة والمبلغ — يُنشأ رابط للعميل يفتح صفحة دفع مستقلة.</p>
-                <form id="admin-payment-link-form" class="form-grid">
+                <form id="admin-payment-link-form" class="form-grid" onsubmit="return false;">
                     <div class="field">
                         <label for="admin-link-title">نوع الخدمة</label>
                         <input id="admin-link-title" name="service_title" type="text" maxlength="120" required placeholder="مثال: موقع تعريفي + استضافة سنة">

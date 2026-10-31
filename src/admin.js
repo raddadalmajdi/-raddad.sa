@@ -32,6 +32,61 @@ import {
 
 const AUTH_TIMEOUT_MS = 25000;
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/raddad@raddad.sa';
+const ADMIN_VIEWS = ['tickets', 'payment-links', 'ideas', 'payments'];
+
+function normalizeAdminView(raw) {
+    const view = String(raw || '').trim();
+    return ADMIN_VIEWS.includes(view) ? view : 'tickets';
+}
+
+function setAdminView(viewId, { updateHash = true, focusPanel = false } = {}) {
+    const view = normalizeAdminView(viewId);
+    const hub = document.querySelector('[data-admin-hub]');
+    hub?.querySelectorAll('[data-admin-view]').forEach((btn) => {
+        const active = btn.getAttribute('data-admin-view') === view;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-admin-panel]').forEach((panel) => {
+        const show = panel.getAttribute('data-admin-panel') === view;
+        panel.hidden = !show;
+    });
+    if (updateHash && window.location.hash.replace('#', '') !== view) {
+        history.replaceState(null, '', `#${view}`);
+    }
+    if (focusPanel) {
+        document.querySelector(`[data-admin-panel="${view}"]`)?.scrollIntoView({ block: 'start' });
+    }
+}
+
+function setupAdminHub() {
+    const hub = document.querySelector('[data-admin-hub]');
+    if (!hub) return;
+
+    hub.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-admin-view]');
+        if (!btn) return;
+        setAdminView(btn.getAttribute('data-admin-view'), { focusPanel: true });
+    });
+
+    const fromHash = normalizeAdminView(window.location.hash.replace(/^#/, ''));
+    setAdminView(fromHash, { updateHash: false });
+
+    window.addEventListener('hashchange', () => {
+        setAdminView(window.location.hash.replace(/^#/, ''), { updateHash: false });
+    });
+}
+
+function updateAdminHubBadges({ newTickets = 0 } = {}) {
+    const badge = document.querySelector('[data-hub-badge-tickets]');
+    if (!badge) return;
+    if (newTickets > 0) {
+        badge.hidden = false;
+        badge.textContent = String(newTickets);
+    } else {
+        badge.hidden = true;
+    }
+}
 
 function withTimeout(promise, ms, message) {
     return Promise.race([
@@ -255,6 +310,7 @@ async function loadDashboard(db, canManage, statusEl) {
     if (newStat) {
         newStat.textContent = String(newCount);
     }
+    updateAdminHubBadges({ newTickets: newCount });
     const payStat = document.querySelector('[data-stats-payments]');
     if (payStat) {
         payStat.textContent = String(payments.length);
@@ -306,6 +362,7 @@ function boot() {
     const { auth, db } = firebase;
 
     setupSafariPasswordField();
+    setupAdminHub();
 
     const timeoutParam = new URLSearchParams(window.location.search).get('reason');
     if (status && timeoutParam === 'timeout') {
@@ -574,6 +631,7 @@ function boot() {
             }
             showFormMessage(linkForm, 'تم إنشاء رابط الدفع.', 'success');
             linkForm.reset();
+            setAdminView('payment-links', { focusPanel: true });
             await loadDashboard(db, true, status);
         } catch (error) {
             showFormMessage(linkForm, error.message || 'تعذر إنشاء الرابط.', 'error');

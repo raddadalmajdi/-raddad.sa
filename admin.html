@@ -65,39 +65,76 @@
                 <div class="stat"><strong data-stats-ideas>0</strong><span class="muted">طلبات الأفكار</span></div>
             </div>
 
-            <div class="grid-2">
+            <nav class="admin-hub" aria-label="أقسام لوحة الأدمن" data-admin-hub>
+                <button type="button" class="admin-hub__tile is-active" data-admin-view="tickets" aria-pressed="true">
+                    <span class="admin-hub__icon" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 6h16M4 12h10M4 18h14"/><circle cx="19" cy="17" r="3"/></svg>
+                    </span>
+                    <span class="admin-hub__label">التذاكر</span>
+                    <span class="admin-hub__badge" data-hub-badge-tickets hidden>0</span>
+                </button>
+                <button type="button" class="admin-hub__tile" data-admin-view="payment-links" aria-pressed="false">
+                    <span class="admin-hub__icon admin-hub__icon--whatsapp" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                    </span>
+                    <span class="admin-hub__label">رابط دفع · واتساب</span>
+                </button>
+                <button type="button" class="admin-hub__tile" data-admin-view="ideas" aria-pressed="false">
+                    <span class="admin-hub__icon" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z"/></svg>
+                    </span>
+                    <span class="admin-hub__label">طلبات الأفكار</span>
+                </button>
+                <button type="button" class="admin-hub__tile" data-admin-view="payments" aria-pressed="false">
+                    <span class="admin-hub__icon" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                    </span>
+                    <span class="admin-hub__label">عمليات ميسر</span>
+                </button>
+            </nav>
+
+            <div class="admin-panel" data-admin-panel="tickets">
                 <section class="card">
                     <h2>كل التذاكر</h2>
                     <div data-admin-tickets></div>
                 </section>
+            </div>
+
+            <div class="admin-panel" data-admin-panel="payment-links" hidden>
+                <section class="card">
+                    <h2>رابط دفع (واتساب)</h2>
+                    <p class="muted" style="margin-bottom: 10px;">اكتب الخدمة والمبلغ — يُنشأ رابط للعميل يفتح صفحة دفع مستقلة.</p>
+                    <form id="admin-payment-link-form" class="form-grid">
+                        <div class="field">
+                            <label for="admin-link-title">نوع الخدمة</label>
+                            <input id="admin-link-title" name="service_title" type="text" maxlength="120" required placeholder="مثال: موقع تعريفي + استضافة سنة">
+                        </div>
+                        <div class="field">
+                            <label for="admin-link-amount">المبلغ (ر.س)</label>
+                            <input id="admin-link-amount" name="amount_sar" type="number" min="1" step="0.01" inputmode="decimal" required placeholder="1500">
+                        </div>
+                        <button class="btn-primary" type="submit">إنشاء الرابط</button>
+                        <p class="form-message" hidden></p>
+                    </form>
+                    <div id="admin-payment-link-result" class="status-banner status-banner--ok" hidden style="margin-top:12px;"></div>
+                    <div data-admin-payment-links style="margin-top: 16px;"></div>
+                </section>
+            </div>
+
+            <div class="admin-panel" data-admin-panel="ideas" hidden>
                 <section class="card">
                     <h2>طلبات أفكار التطبيقات</h2>
                     <div data-admin-ideas></div>
                 </section>
             </div>
-            <section class="card" style="margin-top: 16px;">
-                <h2>رابط دفع (واتساب)</h2>
-                <p class="muted" style="margin-bottom: 10px;">اكتب الخدمة والمبلغ — يُنشأ رابط للعميل يفتح صفحة دفع مستقلة.</p>
-                <form id="admin-payment-link-form" class="form-grid">
-                    <div class="field">
-                        <label for="admin-link-title">نوع الخدمة</label>
-                        <input id="admin-link-title" name="service_title" type="text" maxlength="120" required placeholder="مثال: موقع تعريفي + استضافة سنة">
-                    </div>
-                    <div class="field">
-                        <label for="admin-link-amount">المبلغ (ر.س)</label>
-                        <input id="admin-link-amount" name="amount_sar" type="number" min="1" step="0.01" inputmode="decimal" required placeholder="1500">
-                    </div>
-                    <button class="btn-primary" type="submit">إنشاء الرابط</button>
-                    <p class="form-message" hidden></p>
-                </form>
-                <div id="admin-payment-link-result" class="status-banner status-banner--ok" hidden style="margin-top:12px;"></div>
-                <div data-admin-payment-links style="margin-top: 16px;"></div>
-            </section>
-            <section class="card" style="margin-top: 16px;">
-                <h2>عمليات الدفع (ميسر)</h2>
-                <p class="muted" style="margin-bottom: 10px;">تُسجَّل تلقائياً عند عودة العميل من بوابة الدفع وهو مسجّل الدخول.</p>
-                <div data-admin-payments></div>
-            </section>
+
+            <div class="admin-panel" data-admin-panel="payments" hidden>
+                <section class="card">
+                    <h2>عمليات الدفع (ميسر)</h2>
+                    <p class="muted" style="margin-bottom: 10px;">تُسجَّل تلقائياً عند عودة العميل من بوابة الدفع وهو مسجّل الدخول.</p>
+                    <div data-admin-payments></div>
+                </section>
+            </div>
         </section>
     </div>
     </main>
@@ -148,7 +185,7 @@
         });
     </script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
-    <script type="module" src="/js/admin.bundle.js?v=2"></script>
+    <script type="module" src="/js/admin.bundle.js?v=3"></script>
     <script src="/js/nav.js" defer></script>
 </body>
 </html>

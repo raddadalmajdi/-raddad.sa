@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "raddad-sa"
+  },
+  "targets": {
+    "raddad-sa": {
+      "hosting": {
+        "eldres": ["eldres"],
+        "eigomedia": ["eigomedia"]
+      }
+    }
   }
 }

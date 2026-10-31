@@ -197,7 +197,56 @@
 
     /* ── Global: applied to every page ─────────────────────── */
     GLOBAL: [
-      /* Trust bar chips */
+      /* ── Trust section header (index + work + others) ── */
+      { s: '.trust-section__eyebrow', a: 'ثقة وامتثال', e: 'Trust & Compliance' },
+      { s: '.trust-section__lead',
+        a: 'وثيقة عمل حر سارية، وحماية للملكية الفكرية والنطاق وفق الأنظمة المعمول بها في المملكة.',
+        e: 'Active freelance license, intellectual property protection, and domain rights under Saudi regulations.' },
+      { s: '.trust-section__lead',
+        a: 'المشاريع محمية ملكياً؛ العمل يتم بموجب وثيقة عمل حر سارية في المملكة.',
+        e: 'All projects are IP-protected; work is conducted under a valid Saudi freelance license.' },
+      /* ── Trust card h3 titles ── */
+      { s: '.trust-card h3', a: 'التطبيقات والمنصات المعروضة', e: 'Featured Apps & Platforms' },
+      { s: '.trust-card h3', a: 'التطبيقات والمنصات',          e: 'Apps & Platforms' },
+      { s: '.trust-card h3', a: 'منصة raddad.sa',              e: 'raddad.sa Platform' },
+      { s: '.trust-card h3', a: 'النطاق raddad.sa',            e: 'raddad.sa Domain' },
+      { s: '.trust-card h3', a: 'وثيقة عمل حر',               e: 'Freelance License' },
+      { s: '.trust-card h3', a: 'آلية العمل والحماية',         e: 'Workflow & Protection' },
+      { s: '.trust-card h3', a: 'التطبيقات والمشاريع',         e: 'Apps & Projects' },
+      /* ── Trust card p texts (index.html versions) ── */
+      { s: '.trust-card p',
+        a: 'جميع التطبيقات والمشاريع المدرجة في معرض الأعمال تحمل تسجيلاً أو شهادة ملكية فكرية من الهيئة السعودية للملكية الفكرية.',
+        e: 'All apps and projects in the portfolio hold an IP registration or certificate from the Saudi Authority for Intellectual Property (SAIP).' },
+      { s: '.trust-card p',
+        a: 'هوية المنصة ومحتواها الرقمي موثّق ومحمي بموجب حقوق الملكية الفكرية المسجّلة لدى الهيئة السعودية للملكية الفكرية.',
+        e: 'The platform identity and digital content are documented and protected under intellectual property rights registered with SAIP.' },
+      { s: '.trust-card p',
+        a: 'النطاق raddad.sa معتمد ومرتبط بهوية المنصة الرسمية، مع ممارسات توثيق وحماية للهوية الرقمية والملكية الفكرية.',
+        e: 'The raddad.sa domain is verified and linked to the official platform identity, with documentation and digital IP protection practices.' },
+      /* ── Trust card p texts (work.html versions) ── */
+      { s: '.trust-card p',
+        a: 'كل منتج معروض يحمل تسجيلاً أو شهادة من الهيئة السعودية للملكية الفكرية.',
+        e: 'Every featured product holds a registration or certificate from the Saudi Authority for Intellectual Property (SAIP).' },
+      { s: '.trust-card p',
+        a: 'حقوق المنصة ومحتواها الرقمي موثّقة ومحمية ملكياً.',
+        e: 'The platform\'s rights and digital content are documented and IP-protected.' },
+      { s: '.trust-card p',
+        a: 'نطاق معتمد مرتبط بالهوية الرسمية للمنصة.',
+        e: 'A verified domain linked to the platform\'s official identity.' },
+      /* ── Trust card p with HTML children (partial match on first word) ── */
+      { s: '.trust-card p',
+        a: 'نشاط معتمد: تطوير برامج تطبيقات الجوال رمز التوثيق المعتمد: FL-629703910. أقدّم الخدمات بموجب وثيقة عمل حر سارية في المملكة.',
+        e: 'Certified Activity: Mobile App Development · License No. FL-629703910 · Services provided under a valid freelance license in Saudi Arabia.',
+        html: '<p class="trust-card__en-p">Certified Activity: <strong>Mobile App Development</strong> · License No.: <span class="verify-code">FL-629703910</span> · Services provided under a valid freelance license in the Kingdom of Saudi Arabia.</p>',
+        htmlSel: true },
+      { s: '.trust-card p',
+        a: 'نشاط معتمد: تطوير برامج تطبيقات الجوال رمز التوثيق المعتمد: FL-629703910. بموجب وثيقة عمل حر سارية في المملكة.',
+        e: 'Certified Activity: Mobile App Development · License No. FL-629703910 · Valid freelance license, Saudi Arabia.',
+        html: '<p>Certified Activity: <strong>Mobile App Development</strong> · License No.: <span class="verify-code">FL-629703910</span> · Valid freelance license — Saudi Arabia.</p>',
+        htmlSel: true },
+      /* Trust note */
+      { s: '.trust-note', a: 'للاستفسار عن التوثيق أو طلب إثبات التسجيل، تواصل عبر', e: 'For certification inquiries or proof of registration, contact:', partial: true },
+      /* ── Trust bar chips ── */
       { s: '.trust-bar__chip span',
         a: 'منتجات مسجّلة · الهيئة السعودية للملكية الفكرية',
         e: 'Registered Products · Saudi IP Authority (SAIP)' },
@@ -211,7 +260,7 @@
         a: 'رمز التوثيق:',
         e: 'License No.:',
         partial: true },
-      /* Footer nav links (for pages without nav-panel) */
+      /* ── Footer nav links (for pages without nav-panel) ── */
       { s: '.site-footer__legal a[href="/pricing.html"]', a: 'الأسعار والدفع', e: 'Pricing' },
       { s: '.site-footer__legal a[href="/pay.html"]',     a: 'الدفع الآمن',    e: 'Secure Payment' },
       { s: '.site-footer__legal a[href="/terms.html"]',   a: 'الشروط والأحكام', e: 'Terms & Conditions' },
@@ -512,6 +561,21 @@
 
           if (matches) {
             if (!el.hasAttribute('data-ar')) el.setAttribute('data-ar', el.textContent);
+            /* html:true rules use innerHTML on parent (for elements with child tags) */
+            if (rule.htmlSel && rule.html) {
+              var parent = el.parentElement;
+              if (!parent) return;
+              if (!parent.hasAttribute('data-ar-html')) {
+                parent.setAttribute('data-ar-html', parent.innerHTML);
+              }
+              if (lang === 'en') {
+                /* replace just this <p> inside parent */
+                parent.innerHTML = parent.innerHTML.replace(el.outerHTML, rule.html);
+              } else {
+                parent.innerHTML = parent.getAttribute('data-ar-html');
+              }
+              return; /* don't also do textContent */
+            }
             if (lang === 'en') {
               el.textContent = rule.partial
                 ? el.getAttribute('data-ar').replace(rule.a, rule.e)
@@ -523,6 +587,27 @@
         });
       });
     });
+  }
+
+  /* Translate assistant widget (created dynamically by assistant.bundle.js) */
+  function translateAssistant(lang) {
+    var label = document.querySelector('.assistant-toggle__label');
+    if (label) {
+      if (!label.hasAttribute('data-ar')) label.setAttribute('data-ar', label.textContent);
+      label.textContent = lang === 'en' ? 'Platform Assistant' : (label.getAttribute('data-ar') || 'مساعد المنصة');
+    }
+    var headStrong = document.querySelector('.assistant-panel__head strong');
+    if (headStrong) {
+      if (!headStrong.hasAttribute('data-ar')) headStrong.setAttribute('data-ar', headStrong.textContent);
+      headStrong.textContent = lang === 'en' ? 'raddad.sa Assistant' : (headStrong.getAttribute('data-ar') || 'مساعد raddad.sa');
+    }
+    var headMuted = document.querySelector('.assistant-panel__head .muted');
+    if (headMuted) {
+      if (!headMuted.hasAttribute('data-ar')) headMuted.setAttribute('data-ar', headMuted.textContent);
+      headMuted.textContent = lang === 'en'
+        ? 'Quick answers · Page guidance'
+        : (headMuted.getAttribute('data-ar') || 'إجابات سريعة · توجيه للصفحات المناسبة');
+    }
   }
 
   /* Update lang switcher buttons */
@@ -541,11 +626,17 @@
     applyNavLinks(lang);
     applyDataI18n(lang);
     applyRules(lang);
+    translateAssistant(lang);
     updateSwitcher(lang);
 
     localStorage.setItem('raddad_lang', lang);
     document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang } }));
   }
+
+  /* Re-run translation on assistant widget once it mounts (it loads after i18n) */
+  document.addEventListener('langchange', function (e) {
+    setTimeout(function () { translateAssistant(e.detail.lang); }, 600);
+  });
 
   /* ══════════════════════════════════════════════════════════════
      5. INJECT 🌐 SWITCHER

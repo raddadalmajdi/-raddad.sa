@@ -778,6 +778,43 @@ a.card:hover {
 
 .ip-badge img { flex-shrink: 0; }
 
+/* ── بادجات الدومين للمشاريع الدولية ── */
+.project-domain-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 4px;
+}
+
+.domain-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border: 1.5px solid transparent;
+}
+
+.domain-badge--us {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.domain-badge--jp {
+    background: #fff1f2;
+    border-color: #fecdd3;
+    color: #be123c;
+}
+
+.domain-badge--links {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
 /* ——— ترتيب الجوال ——— */
 @media (max-width: 859px) {
     .hero-home {

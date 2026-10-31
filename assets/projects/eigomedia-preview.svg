@@ -1,63 +1,77 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 392 804" width="392" height="804">
   <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1a0a0a"/>
-      <stop offset="100%" stop-color="#2d0a0a"/>
+    <linearGradient id="bgJp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0010"/>
+      <stop offset="100%" stop-color="#3d0018"/>
     </linearGradient>
-    <linearGradient id="card2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#9b1c1c"/>
-      <stop offset="100%" stop-color="#7f1d1d"/>
+    <linearGradient id="cardJp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7f1d1d"/>
+      <stop offset="100%" stop-color="#4c0519"/>
     </linearGradient>
   </defs>
 
   <!-- Background -->
-  <rect width="392" height="804" fill="url(#bg2)"/>
+  <rect width="392" height="804" fill="url(#bgJp)"/>
 
-  <!-- Top status bar -->
-  <rect width="392" height="48" fill="rgba(0,0,0,0.35)"/>
-  <text x="196" y="30" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.7)">9:41 AM</text>
+  <!-- Status bar -->
+  <rect width="392" height="48" fill="rgba(0,0,0,0.4)"/>
+  <text x="40" y="30" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" fill="rgba(255,255,255,0.7)" font-weight="600">9:41</text>
+  <text x="352" y="30" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" fill="rgba(255,255,255,0.7)">100%</text>
 
-  <!-- App header -->
-  <rect y="48" width="392" height="72" fill="rgba(255,255,255,0.05)"/>
-  <text x="32" y="100" font-size="32">=Ú</text>
-  <text x="76" y="88" font-family="'Helvetica Neue',Arial,sans-serif" font-size="18" font-weight="700" fill="#fff">Eigo Media</text>
-  <text x="76" y="108" font-family="'Helvetica Neue',Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">ñžáÇ£¢  English Learning</text>
-  <text x="360" y="100" text-anchor="end" font-size="22"><ï<õ</text>
+  <!-- App header bar -->
+  <rect y="48" width="392" height="64" fill="rgba(255,255,255,0.05)"/>
+  <text x="196" y="82" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="20" font-weight="800" fill="#ffffff" letter-spacing="1">EIGO MEDIA</text>
+  <text x="196" y="103" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.6)">&#82f1;&#8a9e;&#30e1;&#30c7;&#30a3;&#30a2;</text>
+
+  <!-- JP Flag circle -->
+  <circle cx="196" cy="148" r="22" fill="#ffffff"/>
+  <circle cx="196" cy="148" r="10" fill="#BC002D"/>
 
   <!-- Domain authority card -->
-  <rect x="20" y="140" width="352" height="80" rx="12" fill="url(#card2)"/>
-  <text x="196" y="170" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.6)">DOMAIN AUTHORITY</text>
-  <text x="196" y="198" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="25" font-weight="700" fill="#fff">eigomedia.com</text>
+  <rect x="20" y="186" width="352" height="90" rx="14" fill="url(#cardJp)"/>
+  <text x="196" y="212" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.5)" letter-spacing="2">PREMIUM DOMAIN</text>
+  <text x="196" y="248" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="28" font-weight="900" fill="#ffffff">eigomedia.com</text>
+  <text x="196" y="266" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">Japan · English Learning Platform</text>
 
   <!-- Stats row -->
-  <rect x="20" y="238" width="110" height="70" rx="10" fill="rgba(255,255,255,0.08)"/>
-  <text x="75" y="263" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)">FOUNDED</text>
-  <text x="75" y="288" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="700" fill="#f87171">1997</text>
+  <!-- Founded -->
+  <rect x="20" y="294" width="107" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+  <text x="73" y="322" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" font-weight="600" fill="rgba(255,255,255,0.45)" letter-spacing="1.5">FOUNDED</text>
+  <text x="73" y="354" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="30" font-weight="900" fill="#f9a8d4">1997</text>
 
-  <rect x="141" y="238" width="110" height="70" rx="10" fill="rgba(255,255,255,0.08)"/>
-  <text x="196" y="263" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)">DOMAIN AGE</text>
-  <text x="196" y="288" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="700" fill="#34d399">29 yrs</text>
+  <!-- Age -->
+  <rect x="142" y="294" width="108" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+  <text x="196" y="322" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" font-weight="600" fill="rgba(255,255,255,0.45)" letter-spacing="1.5">DOMAIN AGE</text>
+  <text x="196" y="350" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="26" font-weight="900" fill="#34d399">29 yrs</text>
 
-  <rect x="262" y="238" width="110" height="70" rx="10" fill="rgba(255,255,255,0.08)"/>
-  <text x="317" y="263" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)">BACKLINKS</text>
-  <text x="317" y="288" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="700" fill="#f59e0b">647</text>
+  <!-- Backlinks -->
+  <rect x="265" y="294" width="107" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+  <text x="318" y="322" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" font-weight="600" fill="rgba(255,255,255,0.45)" letter-spacing="1.5">BACKLINKS</text>
+  <text x="318" y="354" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="30" font-weight="900" fill="#f59e0b">647</text>
 
-  <!-- Location banner -->
-  <rect x="20" y="326" width="352" height="44" rx="10" fill="rgba(255,255,255,0.06)"/>
-  <text x="196" y="354" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.8)">=Í Japan · ñž = Eigo (English)</text>
+  <!-- JP Sites badge -->
+  <rect x="20" y="390" width="352" height="48" rx="12" fill="rgba(188,0,45,0.2)" stroke="rgba(188,0,45,0.4)" stroke-width="1"/>
+  <text x="196" y="420" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="14" font-weight="700" fill="#fca5a5">647 Japanese Referring Sites</text>
 
-  <!-- Feature list -->
-  <text x="32" y="404" font-family="'Helvetica Neue',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.85)">  *9DQE 'D%F,DJ2J) DDF'7BJF ('DJ'('FJ)</text>
-  <text x="32" y="434" font-family="'Helvetica Neue',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.85)">  /1H3 *A'9DJ) HE-'/+)</text>
-  <text x="32" y="464" font-family="'Helvetica Neue',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.85)">  EB'79 5H*J) H*E'1JF</text>
-  <text x="32" y="494" font-family="'Helvetica Neue',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.85)">  '.*('1'* HE*'(9) 'D*B/E</text>
+  <!-- English word card -->
+  <rect x="20" y="456" width="352" height="110" rx="14" fill="rgba(255,255,255,0.06)"/>
+  <text x="196" y="490" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">ENGLISH WORD OF THE DAY</text>
+  <text x="196" y="532" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="36" font-weight="900" fill="#ffffff">&#82f1;&#8a9e;</text>
+  <text x="196" y="556" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" fill="rgba(255,255,255,0.45)">Eigo — English</text>
+
+  <!-- Features -->
+  <rect x="20" y="582" width="352" height="40" rx="10" fill="rgba(255,255,255,0.05)"/>
+  <text x="196" y="608" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.75)">E-Learning · Japan Market</text>
+
+  <rect x="20" y="632" width="352" height="40" rx="10" fill="rgba(255,255,255,0.05)"/>
+  <text x="196" y="658" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.75)">Web Platform · Firebase</text>
 
   <!-- Dev badge -->
-  <rect x="20" y="530" width="352" height="52" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-  <text x="196" y="556" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">DEVELOPED BY</text>
-  <text x="196" y="574" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="14" font-weight="700" fill="#5eead4">raddad · 1Q/'/</text>
+  <rect x="20" y="688" width="352" height="52" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="196" y="710" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.4)" letter-spacing="1.5">DEVELOPED BY</text>
+  <text x="196" y="730" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="16" font-weight="800" fill="#5eead4">raddad.sa</text>
 
-  <!-- Bottom spacer -->
+  <!-- Bottom home indicator -->
   <rect y="760" width="392" height="44" fill="rgba(0,0,0,0.35)"/>
-  <rect x="156" y="776" width="80" height="5" rx="3" fill="rgba(255,255,255,0.3)"/>
+  <rect x="156" y="777" width="80" height="5" rx="3" fill="rgba(255,255,255,0.25)"/>
 </svg>

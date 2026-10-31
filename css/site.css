@@ -264,6 +264,15 @@ h1 {
 
 .subtitle-note { color: var(--green-800); font-weight: 700; }
 
+.fl-inline {
+    display: inline;
+    font-size: 0.72em;
+    font-weight: 500;
+    color: var(--green-700);
+    opacity: 0.8;
+    white-space: normal;
+}
+
 .freelance-logo {
     display: block;
     object-fit: contain;

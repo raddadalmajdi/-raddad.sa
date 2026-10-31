@@ -223,16 +223,26 @@
         footer a:hover { color: #fca5a5; }
         .footer-dev {
             display: inline-block;
-            margin-top: 12px;
-            padding: 8px 20px;
+            margin-top: 14px;
+            padding: 12px 20px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 999px;
-            font-size: 0.81rem;
+            border-radius: 12px;
+            font-size: 0.78rem;
             color: #fca5a5;
+            line-height: 1.65;
+            text-align: center;
+            max-width: 620px;
         }
         .footer-dev a { color: #5eead4; }
-        .footer-meta { margin-top: 14px; font-size: 0.74rem; color: rgba(255,255,255,0.25); }
+        .footer-dev .fl-cert {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.71rem;
+            color: rgba(252,165,165,0.65);
+        }
+        .footer-dev .fl-cert .cert-badge { margin-inline-end: 4px; }
+        .footer-meta { margin-top: 14px; font-size: 0.72rem; color: rgba(255,255,255,0.23); }
 
         @media (max-width: 480px) {
             .hero__brand { font-size: 2.1rem; }
@@ -358,8 +368,15 @@
     <footer>
         <div>&copy; 2026 Eigo Media · eigomedia.com · 英語メディア · Since 1997</div>
         <div class="footer-dev">
-            Developed by
-            <a href="https://raddad.sa" rel="dofollow" target="_blank">Raddad.sa — تطوير تطبيقات جوال</a>
+            Developed by <strong><a href="https://raddad.sa" rel="dofollow" target="_blank">Raddad Al-Majdi</a></strong>
+            · <span lang="ja">認定フリーランス開発者</span> · Certified Freelance Developer
+            · <a href="https://raddad.sa" rel="dofollow" target="_blank">raddad.sa</a>
+            <span class="fl-cert">
+                <span class="cert-badge">🏅</span>
+                Freelance License <strong>FL-629703910</strong>
+                · Saudi Arabia · Ministry of Human Resources and Social Development
+                · Specialized in Mobile App Development
+            </span>
         </div>
         <div class="footer-meta">英語学習プラットフォーム · English Learning Platform · Japan · 1997–2026</div>
     </footer>

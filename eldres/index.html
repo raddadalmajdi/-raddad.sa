@@ -183,16 +183,26 @@
         footer a:hover { color: #93c5fd; }
         .footer-dev {
             display: inline-block;
-            margin-top: 12px;
-            padding: 8px 20px;
+            margin-top: 14px;
+            padding: 12px 20px;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 999px;
-            font-size: 0.82rem;
+            border-radius: 12px;
+            font-size: 0.78rem;
             color: #bfdbfe;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 600px;
         }
         .footer-dev a { color: #5eead4; }
-        .footer-meta { margin-top: 16px; font-size: 0.76rem; color: rgba(255,255,255,0.3); }
+        .footer-dev .fl-cert {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.72rem;
+            color: rgba(191,219,254,0.7);
+        }
+        .footer-dev .fl-cert .cert-badge { margin-inline-end: 4px; }
+        .footer-meta { margin-top: 14px; font-size: 0.74rem; color: rgba(255,255,255,0.28); }
 
         @media (max-width: 480px) {
             .hero__logo { font-size: 2rem; }
@@ -299,8 +309,15 @@
     <footer>
         <div>&copy; 2026 Eldres · eldres.com · West Roxbury, MA 02132</div>
         <div class="footer-dev">
-            Developed by
-            <a href="https://raddad.sa" rel="dofollow" target="_blank">Raddad.sa — تطوير تطبيقات جوال</a>
+            Developed by <strong><a href="https://raddad.sa" rel="dofollow" target="_blank">Raddad Al-Majdi</a></strong>
+            · Certified Freelance Developer
+            · <a href="https://raddad.sa" rel="dofollow" target="_blank">raddad.sa</a>
+            <span class="fl-cert">
+                <span class="cert-badge">🏅</span>
+                Saudi Freelance License <strong>FL-629703910</strong>
+                · Licensed by Ministry of Human Resources and Social Development, Saudi Arabia
+                · Specialized in Mobile App Development
+            </span>
         </div>
         <div class="footer-meta">Senior Care Software · Boston, Massachusetts · Since 2001</div>
     </footer>

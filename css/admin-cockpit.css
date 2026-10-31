@@ -1,0 +1,414 @@
+/* ============================================================
+   admin-cockpit.css — لوحة تحكم الأدمن بتصميم الكوكبيت
+   ============================================================ */
+
+/* ── شاشة الدخول ── */
+.ck-login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 24px;
+}
+
+.ck-login-card {
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(160deg, #042f2e 0%, #0f766e 100%);
+    border-radius: 20px;
+    padding: 36px 32px 28px;
+    box-shadow: 0 20px 60px rgba(4, 47, 46, 0.35);
+    color: #e0faf8;
+}
+
+.ck-login-card__brand {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.ck-login-card__shield {
+    font-size: 2.8rem;
+    line-height: 1;
+    display: block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 8px rgba(20, 184, 166, 0.5));
+}
+
+.ck-login-card h1 {
+    color: #fff;
+    font-size: 1.45rem;
+    margin: 0 0 4px;
+}
+
+.ck-login-card__sub {
+    color: #99f6e4;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.ck-login-card .field label {
+    color: #99f6e4;
+    font-size: 0.82rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.ck-login-card .field input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(153, 246, 228, 0.3);
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 12px;
+    width: 100%;
+    font: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.ck-login-card .field input:focus {
+    border-color: #5eead4;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.ck-login-card .field input::placeholder { color: rgba(255,255,255,0.35); }
+
+.ck-login-btn {
+    width: 100%;
+    margin-top: 4px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    box-shadow: 0 4px 16px rgba(13, 148, 136, 0.4);
+}
+
+.ck-login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.ck-login-btn:active { transform: translateY(0); }
+.ck-login-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.ck-login-card .form-message {
+    font-size: 0.82rem;
+    color: #fca5a5;
+    margin-top: 6px;
+}
+
+.ck-login-card__note {
+    margin-top: 18px;
+    font-size: 0.75rem;
+    color: rgba(153, 246, 228, 0.55);
+    text-align: center;
+}
+
+.ck-login-card .status-banner {
+    font-size: 0.82rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(153,246,228,0.25);
+    color: #ccfbf1;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+/* ── رأس اللوحة ── */
+.ck-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(135deg, #042f2e 0%, #134e4a 100%);
+    border-radius: 16px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(4, 47, 46, 0.2);
+}
+
+.ck-header__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ck-header__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(20, 184, 166, 0.2);
+    border: 1px solid rgba(94, 234, 212, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.ck-header__title {
+    color: #ccfbf1;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.ck-header__welcome {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-top: 1px;
+}
+
+.ck-header__logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(94, 234, 212, 0.25);
+    border-radius: 8px;
+    color: #99f6e4;
+    font: inherit;
+    font-size: 0.84rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.ck-header__logout:hover { background: rgba(255,255,255,0.14); }
+
+/* ── إحصائيات ── */
+.ck-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.ck-stat {
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.ck-stat strong {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.ck-stat span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.ck-stat--teal   { background: #f0fdfa; border-color: #99f6e4; color: #0f766e; }
+.ck-stat--orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.ck-stat--red    { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+.ck-stat--blue   { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+.ck-stat--purple { background: #faf5ff; border-color: #d8b4fe; color: #7c3aed; }
+
+/* ── لوحة الكوكبيت (الأيقونات) ── */
+.ck-cockpit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.ck-tile {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 148px;
+    padding: 22px 14px 18px;
+    border-radius: 18px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font: inherit;
+    transition: transform 0.18s, box-shadow 0.18s;
+    text-align: center;
+}
+
+.ck-tile:hover { transform: translateY(-3px); }
+
+.ck-tile__glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    border-radius: inherit;
+    transition: opacity 0.25s;
+    pointer-events: none;
+}
+
+.ck-tile.is-active .ck-tile__glow { opacity: 1; }
+.ck-tile:hover .ck-tile__glow { opacity: 0.5; }
+
+.ck-tile__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    transition: transform 0.18s;
+}
+
+.ck-tile.is-active .ck-tile__icon { transform: scale(1.08); }
+
+.ck-tile__label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.ck-tile__sub {
+    font-size: 0.72rem;
+    opacity: 0.7;
+    margin-top: -4px;
+}
+
+.ck-tile__badge {
+    position: absolute;
+    top: 10px;
+    inset-inline-start: 10px;
+    min-width: 1.5rem;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: #dc2626;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+/* ألوان الأيقونات */
+.ck-tile--teal {
+    background: linear-gradient(145deg, #f0fdfa, #ccfbf1);
+    border-color: #5eead4;
+    color: #0f766e;
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.12);
+}
+.ck-tile--teal .ck-tile__glow {
+    background: linear-gradient(145deg, #99f6e4 0%, transparent 70%);
+}
+.ck-tile--teal .ck-tile__icon {
+    background: rgba(20, 184, 166, 0.15);
+    color: #0d9488;
+}
+.ck-tile--teal.is-active {
+    border-color: #0d9488;
+    box-shadow: 0 6px 24px rgba(13, 148, 136, 0.3), 0 0 0 2px rgba(13,148,136,0.15);
+}
+
+.ck-tile--green {
+    background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+    border-color: #86efac;
+    color: #15803d;
+    box-shadow: 0 4px 14px rgba(21, 128, 61, 0.1);
+}
+.ck-tile--green .ck-tile__glow {
+    background: linear-gradient(145deg, #bbf7d0 0%, transparent 70%);
+}
+.ck-tile--green .ck-tile__icon {
+    background: rgba(37, 211, 102, 0.12);
+    color: #16a34a;
+}
+.ck-tile--green.is-active {
+    border-color: #16a34a;
+    box-shadow: 0 6px 24px rgba(21, 128, 61, 0.28), 0 0 0 2px rgba(21,128,61,0.12);
+}
+
+.ck-tile--purple {
+    background: linear-gradient(145deg, #faf5ff, #f3e8ff);
+    border-color: #c4b5fd;
+    color: #6d28d9;
+    box-shadow: 0 4px 14px rgba(109, 40, 217, 0.1);
+}
+.ck-tile--purple .ck-tile__glow {
+    background: linear-gradient(145deg, #ddd6fe 0%, transparent 70%);
+}
+.ck-tile--purple .ck-tile__icon {
+    background: rgba(139, 92, 246, 0.12);
+    color: #7c3aed;
+}
+.ck-tile--purple.is-active {
+    border-color: #7c3aed;
+    box-shadow: 0 6px 24px rgba(109, 40, 217, 0.25), 0 0 0 2px rgba(109,40,217,0.1);
+}
+
+.ck-tile--blue {
+    background: linear-gradient(145deg, #eff6ff, #dbeafe);
+    border-color: #93c5fd;
+    color: #1d4ed8;
+    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.1);
+}
+.ck-tile--blue .ck-tile__glow {
+    background: linear-gradient(145deg, #bfdbfe 0%, transparent 70%);
+}
+.ck-tile--blue .ck-tile__icon {
+    background: rgba(59, 130, 246, 0.12);
+    color: #2563eb;
+}
+.ck-tile--blue.is-active {
+    border-color: #2563eb;
+    box-shadow: 0 6px 24px rgba(29, 78, 216, 0.25), 0 0 0 2px rgba(29,78,216,0.1);
+}
+
+/* ── الأقسام ── */
+.ck-panel {
+    animation: ck-panel-in 0.22s ease;
+}
+
+@keyframes ck-panel-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.admin-panel[hidden] { display: none !important; }
+
+.ck-panel__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 12px 12px 0 0;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: -1px;
+}
+
+.ck-panel__head h2 { margin: 0; font-size: inherit; color: inherit; }
+
+.ck-panel__head--teal   { background: #0d9488; color: #fff; }
+.ck-panel__head--green  { background: #16a34a; color: #fff; }
+.ck-panel__head--purple { background: #7c3aed; color: #fff; }
+.ck-panel__head--blue   { background: #2563eb; color: #fff; }
+
+.ck-panel__body {
+    border-radius: 0 0 14px 14px !important;
+    margin-top: 0 !important;
+    border-top: none !important;
+}
+
+/* ── إصلاحات عامة للوحة ── */
+.platform-body--admin body {
+    background: #f8fffe;
+}
+
+@media (max-width: 480px) {
+    .ck-cockpit { grid-template-columns: repeat(2, 1fr); }
+    .ck-stats { grid-template-columns: repeat(3, 1fr); }
+    .ck-tile { min-height: 120px; }
+    .ck-tile__icon { width: 52px; height: 52px; }
+    .ck-login-card { padding: 28px 20px 22px; }
+}

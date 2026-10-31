@@ -262,6 +262,48 @@ h1 {
 
 .subtitle { color: var(--green-700); font-size: 1.05rem; margin-bottom: 12px; font-weight: 600; }
 
+/* ─── Language Switcher ───────────────────────────────────────── */
+.lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-inline-start: auto;
+    flex-shrink: 0;
+}
+.lang-switcher__globe {
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.65;
+    margin-inline-end: 2px;
+}
+.lang-btn {
+    padding: 4px 11px;
+    border-radius: 99px;
+    border: 1.5px solid var(--green-700);
+    background: transparent;
+    color: var(--green-700);
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 800;
+    font-family: inherit;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    transition: background 0.15s, color 0.15s;
+}
+.lang-btn--active {
+    background: var(--green-700);
+    color: #fff;
+}
+.lang-btn:hover:not(.lang-btn--active) {
+    background: var(--green-50);
+}
+/* LTR adjustments for English mode */
+[dir="ltr"] body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Readex Pro', sans-serif;
+}
+[dir="ltr"] .hero-home { flex-direction: row-reverse; }
+[dir="ltr"] .site-footer__meta { direction: ltr; }
+
 .subtitle-note { color: var(--green-800); font-weight: 700; }
 
 .fl-inline {

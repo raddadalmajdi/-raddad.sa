@@ -4,6 +4,53 @@
   },
   "hosting": [
     {
+      "target": "raddad-sa",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "firestore.rules",
+        ".firebaserc",
+        ".env",
+        ".env.example",
+        "vite.config.mjs",
+        "package.json",
+        "package-lock.json",
+        "**/.*",
+        "**/node_modules/**",
+        "src/**",
+        "scripts/**",
+        "functions/**",
+        "docs/**",
+        "partials/**",
+        "js-built/**"
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [
+            { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+          ]
+        },
+        {
+          "source": "**/*.@(html)",
+          "headers": [
+            { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+            { "key": "X-Content-Type-Options", "value": "nosniff" }
+          ]
+        }
+      ],
+      "rewrites": [
+        { "source": "/", "destination": "/index.html" }
+      ],
+      "trailingSlash": false
+    },
+    {
       "target": "eldres",
       "public": "eldres",
       "ignore": ["firebase.json", "**/.*"],

@@ -5,6 +5,7 @@
   "targets": {
     "raddad-sa": {
       "hosting": {
+        "raddad-sa": ["raddad-sa"],
         "eldres": ["eldres"],
         "eigomedia": ["eigomedia"]
       }

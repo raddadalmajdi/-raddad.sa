@@ -10,6 +10,146 @@
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/site.css">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 24px 0;
+        }
+        @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
+
+        .cta-channels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 28px;
+        }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            background: #25d366;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: opacity .15s;
+        }
+        .btn-whatsapp:hover { opacity: 0.9; color: #fff; }
+        .btn-whatsapp svg { flex-shrink: 0; }
+
+        .btn-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            background: #0f766e;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: opacity .15s;
+        }
+        .btn-email:hover { opacity: 0.9; color: #fff; }
+
+        .contact-form-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+        .contact-form-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: #042f2e;
+        }
+        .contact-form-card .field {
+            margin-bottom: 14px;
+        }
+        .contact-form-card label {
+            display: block;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 5px;
+        }
+        .contact-form-card input,
+        .contact-form-card textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font: inherit;
+            font-size: 0.93rem;
+            color: #0f172a;
+            transition: border-color .15s;
+        }
+        .contact-form-card input:focus,
+        .contact-form-card textarea:focus {
+            outline: none;
+            border-color: #0d9488;
+        }
+        .contact-form-card textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+        .contact-form-card .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity .15s;
+            margin-top: 4px;
+        }
+        .contact-form-card .submit-btn:hover { opacity: 0.9; }
+        .contact-form-card .form-note {
+            font-size: 0.76rem;
+            color: #94a3b8;
+            margin-top: 8px;
+            text-align: center;
+        }
+        .contact-form-card .success-msg {
+            display: none;
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            color: #0f766e;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+        }
+        .info-card h2 { font-size: 1.1rem; margin-bottom: 14px; color: #042f2e; }
+        .info-card ul { list-style: none; }
+        .info-card li {
+            display: flex;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.88rem;
+        }
+        .info-card li:last-child { border-bottom: none; }
+        .info-card strong { color: #475569; min-width: 80px; flex-shrink: 0; }
+        .info-card a { color: #0d9488; }
+    </style>
 </head>
 <body>
     <header class="site-nav">
@@ -29,54 +169,86 @@
             </nav>
         </div>
     </header>
+
     <main class="container page">
         <div class="contact-cta page-intro">
             <h1>تواصل معي</h1>
-            <p>متاح للعمل الحر بموجب <strong>وثيقة عمل حر سارية</strong> — رمز التوثيق المعتمد: <span class="verify-code">FL-629703910</span> — وتطوير المشروعات الرقمية من الفكرة وحتى النشر على المتجر.</p>
-            <div class="actions" style="justify-content: center;">
-                <a href="mailto:raddad@raddad.sa" class="btn btn-primary">raddad@raddad.sa</a>
-                <a href="tel:+966533160799" class="btn btn-secondary">0533160799</a>
-                <a href="/request.html" class="btn btn-secondary">نموذج طلب فكرة</a>
-                <a href="/pay.html" class="btn btn-secondary">الدفع الآمن</a>
+            <p>متاح للعمل الحر بموجب <strong>وثيقة عمل حر سارية</strong> — رمز التوثيق: <span class="verify-code">FL-629703910</span> — تطوير التطبيقات والمنصات من الفكرة إلى النشر.</p>
+
+            <!-- أزرار التواصل المباشر -->
+            <div class="cta-channels">
+                <a href="https://wa.me/966533160799?text=مرحبا%20رداد،%20أريد%20التواصل%20معك%20بشأن%20مشروع" class="btn-whatsapp" target="_blank" rel="noopener">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                    واتساب مباشر
+                </a>
+                <a href="mailto:raddadalmajdi@gmail.com" class="btn-email">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    raddadalmajdi@gmail.com
+                </a>
+                <a href="tel:+966533160799" class="btn btn-secondary">📞 0533160799</a>
             </div>
         </div>
 
-        <section class="business-contact-card card" aria-labelledby="business-contact-heading">
-            <h2 id="business-contact-heading">بيانات مقدم الخدمة</h2>
-            <ul class="business-contact-list">
-                <li><strong>الاسم الرسمي</strong> <span data-legal-name>رداد محمد مناطح الماجدي</span></li>
-                <li><strong>الاسم التجاري</strong> Raddad · raddad.sa</li>
-                <li><strong>النشاط</strong> تطوير برامج تطبيقات الجوال · FL-629703910</li>
-                <li><strong>العنوان</strong> حي الورود، شارع الإمام أحمد بن حنبل، حفر الباطن — 39821</li>
-                <li><strong>البريد</strong> <a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a></li>
-                <li><strong>الجوال</strong> <a href="tel:+966533160799">0533160799</a></li>
-            </ul>
-        </section>
+        <!-- شبكة: نموذج + معلومات -->
+        <div class="contact-grid">
+
+            <!-- نموذج التواصل -->
+            <div class="contact-form-card">
+                <h2>📩 أرسل فكرتك مباشرة</h2>
+                <form id="contact-form" action="https://formsubmit.co/ajax/raddadalmajdi@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_subject" value="رسالة جديدة من raddad.sa — تواصل">
+                    <input type="hidden" name="_replyto" value="">
+
+                    <div class="field">
+                        <label for="c-name">الاسم *</label>
+                        <input id="c-name" name="name" type="text" placeholder="اسمك الكريم" required>
+                    </div>
+                    <div class="field">
+                        <label for="c-phone">رقم الجوال / واتساب *</label>
+                        <input id="c-phone" name="phone" type="tel" placeholder="05XXXXXXXX" required>
+                    </div>
+                    <div class="field">
+                        <label for="c-idea">فكرة المشروع *</label>
+                        <textarea id="c-idea" name="project_idea" placeholder="صف فكرة تطبيقك أو مشروعك بإيجاز…" required></textarea>
+                    </div>
+                    <button class="submit-btn" type="submit">إرسال الفكرة ⟵</button>
+                    <p class="form-note">🔒 FL-629703910 · رداد الماجدي · تطوير تطبيقات معتمد</p>
+                    <div class="success-msg" id="contact-success">
+                        ✅ تم الإرسال! سأتواصل معك خلال 24 ساعة.
+                    </div>
+                </form>
+            </div>
+
+            <!-- بيانات المقدم -->
+            <div class="info-card">
+                <h2>🪪 بيانات مقدم الخدمة</h2>
+                <ul class="business-contact-list">
+                    <li><strong>الاسم</strong> <span>رداد محمد مناطح الماجدي</span></li>
+                    <li><strong>التجاري</strong> <span>Raddad · raddad.sa</span></li>
+                    <li><strong>النشاط</strong> <span>تطوير برامج تطبيقات الجوال</span></li>
+                    <li><strong>الرخصة</strong> <span class="verify-code">FL-629703910</span></li>
+                    <li><strong>العنوان</strong> <span>حفر الباطن — 39821</span></li>
+                    <li><strong>البريد</strong> <a href="mailto:raddadalmajdi@gmail.com">raddadalmajdi@gmail.com</a></li>
+                    <li><strong>الجوال</strong> <a href="tel:+966533160799">0533160799</a></li>
+                    <li><strong>واتساب</strong> <a href="https://wa.me/966533160799" target="_blank" rel="noopener">wa.me/966533160799</a></li>
+                </ul>
+            </div>
+        </div>
 
         <div class="quick-grid">
             <a class="card" href="/login.html"><h3>بوابة العملاء</h3><p>تسجيل، دخول، وتذاكر ومتابعة المشاريع.</p></a>
             <a class="card" href="/pricing.html"><h3>الأسعار والدفع</h3><p>باقات، مقدّم مشروع، وطرق الدفع عبر ميسر.</p></a>
-            <a class="card" href="/about.html"><h3>عن المنصة</h3><p>سير العمل من الفكرة إلى الدفع (للمراجعة والفيديو).</p></a>
+            <a class="card" href="/about.html"><h3>عن المنصة</h3><p>سير العمل من الفكرة إلى الدفع.</p></a>
         </div>
+
         <footer class="site-footer">
             <div class="trust-bar" aria-label="شارات الثقة">
-                <div class="trust-bar__chip">
-                    <img src="/assets/badges/badge-ip.svg" alt="" width="28" height="28" loading="lazy">
-                    <span>منتجات مسجّلة · الهيئة السعودية للملكية الفكرية</span>
-                </div>
-                <div class="trust-bar__chip">
-                    <img src="/assets/badges/badge-platform.svg" alt="" width="28" height="28" loading="lazy">
-                    <span>منصة raddad.sa · حقوق موثّقة</span>
-                </div>
-                <div class="trust-bar__chip">
-                    <img src="/assets/badges/badge-domain.svg" alt="" width="28" height="28" loading="lazy">
-                    <span>نطاق raddad.sa · معتمد</span>
-                </div>
-                <div class="trust-bar__chip">
-                    <img class="freelance-logo freelance-logo--chip" src="/assets/freelance-work-logo.png" srcset="/assets/freelance-work-logo@2x.png 2x" alt="شعار العمل الحر" width="161" height="71" loading="lazy">
-                    <span>رمز التوثيق: <span class="verify-code">FL-629703910</span></span>
-                </div>
-
+                <div class="trust-bar__chip"><img src="/assets/badges/badge-ip.svg" alt="" width="28" height="28" loading="lazy"><span>منتجات مسجّلة · الهيئة السعودية للملكية الفكرية</span></div>
+                <div class="trust-bar__chip"><img src="/assets/badges/badge-platform.svg" alt="" width="28" height="28" loading="lazy"><span>منصة raddad.sa · حقوق موثّقة</span></div>
+                <div class="trust-bar__chip"><img src="/assets/badges/badge-domain.svg" alt="" width="28" height="28" loading="lazy"><span>نطاق raddad.sa · معتمد</span></div>
+                <div class="trust-bar__chip"><img class="freelance-logo freelance-logo--chip" src="/assets/freelance-work-logo.png" srcset="/assets/freelance-work-logo@2x.png 2x" alt="شعار العمل الحر" width="161" height="71" loading="lazy"><span>رمز التوثيق: <span class="verify-code">FL-629703910</span></span></div>
             </div>
             <nav class="site-footer__legal" aria-label="السياسات والأسعار">
                 <a href="/pricing.html">الأسعار والدفع</a>
@@ -87,10 +259,40 @@
             </nav>
             <div class="site-footer__meta">
                 <span>&copy; 2026 raddad.sa — جميع الحقوق محفوظة</span>
-                <span><a href="mailto:raddad@raddad.sa">raddad@raddad.sa</a> · <a href="/admin.html">الأدمن</a></span>
+                <span><a href="mailto:raddadalmajdi@gmail.com">raddadalmajdi@gmail.com</a> · <a href="/admin.html">الأدمن</a></span>
             </div>
         </footer>
     </main>
+
+    <script>
+    document.getElementById('contact-form')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('.submit-btn');
+        btn.textContent = 'جاري الإرسال…';
+        btn.disabled = true;
+        try {
+            const data = new FormData(this);
+            // set reply-to from phone field for context
+            data.set('_replyto', data.get('phone') + '@phone');
+            const res = await fetch(this.action, {
+                method: 'POST',
+                body: data,
+                headers: { Accept: 'application/json' }
+            });
+            if (res.ok) {
+                document.getElementById('contact-success').style.display = 'block';
+                this.reset();
+                btn.textContent = 'تم الإرسال ✅';
+            } else {
+                btn.textContent = 'تعذر الإرسال — حاول مجدداً';
+                btn.disabled = false;
+            }
+        } catch {
+            btn.textContent = 'خطأ في الاتصال — حاول مجدداً';
+            btn.disabled = false;
+        }
+    });
+    </script>
     <script src="/js/firebase-config.js"></script>
     <script src="/js/site-business.js"></script>
     <script src="/js/site-business-boot.js" defer></script>

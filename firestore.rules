@@ -89,12 +89,20 @@ service cloud.firestore {
         && request.resource.data.moyasarPaymentId.size() > 8
         && request.resource.data.planId in [
           'consultation', 'maintenance', 'deposit',
-          'beni_ghanem_invite', 'eysalk_monthly', 'quuq_ai_monthly',
+          'beni_ghanem_basic', 'beni_ghanem_vip', 'beni_ghanem_invite',
+          'eysalk_monthly', 'quuq_ai_monthly',
           'payment_link'
         ]
         && request.resource.data.amountHalalas is int
-        && request.resource.data.amountHalalas >= 100
-        && request.resource.data.amountHalalas <= 50000000
+        && request.resource.data.chargeCurrency in ['SAR', 'KWD']
+        && (
+          (request.resource.data.chargeCurrency == 'SAR'
+            && request.resource.data.amountHalalas >= 100
+            && request.resource.data.amountHalalas <= 50000000)
+          || (request.resource.data.chargeCurrency == 'KWD'
+            && request.resource.data.amountHalalas >= 1000
+            && request.resource.data.amountHalalas <= 500000000)
+        )
         && request.resource.data.status == 'redirect_received';
       allow update, delete: if isAdmin();
     }

@@ -31,11 +31,13 @@ const INTENTS = [
         id: 'beni',
         patterns: [/بني غانم|مناسبات|دعوة|زواج|عرس|invitation/i],
         reply: () => {
-            const plan = PAYMENT_PLANS.beni_ghanem_invite;
+            const basic = PAYMENT_PLANS.beni_ghanem_basic;
+            const vip = PAYMENT_PLANS.beni_ghanem_vip;
             return {
-                text: `خدمة **${plan.title}**: ${plan.description} السعر الإرشادي ${plan.label}. يمكنك الدفع مباشرة أو التواصل لتأكيد التفاصيل قبل التنفيذ.`,
+                text: `**مناسبات بني غانم** (بالدينار الكويتي 🇰🇼):\n• ${basic.choiceLabel}: ${basic.label}\n• ${vip.choiceLabel}: ${vip.label}\nيُخصم المبلغ بالدينار من البطاقة؛ التسوية في ميسر بالريال.`,
                 links: [
-                    { href: '/pay.html?plan=beni_ghanem_invite', label: 'ادفع الآن' },
+                    { href: '/pay.html?plan=beni_ghanem_basic&source=beni_ghanem', label: 'دفع أساسية 30 د.ك' },
+                    { href: '/pay.html?plan=beni_ghanem_vip&source=beni_ghanem', label: 'دفع VIP 50 د.ك' },
                     { href: '/work.html', label: 'عن التطبيق' },
                 ],
             };

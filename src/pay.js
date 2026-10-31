@@ -1,24 +1,27 @@
 import {
-    formatSarFromHalalas,
+    formatChargeAmount,
     getPlan,
+    getPlanCurrency,
     PAYMENT_PLAN_GROUPS,
     PAYMENT_PLANS,
+    resolvePlanChargeMinor,
 } from './shared/paymentPlans.js';
 import { showFormMessage } from './shared/ui.js';
 
 function planOptionHtml(plan, checkedId) {
     const name = plan.choiceLabel || plan.title;
+    const flag = plan.currency === 'KWD' ? '🇰🇼' : '🇸🇦';
     return `
-        <label class="pay-plan-option pay-plan-option--compact">
+        <label class="pay-plan-option pay-plan-option--compact${plan.currency === 'KWD' ? ' pay-plan-option--kwd' : ''}">
             <input type="radio" name="plan" value="${plan.id}" ${plan.id === checkedId ? 'checked' : ''}>
             <span class="pay-plan-option__row">
                 <span class="pay-plan-option__name">${name}</span>
-                <span class="pay-plan-option__price">${plan.label}</span>
+                <span class="pay-plan-option__price">${plan.label} <span class="pay-currency-flag" aria-hidden="true">${flag}</span></span>
             </span>
         </label>`;
 }
 
-function renderPlanOptions(container, checkedId = 'beni_ghanem_invite') {
+function renderPlanOptions(container, checkedId = 'beni_ghanem_basic') {
     const blocks = PAYMENT_PLAN_GROUPS.map((group) => {
         const options = group.planIds
             .map((id) => PAYMENT_PLANS[id])
@@ -46,23 +49,6 @@ function sanitizePaySource(raw) {
     return s;
 }
 
-function resolveAmountHalalas(plan, customInput) {
-    if (plan.customAmount) {
-        const sar = Number(String(customInput || '').replace(/,/g, '').trim());
-        if (!Number.isFinite(sar) || sar <= 0) {
-            throw new Error('أدخل مبلغ المقدّم بالريال.');
-        }
-        const halalas = Math.round(sar * 100);
-        if (halalas < plan.minHalalas || halalas > plan.maxHalalas) {
-            throw new Error(
-                `المبلغ يجب أن يكون بين ${formatSarFromHalalas(plan.minHalalas)} و ${formatSarFromHalalas(plan.maxHalalas)}.`
-            );
-        }
-        return halalas;
-    }
-    return plan.amountHalalas;
-}
-
 function boot() {
     const config = window.paymentConfig || {};
     const form = document.getElementById('pay-form');
@@ -71,6 +57,7 @@ function boot() {
     const customInput = document.getElementById('pay-custom-amount');
     const summary = document.getElementById('pay-summary');
     const inactiveNotice = document.getElementById('pay-inactive-notice');
+    const applePayLabel = form?.querySelector('input[name="pay_channel"][value="applepay"]')?.closest('label');
 
     if (!form || !planPicker) return;
 
@@ -78,7 +65,7 @@ function boot() {
     const initialPlan = params.get('plan');
     const initialSource = sanitizePaySource(params.get('source'));
     const defaultPlan =
-        initialPlan && getPlan(initialPlan) ? initialPlan : 'beni_ghanem_invite';
+        initialPlan && getPlan(initialPlan) ? getPlan(initialPlan).id : 'beni_ghanem_basic';
 
     renderPlanOptions(planPicker, defaultPlan);
 
@@ -86,10 +73,20 @@ function boot() {
         const plan = getPlan(getSelectedPlanId(form));
         const show = Boolean(plan?.customAmount);
         if (customField) customField.hidden = !show;
+        const isKwd = plan?.currency === 'KWD';
+        if (applePayLabel) {
+            applePayLabel.hidden = isKwd;
+            if (isKwd) {
+                form.querySelector('input[name="pay_channel"][value="card"]')?.click();
+            }
+        }
         if (summary && plan) {
-            summary.textContent = plan.customAmount
-                ? 'المبلغ حسب عرض السعر أدناه.'
-                : plan.label;
+            if (plan.customAmount) {
+                summary.textContent = 'المبلغ حسب عرض السعر أدناه.';
+            } else {
+                const minor = resolvePlanChargeMinor(plan);
+                summary.textContent = `${plan.label} — يُخصم ${formatChargeAmount(minor, getPlanCurrency(plan))} من بطاقتك.`;
+            }
         }
     }
 
@@ -119,17 +116,21 @@ function boot() {
         }
         try {
             const channel = getSelectedPayChannel(form);
+            if (plan.currency === 'KWD' && channel === 'applepay') {
+                throw new Error('خدمات بني غانم بالدينار — استخدم بطاقة Visa أو Mastercard.');
+            }
             const checkoutParams = new URLSearchParams({
                 plan: plan.id,
                 channel,
             });
-            if (initialSource) checkoutParams.set('source', initialSource);
+            const source = initialSource || plan.source || '';
+            if (source) checkoutParams.set('source', source);
             if (plan.customAmount) {
                 const sar = Number(String(customInput?.value || '').replace(/,/g, '').trim());
                 if (!Number.isFinite(sar) || sar <= 0) {
                     throw new Error('أدخل مبلغ المقدّم بالريال.');
                 }
-                resolveAmountHalalas(plan, customInput?.value);
+                resolvePlanChargeMinor(plan, customInput?.value);
                 checkoutParams.set('amount', String(sar));
             }
             window.location.href = `/pay-checkout.html?${checkoutParams.toString()}`;

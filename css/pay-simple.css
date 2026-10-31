@@ -253,3 +253,12 @@ body.pay-simple {
 .pay-simple__form .form-message[hidden] {
     display: none !important;
 }
+
+.pay-plan-option--kwd {
+    border-color: #99f6e4;
+    background: #f0fdfa;
+}
+
+.pay-currency-flag {
+    margin-inline-start: 4px;
+}

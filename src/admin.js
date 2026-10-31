@@ -10,7 +10,7 @@ import {
     createPaymentLink,
     fetchAllPaymentLinks,
 } from './shared/paymentLinks.js';
-import { formatSarFromHalalas, getPlan } from './shared/paymentPlans.js';
+import { formatPaymentRecordAmount, formatSarFromHalalas, getPlan } from './shared/paymentPlans.js';
 import {
     addTicketMessage,
     fetchAllTickets,
@@ -157,7 +157,7 @@ function renderPayments(container, payments) {
         <article class="ticket-card">
             <div class="ticket-card__head">
                 <strong>${escapeHtml(getPlan(payment.planId)?.title || payment.planId || 'دفعة')}</strong>
-                <span class="ticket-pill ticket-pill--normal">${escapeHtml(formatSarFromHalalas(payment.amountHalalas))}</span>
+                <span class="ticket-pill ticket-pill--normal">${escapeHtml(formatPaymentRecordAmount(payment))}</span>
             </div>
             <p class="muted">${escapeHtml(payment.email || '')}</p>
             <footer class="ticket-card__meta">

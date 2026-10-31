@@ -1,6 +1,11 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { initFirebase } from './firebase/init.js';
-import { formatSarFromHalalas, getPlan } from './shared/paymentPlans.js';
+import {
+    formatChargeAmount,
+    getPlan,
+    getPlanCurrency,
+    resolvePlanChargeMinor,
+} from './shared/paymentPlans.js';
 import { markPaymentLinkPaid } from './shared/paymentLinks.js';
 import { recordMoyasarPayment } from './shared/payments.js';
 
@@ -10,8 +15,10 @@ function boot() {
     const planId = params.get('plan') || sessionStorage.getItem('raddad_pay_plan') || '';
     const linkId = params.get('link') || sessionStorage.getItem('raddad_pay_link_id') || '';
     const linkTitle = sessionStorage.getItem('raddad_pay_link_title') || '';
-    const amountHalalas = Number(sessionStorage.getItem('raddad_pay_amount') || 0);
+    const amountMinor = Number(sessionStorage.getItem('raddad_pay_amount') || 0);
+    const chargeCurrency = sessionStorage.getItem('raddad_pay_currency') || 'SAR';
     const plan = planId === 'payment_link' ? null : getPlan(planId);
+    const displayCurrency = plan ? getPlanCurrency(plan) : chargeCurrency;
 
     const statusEl = document.getElementById('pay-success-status');
     const detailEl = document.getElementById('pay-success-detail');
@@ -38,7 +45,12 @@ function boot() {
         detailEl.innerHTML = `
             <p><strong>رقم العملية:</strong> ${paymentId}</p>
             ${serviceLine}
-            ${amountHalalas ? `<p><strong>المبلغ:</strong> ${formatSarFromHalalas(amountHalalas)}</p>` : ''}
+            ${amountMinor ? `<p><strong>المبلغ:</strong> ${formatChargeAmount(amountMinor, displayCurrency)}</p>` : ''}
+            ${
+                displayCurrency === 'KWD'
+                    ? '<p class="muted">التسوية لحساب التاجر في ميسر تتم بالريال السعودي وفق سياسة ميسر للعملات.</p>'
+                    : ''
+            }
             <p class="muted">شكراً — سنتواصل معك عند الحاجة.</p>`;
     }
 
@@ -54,14 +66,15 @@ function boot() {
     }
 
     onAuthStateChanged(auth, async (user) => {
-        if (!user || !paymentId || !planId || !amountHalalas) return;
+        if (!user || !paymentId || !planId || !amountMinor) return;
         const storageKey = `raddad_recorded_${paymentId}`;
         if (sessionStorage.getItem(storageKey)) return;
         try {
             await recordMoyasarPayment(db, user, {
                 moyasarPaymentId: paymentId,
                 planId,
-                amountHalalas,
+                amountHalalas: amountMinor,
+                chargeCurrency: displayCurrency,
             });
             sessionStorage.setItem(storageKey, '1');
         } catch (error) {

@@ -27,7 +27,8 @@ GitHub Actions → Secret `VITE_MOYASAR_PUBLISHABLE_KEY`.
 | `consultation` | استشارة 500 ر.س |
 | `maintenance` | صيانة شهرية |
 | `deposit` | مقدّم + `amount` بالريال |
-| `beni_ghanem_invite` | منتجات أخرى على الموقع |
+| `beni_ghanem_basic` | مناسبة أساسية — 30 د.ك (KWD) |
+| `beni_ghanem_vip` | VIP — 50 د.ك (KWD) |
 
 معرف المنصة في ميسر: `source=raddad_sa` (اختياري في الرابط).
 

@@ -8,6 +8,7 @@ export async function recordMoyasarPayment(db, user, payload) {
         moyasarPaymentId: payload.moyasarPaymentId,
         planId: payload.planId,
         amountHalalas: payload.amountHalalas,
+        chargeCurrency: payload.chargeCurrency === 'KWD' ? 'KWD' : 'SAR',
         status: 'redirect_received',
         createdAt: serverTimestamp(),
     });

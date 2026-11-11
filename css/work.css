@@ -28,6 +28,7 @@
 .project-tag { color: var(--green-700); font-size: 0.8rem; margin-bottom: 6px; display: block; }
 .project-desc { color: var(--text-muted); font-size: 0.9rem; }
 .project-link { color: var(--green-800); font-weight: 600; font-size: 0.9rem; }
+.project-copy .project-link + .project-link { margin-inline-start: 14px; }
 .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .tech-pill {
     background: var(--green-50);

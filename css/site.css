@@ -702,6 +702,7 @@ a.card:hover {
     margin: 0;
 }
 
+/* يجب أن يبقى display:grid بعد أي قاعدة .dev-badge-strip */
 .dev-badge-strip.dev-badge-strip--hero-stores {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr));

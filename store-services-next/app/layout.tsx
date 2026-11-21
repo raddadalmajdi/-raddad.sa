@@ -32,7 +32,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="/css/site.css" />
+        <link rel="stylesheet" href="/css/site.css?v=20261121" />
         <link rel="stylesheet" href="/css/store-services.css" />
       </head>
       <body className="store-services-page">
@@ -46,7 +46,7 @@ export default function RootLayout({
         <Script src="/js/assistant-boot.js" strategy="lazyOnload" />
         <Script src="/js/navAuth.bundle.js" strategy="afterInteractive" type="module" />
         <Script src="/js/nav.js" strategy="lazyOnload" />
-        <Script src="/js/developer-trust-boot.js" strategy="lazyOnload" />
+        <Script src="/js/developer-trust-boot.js?v=20261121" strategy="lazyOnload" />
       </body>
     </html>
   );

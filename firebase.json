@@ -48,7 +48,8 @@
       "rewrites": [
         { "source": "/", "destination": "/index.html" },
         { "source": "/terms", "destination": "/terms/index.html" },
-        { "source": "/privacy", "destination": "/privacy/index.html" }
+        { "source": "/privacy", "destination": "/privacy/index.html" },
+        { "source": "/services", "destination": "/store-services.html" }
       ],
       "trailingSlash": false
     },

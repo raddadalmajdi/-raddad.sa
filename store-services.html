@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>خدمات المتاجر والمطاعم | رداد - RADDAD</title>
+    <meta name="description" content="5 خدمات متكاملة للمطاعم والكافيهات والمحلات: واتساب، باركود QR، خريطة جوجل، تطبيق جوال، وموقع تعريفي. مطور معتمد بوثيقة عمل حر سعودية.">
+    <meta name="theme-color" content="#0A0A0A">
+    <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: { preflight: false },
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#0A0A0A',
+                        gold: '#C9A227',
+                        wa: '#25D366'
+                    },
+                    fontFamily: {
+                        arabic: ['IBM Plex Sans Arabic', 'Tajawal', 'Readex Pro', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body.stores-body {
+            background: #0A0A0A;
+            color: #f5f5f5;
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+            font-family: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif;
+        }
+        .stores-body .site-footer {
+            background: #0A0A0A;
+            border-top: 1px solid rgba(201, 162, 39, 0.18);
+            color: #d4d4d4;
+            margin-top: 0;
+        }
+        .stores-body .site-footer a { color: #e5e5e5; }
+        .stores-shell { width: min(1080px, calc(100% - 2rem)); margin-inline: auto; }
+        .ss-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(201, 162, 39, 0.12); color: #C9A227; flex-shrink: 0;
+        }
+        .ss-icon svg { width: 22px; height: 22px; }
+        details.ss-faq > summary { list-style: none; cursor: pointer; }
+        details.ss-faq > summary::-webkit-details-marker { display: none; }
+        details.ss-faq[open] .ss-faq-chevron { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="stores-body">
+    <header class="site-nav">
+        <div class="site-nav__inner">
+            <a class="nav-brand" href="/">
+                <img class="nav-logo" src="/assets/logo.png" srcset="/assets/logo.png 1x, /assets/logo@2x.png 2x" alt="" width="40" height="42" loading="eager" decoding="async">
+                <span>رّداد · raddad.sa</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">القائمة</button>
+            <nav class="nav-panel" id="main-nav" aria-label="التنقل الرئيسي">
+                <a href="/">الرئيسية</a>
+                <a href="/services.html">الخدمات</a>
+                <a href="/services" aria-current="page">خدمات المتاجر</a>
+                <a href="/pricing.html">الأسعار والدفع</a>
+                <a href="/work.html">الأعمال</a>
+                <a href="/process.html">آلية العمل</a>
+                <a href="/request.html">طلب فكرة</a>
+                <a href="/login.html" data-nav-auth>تسجيل الدخول</a>
+                <a href="/admin.html" class="nav-admin-link" data-nav-admin>دخول الأدمن</a>
+                <a href="/contact.html">تواصل</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="stores-shell pt-8 pb-16 md:pt-12 md:pb-20">
+            <div class="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold mb-6">
+                <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+                مطور معتمد — وثيقة عمل حر سعودية — Apple Developer + Google Play
+            </div>
+            <h1 class="font-arabic text-3xl md:text-5xl font-bold leading-tight text-white max-w-3xl">
+                حوّل مطعمك / محلك إلى متجر ذكي يبيع وأنت نايم
+            </h1>
+            <p class="mt-5 text-base md:text-lg text-neutral-300 max-w-2xl leading-relaxed">
+                5 خدمات متكاملة للمطاعم والكافيهات والمحلات — واتساب + باركود + خريطة + تطبيق + موقع
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+                <a href="https://wa.me/966533160799?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B7%D9%84%D8%A8%20%D8%AE%D8%AF%D9%85%D8%A9%20%D9%85%D8%AA%D8%AC%D8%B1%20%D8%B0%D9%83%D9%8A%20%D9%84%D9%85%D8%AD%D9%84%D9%8A" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-full bg-wa px-6 py-3 text-sm font-bold text-ink no-underline hover:opacity-90">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-12.37 7.57L4 20l.97-3.5A8.5 8.5 0 1 1 20 11.5Zm-8.5 6.7a6.7 6.7 0 1 0-5.74-3.32l.2.34-.58 2.08 2.14-.56.32.19A6.67 6.67 0 0 0 11.5 18.2Z"/></svg>
+                    اطلب خدمتك الآن — واتساب
+                </a>
+                <a href="#demo" class="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-bold text-white no-underline hover:border-gold hover:text-gold">
+                    شاهد نموذج حي
+                </a>
+            </div>
+        </section>
+
+        <!-- 5 SERVICES -->
+        <section class="bg-neutral-950 py-16" id="offerings">
+            <div class="stores-shell">
+                <p class="text-gold text-sm font-semibold tracking-wide mb-2">الباقات مبنية كخدمات جاهزة</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-10">خمس خدمات لمحلك — ليست برمجة منفصلة</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <article class="rounded-2xl border border-white/10 bg-ink p-6">
+                        <span class="ss-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5a8.5 8.5 0 0 1-12.37 7.57L4 20l.97-3.5A8.5 8.5 0 1 1 20 11.5Z"/></svg>
+                        </span>
+                        <h3 class="mt-4 text-lg font-bold text-white">نظام واتساب للمتاجر</h3>
+                        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">العميل يطلب من الواتساب، تأكيد تلقائي، تتبع طلب، ولوحة طلبات للمحل.</p>
+                        <p class="mt-4 text-sm text-neutral-200">ما يستلمه العميل: قناة طلبات جاهزة على رقم المحل + لوحة متابعة الطلبات.</p>
+                        <p class="mt-3 text-xs font-semibold text-gold">التسليم: 7 أيام</p>
+                    </article>
+                    <article class="rounded-2xl border border-white/10 bg-ink p-6">
+                        <span class="ss-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v7M14 20h7"/></svg>
+                        </span>
+                        <h3 class="mt-4 text-lg font-bold text-white">باركود QR لقائمة الطعام</h3>
+                        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">العميل يمسح الباركود من الطاولة، تفتح القائمة بالصور والأسعار ويطلب منها. مناسب للمطاعم والكافيهات.</p>
+                        <p class="mt-4 text-sm text-neutral-200">ما يستلمه العميل: باركود للطباعة + قائمة رقمية بالصور والأسعار.</p>
+                        <p class="mt-3 text-xs font-semibold text-gold">التسليم: 3 أيام</p>
+                    </article>
+                    <article class="rounded-2xl border border-white/10 bg-ink p-6">
+                        <span class="ss-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>
+                        </span>
+                        <h3 class="mt-4 text-lg font-bold text-white">Google Maps + Google Business</h3>
+                        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">تثبيت موقع المحل على الخريطة، ملف نشاط تجاري، زر اتصال وواتساب واتجاهات، وظهور عند البحث «مطعم قريب مني».</p>
+                        <p class="mt-4 text-sm text-neutral-200">ما يستلمه العميل: ملف نشاط جاهز + أزرار اتصال واتجاهات.</p>
+                        <p class="mt-3 text-xs font-semibold text-gold">التسليم: 2 يوم</p>
+                    </article>
+                    <article class="rounded-2xl border border-white/10 bg-ink p-6">
+                        <span class="ss-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 19h2"/></svg>
+                        </span>
+                        <h3 class="mt-4 text-lg font-bold text-white">تطبيق جوال للمحل iOS + Android</h3>
+                        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">تطبيق باسم المحل على App Store و Google Play، فيه المنتجات والطلبات والدفع. يُبنى بـ Swift / Xcode + Android.</p>
+                        <p class="mt-4 text-sm text-neutral-200">ما يستلمه العميل: تطبيق منشور باسم المحل + لوحة منتجات وطلبات.</p>
+                        <p class="mt-3 text-xs font-semibold text-gold">التسليم: 14–21 يوم</p>
+                    </article>
+                    <article class="rounded-2xl border border-white/10 bg-ink p-6 md:col-span-2 lg:col-span-1">
+                        <span class="ss-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+                        </span>
+                        <h3 class="mt-4 text-lg font-bold text-white">موقع تعريفي + صفحة هبوط</h3>
+                        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">موقع سريع يعرض صور المحل وأرقامه ويربط كل شيء: واتساب + باركود + خريطة + تطبيق.</p>
+                        <p class="mt-4 text-sm text-neutral-200">ما يستلمه العميل: موقع جاهز للعرض والطلب من الجوال.</p>
+                        <p class="mt-3 text-xs font-semibold text-gold">التسليم: 3 أيام</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- PACKAGES -->
+        <section class="py-16" id="packages">
+            <div class="stores-shell">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">باقات جاهزة</h2>
+                <p class="text-neutral-400 mb-10">اختر باقة واحدة — بدون تفصيل تقني على العميل.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+                    <article class="rounded-2xl border border-white/10 bg-neutral-950 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-white">البداية</h3>
+                        <p class="mt-3 text-3xl font-bold text-white">1,499 <span class="text-base font-medium text-neutral-400">ر.س مرة واحدة</span></p>
+                        <ul class="mt-5 space-y-2 text-sm text-neutral-300 flex-1">
+                            <li>باركود QR للقائمة</li>
+                            <li>موقع تعريفي</li>
+                            <li>Google Maps</li>
+                            <li class="text-gold font-semibold">تسليم 3 أيام</li>
+                        </ul>
+                        <a href="https://wa.me/966533160799?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D8%A8%D8%AF%D8%A7%D9%8A%D8%A9%201499%20%D8%B1.%D8%B3" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex justify-center rounded-full border border-gold/50 px-4 py-2.5 text-sm font-bold text-gold no-underline hover:bg-gold hover:text-ink">اطلب هذه الباقة</a>
+                    </article>
+                    <article class="rounded-2xl border-2 border-gold bg-ink p-6 flex flex-col relative shadow-[0_0_40px_rgba(201,162,39,0.12)]">
+                        <span class="absolute -top-3 inset-x-0 mx-auto w-fit rounded-full bg-gold px-3 py-1 text-xs font-bold text-ink">الأكثر طلباً</span>
+                        <h3 class="text-lg font-bold text-white">النمو</h3>
+                        <p class="mt-3 text-3xl font-bold text-white">3,499 <span class="text-base font-medium text-neutral-400">ر.س + 249 ر.س شهرياً</span></p>
+                        <ul class="mt-5 space-y-2 text-sm text-neutral-300 flex-1">
+                            <li>كل ما في باقة البداية</li>
+                            <li>نظام واتساب للطلبات</li>
+                            <li>رد آلي + كتالوج</li>
+                            <li class="text-gold font-semibold">تسليم 7 أيام</li>
+                        </ul>
+                        <a href="https://wa.me/966533160799?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%86%D9%85%D9%88%203499%20%D8%B1.%D8%B3%20+%20249%20%D8%B1.%D8%B3%20%D8%B4%D9%87%D8%B1%D9%8A%D8%A7%D9%8B" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex justify-center rounded-full bg-gold px-4 py-2.5 text-sm font-bold text-ink no-underline hover:opacity-90">اطلب هذه الباقة</a>
+                    </article>
+                    <article class="rounded-2xl border border-white/10 bg-neutral-950 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-white">المتجر الكامل</h3>
+                        <p class="mt-3 text-3xl font-bold text-white">7,999 <span class="text-base font-medium text-neutral-400">ر.س + 399 ر.س شهرياً</span></p>
+                        <ul class="mt-5 space-y-2 text-sm text-neutral-300 flex-1">
+                            <li>كل ما في باقة النمو</li>
+                            <li>تطبيق iOS + Android باسم المحل</li>
+                            <li>لوحة تحكم</li>
+                            <li class="text-gold font-semibold">تسليم 21 يوم</li>
+                        </ul>
+                        <a href="https://wa.me/966533160799?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%AA%D8%AC%D8%B1%20%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%207999%20%D8%B1.%D8%B3%20+%20399%20%D8%B1.%D8%B3%20%D8%B4%D9%87%D8%B1%D9%8A%D8%A7%D9%8B" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex justify-center rounded-full border border-gold/50 px-4 py-2.5 text-sm font-bold text-gold no-underline hover:bg-gold hover:text-ink">اطلب هذه الباقة</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIVE DEMO -->
+        <section class="bg-neutral-950 py-16" id="demo">
+            <div class="stores-shell">
+                <h2 class="text-2xl md:text-3xl font-bold text-white">جرب بنفسك كأنك عميل</h2>
+                <p class="mt-2 text-neutral-400 mb-8">شاورما ركن الهيبة — حفر الباطن — حي الباطن</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="rounded-2xl border border-white/10 bg-ink p-6 text-center">
+                        <p class="text-sm text-neutral-400 mb-4">باركود القائمة</p>
+                        <svg class="mx-auto" width="148" height="148" viewBox="0 0 120 120" aria-label="نموذج باركود QR" role="img">
+                            <rect width="120" height="120" fill="#fff" rx="8"/>
+                            <rect x="10" y="10" width="28" height="28" fill="#0A0A0A"/>
+                            <rect x="16" y="16" width="16" height="16" fill="#fff"/>
+                            <rect x="20" y="20" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="82" y="10" width="28" height="28" fill="#0A0A0A"/>
+                            <rect x="88" y="16" width="16" height="16" fill="#fff"/>
+                            <rect x="92" y="20" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="10" y="82" width="28" height="28" fill="#0A0A0A"/>
+                            <rect x="16" y="88" width="16" height="16" fill="#fff"/>
+                            <rect x="20" y="92" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="48" y="12" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="60" y="12" width="8" height="24" fill="#0A0A0A"/>
+                            <rect x="48" y="28" width="20" height="8" fill="#0A0A0A"/>
+                            <rect x="48" y="48" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="60" y="48" width="24" height="8" fill="#0A0A0A"/>
+                            <rect x="48" y="64" width="8" height="24" fill="#0A0A0A"/>
+                            <rect x="64" y="64" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="80" y="48" width="8" height="8" fill="#0A0A0A"/>
+                            <rect x="96" y="48" width="12" height="8" fill="#0A0A0A"/>
+                            <rect x="80" y="64" width="28" height="8" fill="#0A0A0A"/>
+                            <rect x="80" y="80" width="8" height="28" fill="#0A0A0A"/>
+                            <rect x="96" y="80" width="12" height="12" fill="#0A0A0A"/>
+                            <rect x="96" y="100" width="12" height="8" fill="#0A0A0A"/>
+                            <rect x="48" y="100" width="24" height="8" fill="#0A0A0A"/>
+                        </svg>
+                        <p class="mt-3 text-xs text-neutral-500">امسح من الطاولة لفتح القائمة</p>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-ink p-6">
+                        <p class="text-sm text-neutral-400 mb-4">معاينة القائمة</p>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex justify-between border-b border-white/10 pb-2"><span class="text-white">شاورما لحم</span><span class="text-gold">18 ر.س</span></li>
+                            <li class="flex justify-between border-b border-white/10 pb-2"><span class="text-white">شاورما دجاج</span><span class="text-gold">15 ر.س</span></li>
+                            <li class="flex justify-between border-b border-white/10 pb-2"><span class="text-white">بطاطس حارة</span><span class="text-gold">8 ر.س</span></li>
+                            <li class="flex justify-between"><span class="text-white">عصير طازج</span><span class="text-gold">7 ر.س</span></li>
+                        </ul>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-ink p-6 flex flex-col justify-center gap-3">
+                        <a href="https://wa.me/966533160799?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A3%D8%B7%D9%84%D8%A8%20%D9%85%D9%86%20%D8%B4%D8%A7%D9%88%D8%B1%D9%85%D8%A7%20%D8%B1%D9%83%D9%86%20%D8%A7%D9%84%D9%87%D9%8A%D8%A8%D8%A9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-full bg-wa px-4 py-3 text-sm font-bold text-ink no-underline">طلب عبر واتساب</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=%D8%B4%D8%A7%D9%88%D8%B1%D9%85%D8%A7%20%D8%B1%D9%83%D9%86%20%D8%A7%D9%84%D9%87%D9%8A%D8%A8%D8%A9%20%D8%AD%D9%81%D8%B1%20%D8%A7%D9%84%D8%A8%D8%A7%D8%B7%D9%86%20%D8%AD%D9%8A%20%D8%A7%D9%84%D8%A8%D8%A7%D8%B7%D9%86" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-3 text-sm font-bold text-white no-underline hover:border-gold">افتح الموقع على الخريطة</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="py-16" id="how">
+            <div class="stores-shell">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-10">كيف نشتغل</h2>
+                <ol class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <li class="rounded-2xl border border-white/10 p-6">
+                        <span class="text-gold font-bold">01</span>
+                        <h3 class="mt-3 text-lg font-bold text-white">ترسل لنا اسم محلك وقائمتك على واتساب</h3>
+                    </li>
+                    <li class="rounded-2xl border border-white/10 p-6">
+                        <span class="text-gold font-bold">02</span>
+                        <h3 class="mt-3 text-lg font-bold text-white">نبني لك الخدمة ونرسل لك رابط للتجربة</h3>
+                    </li>
+                    <li class="rounded-2xl border border-white/10 p-6">
+                        <span class="text-gold font-bold">03</span>
+                        <h3 class="mt-3 text-lg font-bold text-white">تدفع وتستلم وننشر لك الخدمة</h3>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- TRUST -->
+        <section class="bg-neutral-950 py-16" id="trust">
+            <div class="stores-shell">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">ثقة وتوثيق</h2>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <li class="rounded-xl border border-gold/20 bg-ink px-5 py-4 text-sm text-neutral-200">وثيقة عمل حر سعودية — FL-629703910</li>
+                    <li class="rounded-xl border border-gold/20 bg-ink px-5 py-4 text-sm text-neutral-200">حساب مطور Apple Developer</li>
+                    <li class="rounded-xl border border-gold/20 bg-ink px-5 py-4 text-sm text-neutral-200">حساب مطور Google Play</li>
+                    <li class="rounded-xl border border-gold/20 bg-ink px-5 py-4 text-sm text-neutral-200">تسليم سريع + دعم بالعربي</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="py-16" id="faq">
+            <div class="stores-shell max-w-3xl">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">أسئلة شائعة</h2>
+                <div class="space-y-3">
+                    <details class="ss-faq rounded-xl border border-white/10 bg-neutral-950 p-4">
+                        <summary class="flex items-center justify-between text-white font-semibold">
+                            كم ياخذ وقت التسليم؟
+                            <span class="ss-faq-chevron text-gold transition-transform inline-flex" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+                        </summary>
+                        <p class="mt-3 text-sm text-neutral-400 leading-relaxed">حسب الباقة: البداية خلال 3 أيام، النمو خلال 7 أيام، والمتجر الكامل خلال 21 يوماً. الخدمات المنفردة من يومين إلى 21 يوماً.</p>
+                    </details>
+                    <details class="ss-faq rounded-xl border border-white/10 bg-neutral-950 p-4">
+                        <summary class="flex items-center justify-between text-white font-semibold">
+                            هل أحتاج حسابات؟
+                            <span class="ss-faq-chevron text-gold transition-transform inline-flex" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+                        </summary>
+                        <p class="mt-3 text-sm text-neutral-400 leading-relaxed">واتساب يكفي للبداية. لتطبيق المتاجر نحتاج حساب مطور Apple و/أو Google باسم النشاط، ونرشدك خطوة بخطوة إن لم يكن لديك حساب.</p>
+                    </details>
+                    <details class="ss-faq rounded-xl border border-white/10 bg-neutral-950 p-4">
+                        <summary class="flex items-center justify-between text-white font-semibold">
+                            كيف أدفع؟
+                            <span class="ss-faq-chevron text-gold transition-transform inline-flex" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+                        </summary>
+                        <p class="mt-3 text-sm text-neutral-400 leading-relaxed">بعد الموافقة على الباقة نرسل رابط دفع آمن عبر المنصة (مدى / Visa / Mastercard). لا يبدأ النشر النهائي قبل سداد المتفق عليه.</p>
+                    </details>
+                    <details class="ss-faq rounded-xl border border-white/10 bg-neutral-950 p-4">
+                        <summary class="flex items-center justify-between text-white font-semibold">
+                            هل أقدر أعدل الأسعار بعدين؟
+                            <span class="ss-faq-chevron text-gold transition-transform inline-flex" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+                        </summary>
+                        <p class="mt-3 text-sm text-neutral-400 leading-relaxed">نعم. القائمة والأسعار قابلة للتعديل بعد التسليم عبر لوحة التحكم أو بطلب تحديث على واتساب حسب باقتك.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER CTA -->
+        <section class="border-t border-gold/20 py-16">
+            <div class="stores-shell text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-white">عندك مطعم أو كافيه أو محل؟</h2>
+                <p class="mt-3 text-neutral-400">أرسل كلمة «متجر» على واتساب</p>
+                <a href="https://wa.me/966533160799?text=%D9%85%D8%AA%D8%AC%D8%B1" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-wa px-8 py-3.5 text-sm font-bold text-ink no-underline hover:opacity-90">
+                    أرسل كلمة «متجر» على واتساب
+                </a>
+                <p class="mt-4 text-sm text-neutral-500" dir="ltr">+966 533 160 799</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <nav class="site-footer__legal" aria-label="السياسات والأسعار">
+            <a href="/pricing.html">الأسعار والدفع</a>
+            <a href="/pay.html">الدفع الآمن</a>
+            <a href="/terms.html">الشروط والأحكام</a>
+            <a href="/privacy.html">سياسة الخصوصية</a>
+            <a href="/refund.html">الاسترجاع والإلغاء</a>
+            <a href="/about.html">عن المنصة</a>
+            <a href="/contact.html">تواصل</a>
+        </nav>
+        <div class="site-footer__meta">
+            <span>&copy; 2026 raddad.sa — جميع الحقوق محفوظة</span>
+            <span><a href="tel:+966533160799">0533160799</a> · <a href="mailto:raddadalmajdi@gmail.com">raddadalmajdi@gmail.com</a></span>
+        </div>
+    </footer>
+
+    <script src="/js/i18n.js"></script>
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/site-business.js"></script>
+    <script src="/js/site-business-boot.js" defer></script>
+    <script src="/js/assistant-boot.js" defer></script>
+    <script type="module" src="/js/navAuth.bundle.js"></script>
+    <script src="/js/nav.js" defer></script>
+</body>
+</html>

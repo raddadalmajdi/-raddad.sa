@@ -185,6 +185,12 @@ h1, h2, h3, h4 {
     .hero-home {
         grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
         gap: clamp(24px, 4vw, 48px);
+        align-items: start;
+    }
+    .hero-logo-stage {
+        align-self: center;
+        position: sticky;
+        top: 88px;
     }
 }
 
@@ -668,14 +674,203 @@ a.card:hover {
     margin-bottom: 14px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--border);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
 }
 
-@media (min-width: 640px) {
-    .trust-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.trust-bar--extended {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
 }
 
-@media (min-width: 1024px) {
-    .trust-bar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* شريط شعارات المطور — أيقونات مربعة كتطبيقات */
+.dev-hero-trust-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    max-width: min(100%, 26rem);
+}
+
+.hero-copy .dev-hero-fl.activity-badge,
+.dev-hero-fl--inline.activity-badge {
+    margin-top: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+.dev-hero-trust-block--platform {
+    max-width: 100%;
+    margin: 0;
+}
+
+.dev-badge-strip.dev-badge-strip--hero-stores {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+}
+
+.dev-badge-strip--hero-stores .dev-badge {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 8px 4px;
+}
+
+.dev-badge-strip--hero-stores .dev-badge__label {
+    font-size: 0.68rem;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.dev-badge-strip--hero-stores .dev-badge__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.dev-hero-trust-block .dev-badge-strip--hero-stores .dev-badge {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 8px 4px;
+}
+
+.dev-hero-trust-block .dev-badge__label {
+    font-size: 0.68rem;
+    line-height: 1.3;
+}
+
+.dev-hero-trust-block .dev-badge__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.dev-badge-strip--footer,
+.site-footer > .dev-badge.dev-badge--freelance {
+    margin-bottom: 0;
+}
+
+.site-footer > .dev-badge-strip--hero-stores {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.site-footer > .dev-badge.dev-badge--freelance {
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.dev-trust-footer-pack {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.platform-dev-trust {
+    background: linear-gradient(180deg, var(--green-50) 0%, #fff 100%);
+    border-bottom: 1px solid var(--green-100);
+}
+
+.platform-dev-trust__inner {
+    padding: 10px 0;
+    max-width: min(100%, 36rem);
+    margin-inline: auto;
+}
+
+.platform-dev-trust .dev-hero-fl {
+    margin-bottom: 6px;
+}
+
+.dev-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    box-shadow: var(--shadow);
+}
+
+.dev-badge-strip--compact .dev-badge {
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
+.dev-badge__icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 11px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 1px 4px rgba(4, 47, 46, 0.12);
+}
+
+.dev-badge-strip--compact .dev-badge__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+}
+
+.dev-badge__icon--fl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.dev-badge__icon--fl img {
+    width: 88%;
+    height: auto;
+    max-height: 70%;
+    object-fit: contain;
+}
+
+.dev-badge--apple .dev-badge__icon {
+    background: #000;
+    object-fit: cover;
+    object-position: center;
+}
+
+.dev-badge--google .dev-badge__icon {
+    object-fit: contain;
+    background: #fff;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.dev-badge--huawei .dev-badge__icon {
+    object-fit: cover;
+    border-radius: 11px;
+}
+
+.dev-badge__label {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--green-900);
+    line-height: 1.4;
+}
+
+.trust-card__icon--store {
+    border-radius: 12px;
+    object-fit: cover;
+    width: 56px;
+    height: 56px;
 }
 
 .trust-bar__chip {
@@ -694,6 +889,15 @@ a.card:hover {
 .trust-bar__chip img,
 .trust-bar__chip .freelance-logo {
     flex-shrink: 0;
+}
+
+.trust-bar__chip--dev img {
+    border-radius: 6px;
+}
+
+
+.trust-card--dev h3 {
+    font-size: 0.95rem;
 }
 
 .site-footer {

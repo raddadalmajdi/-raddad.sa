@@ -1,0 +1,82 @@
+/* شارات المطور — تُستخدم مع pay وغيره دون تحميل site.css كاملاً */
+.dev-hero-trust-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.dev-badge-strip.dev-badge-strip--hero-stores {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+}
+
+.dev-badge-strip--hero-stores .dev-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 8px 4px;
+    border-radius: 12px;
+    border: 1px solid #dceee8;
+    background: #fff;
+    min-width: 0;
+}
+
+.dev-badge__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.dev-badge--google .dev-badge__icon {
+    object-fit: contain;
+    background: #fff;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.dev-badge--apple .dev-badge__icon {
+    background: #000;
+}
+
+.dev-badge__label {
+    margin: 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #134e4a;
+    line-height: 1.3;
+}
+
+.activity-badge.dev-hero-fl,
+.dev-hero-fl--inline.activity-badge {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #ccfbf1;
+    background: #fff;
+    font-size: 0.82rem;
+}
+
+.freelance-logo--chip {
+    height: 24px;
+    max-width: 88px;
+}
+
+.verify-code {
+    font-weight: 700;
+    color: #0f766e;
+}
+
+.pay-simple__trust {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid #dceee8;
+}

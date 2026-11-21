@@ -73,20 +73,36 @@
             <div class="hero-copy">
                 <p class="badge"><span class="badge-dot" aria-hidden="true"></span><span data-i18n="hero.badge">متاح لمشاريع التطبيقات والحلول الرقمية</span></p>
                 <h1 id="home-title" data-i18n="hero.title">رّداد الماجدي</h1>
-                <p class="subtitle"><span data-i18n="hero.subtitle">مطور تطبيقات جوال ومبتكر حلول رقمية</span> · <span class="subtitle-note">وثيقة عمل حر سارية <span class="fl-inline" data-i18n="hero.fl">(Certified Freelance License FL-629703910 · Ministry of HR, Saudi Arabia)</span></span></p>
-                <p class="activity-badge">
-                    <img
-                        class="freelance-logo freelance-logo--hero"
-                        src="/assets/freelance-work-logo.png"
-                        srcset="/assets/freelance-work-logo@2x.png 2x"
-                        alt="شعار العمل الحر"
-                        width="161"
-                        height="71"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                    <span><span data-i18n="hero.activity">نشاط معتمد: تطوير برامج تطبيقات الجوال</span> · <span class="verify-code">FL-629703910</span></span>
-                </p>
+                <p class="subtitle" data-i18n="hero.subtitle">مطور تطبيقات جوال ومبتكر حلول رقمية</p>
+                <div class="dev-hero-trust-block" id="hero-dev-trust">
+                    <p class="activity-badge dev-hero-fl">
+                        <img
+                            class="freelance-logo freelance-logo--hero"
+                            src="/assets/freelance-work-logo.png"
+                            srcset="/assets/freelance-work-logo@2x.png 2x"
+                            alt="شعار العمل الحر"
+                            width="161"
+                            height="71"
+                            loading="lazy"
+                            decoding="async"
+                        >
+                        <span>وثيقة عمل حر · <span class="verify-code">FL-629703910</span></span>
+                    </p>
+                    <div class="dev-badge-strip dev-badge-strip--hero-stores" data-hero-dev-stores aria-label="حسابات المطور">
+                        <article class="dev-badge dev-badge--apple">
+                            <img class="dev-badge__icon" src="/assets/badges/apple-developer-icon.png" alt="" width="40" height="40" loading="lazy" decoding="async">
+                            <p class="dev-badge__label">مطور معتمد في أبل</p>
+                        </article>
+                        <article class="dev-badge dev-badge--google">
+                            <img class="dev-badge__icon" src="/assets/badges/google-play-developer-icon.png" alt="" width="40" height="40" loading="lazy" decoding="async">
+                            <p class="dev-badge__label">مطور معتمد في جوجل</p>
+                        </article>
+                        <article class="dev-badge dev-badge--huawei">
+                            <img class="dev-badge__icon" src="/assets/badges/huawei-developer-icon.png" alt="" width="40" height="40" loading="lazy" decoding="async">
+                            <p class="dev-badge__label">مطور معتمد في هواوي</p>
+                        </article>
+                    </div>
+                </div>
                 <p class="lead" data-i18n="hero.lead">أحوّل الأفكار إلى منتجات جاهزة — من التصميم والتطوير إلى النشر والدعم عبر بوابة عملاء منظمة.</p>
                 <div class="actions">
                     <a href="/request.html" class="btn btn-primary" data-i18n="hero.cta1">سجّل فكرة تطبيقك</a>
@@ -215,6 +231,8 @@
     <script src="/js/firebase-config.js"></script>
     <script src="/js/site-business.js"></script>
     <script src="/js/site-business-boot.js" defer></script>
+    <script src="/js/developer-trust-boot.js" defer></script>
+
     <script src="/js/assistant-boot.js" defer></script>
     <script type="module" src="/js/navAuth.bundle.js"></script>
     <script src="/js/nav.js" defer></script>

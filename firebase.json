@@ -22,7 +22,8 @@
         "functions/**",
         "docs/**",
         "partials/**",
-        "js-built/**"
+        "js-built/**",
+        "store-services-next/**"
       ],
       "headers": [
         {
